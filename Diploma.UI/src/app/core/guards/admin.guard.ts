@@ -39,6 +39,10 @@ export class AdminGuard implements CanActivate {
       this._router.navigateByUrl('instructor');
 
       return false;
+    } else if (user.roles.some(s => s === Role.Professor)) {
+      this._router.navigateByUrl('instructor-requests');
+
+      return false;
     }
 
     return false;

@@ -18,6 +18,19 @@ export class DiplomaInstructorRequestService {
     return this.http.post<DiplomaInstructorRequest>(`${AppSettings.host}/diplomaInstructorRequests`, request);
   }
 
+  public acceptRequest(requestId: string): Observable<void> {
+    return this.http.post<void>(`${AppSettings.host}/diplomaInstructorRequests/accept`, {
+      requestId,
+    });
+  }
+
+  public declineRequest(requestId: string, comment: string): Observable<void> {
+    return this.http.post<void>(`${AppSettings.host}/diplomaInstructorRequests/decline`, {
+      requestId,
+      comment
+    });
+  }
+
   public filterRequests(query: SearchRequestsQuery): Observable<DiplomaInstructorRequest[]> {
     const params = convertToHttpParams(query);
 

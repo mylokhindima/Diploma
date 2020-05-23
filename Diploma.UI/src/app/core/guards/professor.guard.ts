@@ -8,7 +8,7 @@ import { ProfileService } from './../../services/profile.service';
 @Injectable({
   providedIn: 'root'
 })
-export class StudentGuard implements CanActivate {
+export class ProfessorGuard implements CanActivate {
 
   constructor(
     private profielService: ProfileService,
@@ -33,14 +33,14 @@ export class StudentGuard implements CanActivate {
   }
 
   private _canActivate(user): boolean {
-    if (user.roles.some(s => s === Role.Student)) {
+    if (user.roles.some(s => s === Role.Professor)) {
       return true;
     } else if (user.roles.some(s => s === Role.Admin)) {
       this._router.navigateByUrl('students');
 
       return false;
-    } else if (user.roles.some(s => s === Role.Professor)) {
-      this._router.navigateByUrl('instructor-requests');
+    } else if (user.roles.some(s => s === Role.Student)) {
+      this._router.navigateByUrl('instructor');
     }
 
     return false;

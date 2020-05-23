@@ -1,0 +1,9 @@
+<mat-toolbar color="primary">Відповідь</mat-toolbar>
+<textarea [(ngModel)]="text" class="theme"
+rows="20" name="comment[text]" id="comment_text" cols="40" class="theme ui-autocomplete-input"
+autocomplete="off" role="textbox" aria-autocomplete="list"
+aria-haspopup="true" maxlength="100"></textarea>
+<div class="actions">
+  <button (click)="ok()" class="ok-btn" mat-raised-button color="primary" [disabled]="!text.trim()">OK</button>
+  <button (click)="close()" mat-raised-button color="basic">Назад</button>
+</div>

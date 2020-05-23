@@ -49,3 +49,11 @@
   display: block;
   margin-left: auto;
 }
+
+.download-content{
+  display: flex;
+  mat-icon{
+    margin-left: 5px;
+    cursor: pointer;
+  }
+}

@@ -4,7 +4,8 @@ import { ProfileService } from '../../../services/profile.service';
 
 enum SidebarType {
   Admin,
-  Student
+  Student,
+  Professor,
 }
 
 @Component({
@@ -27,6 +28,8 @@ export class HomeComponent implements OnInit {
       this.sidebarType = SidebarType.Admin;
     } else if (user.roles.includes(Role.Student)) {
       this.sidebarType = SidebarType.Student;
+    } else if (user.roles.includes(Role.Professor)) {
+      this.sidebarType = SidebarType.Professor;
     }
   }
 

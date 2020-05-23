@@ -13,6 +13,7 @@
         <ng-container [ngSwitch]="sidebarType">
          <app-admin-sidebar *ngSwitchCase="0"></app-admin-sidebar>
          <app-student-sidebar *ngSwitchCase="1"></app-student-sidebar>
+         <app-professor-sidebar *ngSwitchCase="2"></app-professor-sidebar>
         </ng-container>
       </div>
     </mat-sidenav>

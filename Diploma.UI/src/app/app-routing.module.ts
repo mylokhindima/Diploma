@@ -13,6 +13,8 @@ import { StudentGuard } from './core/guards/student.guard';
 import { ThemeComponent } from './features/containers/theme/theme.component';
 import { DiplomaReportsComponent } from './features/containers/diploma-reports/diploma-reports.component';
 import { PracticeReportComponent } from './features/containers/practice-report/practice-report.component';
+import { ProfessorGuard } from './core/guards/professor.guard';
+import { DiplomaInstructorRequestsComponent } from './features/containers/diploma-instructor-requests/diploma-instructor-requests.component';
 
 
 const routes: Routes = [
@@ -67,6 +69,12 @@ const routes: Routes = [
         pathMatch: 'full',
         canActivate: [StudentGuard],
         component: DiplomaProtectionComponent
+      },
+      {
+        path: 'instructor-requests',
+        pathMatch: 'full',
+        canActivate: [ProfessorGuard],
+        component: DiplomaInstructorRequestsComponent,
       },
     ]
   },

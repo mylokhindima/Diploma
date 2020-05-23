@@ -31,6 +31,9 @@ import { DiplomaReportsComponent } from './features/containers/diploma-reports/d
 import { ViewCommentsComponent } from './features/components/view-comments/view-comments.component';
 import { PracticeReportComponent } from './features/containers/practice-report/practice-report.component';
 import { DiplomaProtectionComponent } from './features/containers/diploma-protection/diploma-protection.component';
+import { DiplomaInstructorRequestsComponent } from './features/containers/diploma-instructor-requests/diploma-instructor-requests.component';
+import { ProfessorSidebarComponent } from './features/components/professor-sidebar/professor-sidebar.component';
+import { CommentDialogComponent } from './features/components/comment-dialog/comment-dialog.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +62,9 @@ import { DiplomaProtectionComponent } from './features/containers/diploma-protec
     ViewCommentsComponent,
     PracticeReportComponent,
     DiplomaProtectionComponent,
+    DiplomaInstructorRequestsComponent,
+    ProfessorSidebarComponent,
+    CommentDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,6 +84,7 @@ import { DiplomaProtectionComponent } from './features/containers/diploma-protec
   ],
   entryComponents: [
     StudentFormComponent,
+    CommentDialogComponent,
     ViewCommentsComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

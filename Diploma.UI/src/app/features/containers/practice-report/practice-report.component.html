@@ -18,7 +18,10 @@
   </div>
   <div class="row">
     <div class="title">Файл</div>
-    <div class="content">{{ practice?.file ? practice.file.name : 'Не завантажено' }}</div>
+    <div class="content download-content">
+      <span>{{ practice?.file ? practice.file.name : 'Не завантажено' }}</span>
+      <mat-icon *ngIf="practice?.file" (click)="download()" mat-list-icon>cloud_download</mat-icon>
+    </div>
   </div>
   <div class="row">
     <div class="title">Оцінка</div>

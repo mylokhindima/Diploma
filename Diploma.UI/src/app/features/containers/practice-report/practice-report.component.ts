@@ -1,8 +1,9 @@
-import { ProfileService } from './../../../services/profile.service';
-import { PracticesService } from './../../../services/practices.service';
 import { Component, OnInit } from '@angular/core';
-import { Practice } from 'src/app/models/practice';
-import { Student } from 'src/app/models/student';
+import { Practice } from '../../../models/practice';
+import { Student } from '../../../models/student';
+import { PracticesService } from './../../../services/practices.service';
+import { ProfileService } from './../../../services/profile.service';
+import { StaticService } from './../../../services/static.service';
 
 @Component({
   selector: 'app-practice-report',
@@ -17,7 +18,8 @@ export class PracticeReportComponent implements OnInit {
 
   constructor(
     private _practicesService: PracticesService,
-    private _profileService: ProfileService
+    private _profileService: ProfileService,
+    private _staticService: StaticService,
   ) { }
 
   ngOnInit(): void {
@@ -40,6 +42,10 @@ export class PracticeReportComponent implements OnInit {
     }
 
     (document.getElementById('input_file') as HTMLInputElement).value = '';
+  }
+
+  public download(): void {
+    this._staticService.download('reports/' + this.practice.file.path, this.practice.file.name);
   }
 
 }
