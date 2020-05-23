@@ -1,8 +1,9 @@
-import { ClassSerializerInterceptor, Controller, Get, Param, UseGuards, UseInterceptors } from '@nestjs/common';
+import { ClassSerializerInterceptor, Controller, Get, Param, UseGuards, UseInterceptors, Post, Body } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from './../+auth/guards/jwt-auth.guard';
 import { EducationalProgramEntity } from './educational-program.entity';
 import { EducationalProgramsStore } from './educational-programs.store';
+import { CreateEducationalProgramDTO } from './models/create-educational-program';
 
 @ApiTags('EducationalPrograms')
 @ApiBearerAuth()
@@ -22,5 +23,12 @@ export class EducationalProgramsController {
     @UseInterceptors(ClassSerializerInterceptor)
     public async get(@Param('id') id: string): Promise<EducationalProgramEntity> {
         return await this._educationalProgramsStore.find(id);
+    }
+
+    @Post()
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
+    public async create(@Body() createDTO: CreateEducationalProgramDTO): Promise<EducationalProgramEntity> {
+        return await this._educationalProgramsStore.create(createDTO);
     }
 }

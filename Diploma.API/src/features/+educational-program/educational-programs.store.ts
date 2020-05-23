@@ -6,6 +6,7 @@ import { Model } from 'mongoose';
 import { EducationalProgramDocument } from '../../documents/educational-program.document';
 import { EducationalProgramEntity } from './educational-program.entity';
 import { educationalProgramMapper } from './educational-program.mapper';
+import { CreateEducationalProgramDTO } from './models/create-educational-program';
 
 interface EducationalProgramQuery {
     duration?: number;
@@ -30,6 +31,17 @@ export class EducationalProgramsStore {
         const program = await this._educationalProgramModel.findById(id).populate('specialty');
 
         return program ? educationalProgramMapper(program) : null;
+    }
+
+    public async create(dto: CreateEducationalProgramDTO): Promise<EducationalProgramEntity> {
+        const createdProgram = (await this._educationalProgramModel.create({  
+            specialty: dto.specialtyId,
+            degree: dto.degree,
+            form: dto.form,
+            duration: dto.duration,
+        })).populate('specialties');
+
+        return educationalProgramMapper(createdProgram);
     }
 
     public async findFirstByQuery(query: EducationalProgramQuery): Promise<EducationalProgramEntity> {
