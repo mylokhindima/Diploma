@@ -1,0 +1,51 @@
+.example-card {
+  max-width: 400px;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+
+.row{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.title{
+  padding: 16px;
+  width: 20%;
+}
+
+.content {
+  padding: 16px;
+}
+
+.row:nth-child(odd) {
+  .title{
+    background: white;
+  }
+}
+
+.row:nth-child(even) {
+  .content{
+    background: white;
+  }
+}
+
+.content{
+  width: 80%;
+}
+
+.table{
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  font: 500 16px/24px Roboto, "Helvetica Neue", sans-serif;
+}
+
+.upload-btn{
+  display: block;
+  margin-left: auto;
+}

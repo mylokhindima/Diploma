@@ -1,0 +1,85 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>
+      Додати нового студента
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="form" class="example-form">
+      <div class="col">
+        <mat-form-field class="example-full-width">
+          <label for="exampleInputName2" class="bmd-label-floating">ПІБ</label>
+          <input formControlName="name" matInput type="text" class="form-control" id="exampleInputName2">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <label for="exampleInputEmail2" class="bmd-label-floating">Пошта</label>
+          <input matInput type="email" formControlName="email" class="form-control" id="exampleInputEmail2">
+        </mat-form-field>
+        <mat-form-field>
+          <label for="degree" class="bmd-label-floating">Ступінь</label>
+          <mat-select formControlName="degree">
+            <mat-option *ngFor="let degree of degrees" [value]="degree.value">
+              {{degree.key}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <label for="group" class="bmd-label-floating">Група</label>
+          <input formControlName="group" matInput type="text" class="form-control" id="group">
+        </mat-form-field>
+
+        <mat-error class="error" *ngIf="submitted && form.invalid">Форма заповнена некоректно</mat-error>
+      </div>
+
+      <fieldset class="col">
+        <legend>Освітня програма</legend>
+
+        <div *ngIf="showClearBtn" (click)="clearEducationFormGroup()" class="clear-btn">
+          <mat-icon>clear</mat-icon>
+        </div>
+
+        <mat-form-field class="example-full-width">
+          <label for="group" class="bmd-label-floating">Спеціалізація</label>
+          <mat-select formControlName="specialty">
+            <mat-option *ngFor="let specialty of specialties" [value]="specialty.id">
+              {{specialty.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <label for="duration" class="bmd-label-floating">Тривалість (місяців)</label>
+          <mat-select formControlName="duration">
+            <mat-option *ngFor="let duration of durations" [value]="duration">
+              {{duration}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <label for="educationalForm" class="bmd-label-floating">Форма навчання</label>
+          <mat-select  formControlName="form">
+            <mat-option *ngFor="let eform of educationalForms" [value]="eform">
+              <ng-container [ngSwitch]="eform">
+                <ng-container *ngSwitchCase="0">
+                  Денна
+                </ng-container>
+                <ng-container *ngSwitchCase="1">
+                  Заочна
+                </ng-container>
+                <ng-container *ngSwitchCase="2">
+                  Дистанційна
+                </ng-container>
+              </ng-container>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </fieldset>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button (click)="add()" type="submit" class="create-btn" mat-raised-button color="primary">Додати</button>
+  </mat-card-actions>
+</mat-card>
+
+

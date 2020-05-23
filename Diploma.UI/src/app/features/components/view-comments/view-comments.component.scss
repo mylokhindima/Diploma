@@ -1,0 +1,14 @@
+.container{
+  width: 800px;
+  max-height: 800px;
+  overflow: auto;
+  font-size: 18px;
+}
+
+p{
+  border-bottom: 2px solid lightgrey;
+}
+
+p:not(:first-child) {
+  margin: 20px 0;
+}

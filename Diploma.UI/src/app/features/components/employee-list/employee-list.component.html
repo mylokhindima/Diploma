@@ -1,0 +1,65 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> ПІБ </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef> Пошта </th>
+    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="degree">
+    <th mat-header-cell *matHeaderCellDef> Ступінь </th>
+    <td mat-cell *matCellDef="let element">
+      <ng-container [ngSwitch]="element.degree">
+        <ng-container *ngSwitchCase="0">Асистент</ng-container>
+        <ng-container *ngSwitchCase="1">Старший Викладач</ng-container>
+        <ng-container *ngSwitchCase="2">Доцент</ng-container>
+        <ng-container *ngSwitchCase="3">Професор</ng-container>
+      </ng-container>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="department">
+    <th mat-header-cell *matHeaderCellDef> Кафедра </th>
+    <td mat-cell *matCellDef="let element">
+      <ng-container>{{ element.department.name }}</ng-container>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="roles">
+    <th mat-header-cell *matHeaderCellDef> Ролі </th>
+    <td mat-cell *matCellDef="let element">
+      <ul>
+        <li *ngFor="let role of element.roles" [ngSwitch]="role">
+          <ng-container *ngSwitchCase="2">Відповідальний за дипломування</ng-container>
+          <ng-container *ngSwitchCase="3">Член метод комісії</ng-container>
+          <ng-container *ngSwitchCase="4">Завідуючий кафедрою</ng-container>
+          <ng-container *ngSwitchCase="5">Нормоконтролер</ng-container>
+          <ng-container *ngSwitchCase="6">Відповідальний за архівування</ng-container>
+          <ng-container *ngSwitchCase="7">Секретар екзаменаційної комісії</ng-container>
+          <ng-container *ngSwitchCase="8">Керівник практики</ng-container>
+        </li>
+      </ul>
+
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <ng-container *ngTemplateOutlet="actionsTemplate; context: { item: element }"></ng-container>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

@@ -1,0 +1,19 @@
+<div class="container">
+  <mat-list>
+    <div mat-subheader>Частини диплому</div>
+    <div class="items-container">
+      <mat-list-item *ngFor="let report of reports">
+        <mat-icon mat-list-icon>note</mat-icon>
+        <div mat-line>{{ report.file.name }}</div>
+        <div mat-line> {{report.created_at | date}} </div>
+        <div class="download-container">
+          <mat-icon *ngIf="report.comments.length" (click)="openView(report)" mat-list-icon>info</mat-icon>
+          <mat-icon (click)="download(report)" mat-list-icon>cloud_download</mat-icon>
+        </div>
+      </mat-list-item>
+    </div>
+  </mat-list>
+  <input (change)="onExcelChange($event)" #fileInput id="input_file" type="file" style="display: none;" accept=".pdf,.doc,.docx">
+
+  <button (click)="fileInput.click()" class="upload-btn" mat-raised-button color="primary">Завантажити</button>
+</div>

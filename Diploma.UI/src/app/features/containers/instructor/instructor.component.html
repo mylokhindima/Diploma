@@ -1,0 +1,5 @@
+<div class="container">
+  <app-diploma-instructor-request-form (submitForm)="onSubmit($event)" [professors]="professors" [requests]="requests" *ngIf="(diploma$ | async)?.stage.step === 0 && showForm"></app-diploma-instructor-request-form>
+  <app-send-diploma-instructor-requests [requests]="requests"></app-send-diploma-instructor-requests>
+</div>
+

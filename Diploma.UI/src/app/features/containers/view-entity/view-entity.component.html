@@ -1,0 +1,7 @@
+<button (click)="add.emit()" class="add-btn" mat-fab color="primary" aria-label="Example icon button with a delete icon">
+  <mat-icon>add</mat-icon>
+</button>
+<div class="container">
+  <ng-content select="[list]"></ng-content>
+  <ng-content select="[actions]"></ng-content>
+</div>

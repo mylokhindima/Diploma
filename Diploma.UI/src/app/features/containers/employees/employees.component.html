@@ -1,0 +1,18 @@
+<app-view-entity (add)="addNewEmployee()">
+  <ng-container list>
+    <app-employee-list [actionsTemplate]="clearBtn" [dataSource]="professors"></app-employee-list>
+
+    <ng-template #clearBtn let-item="item">
+      <div (click)="onClearBtnClick(item.id)" class="clear-btn">
+        <mat-icon>clear</mat-icon>
+      </div>
+    </ng-template>
+  </ng-container>
+
+  <ng-container actions>
+    <input (change)="onExcelChange($event)" #fileInput id="input_file" type="file" style="display: none;" accept=".xlsx">
+
+    <button (click)="fileInput.click()" class="upload-btn" mat-raised-button color="primary">Завантажити список працівників</button>
+  </ng-container>
+</app-view-entity>
+

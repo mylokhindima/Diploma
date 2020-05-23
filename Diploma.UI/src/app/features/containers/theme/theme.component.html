@@ -1,0 +1,5 @@
+<div class="container">
+  <app-diploma-theme-request-form (submitForm)="onSubmit($event)" [requests]="requests" *ngIf="(diploma$ | async)?.stage.step === 1 && showForm"></app-diploma-theme-request-form>
+  <app-send-diploma-instructor-theme-requests [requests]="requests"></app-send-diploma-instructor-theme-requests>
+</div>
+

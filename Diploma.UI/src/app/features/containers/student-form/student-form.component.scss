@@ -1,0 +1,37 @@
+.example-form{
+  display: flex;
+}
+
+
+.col {
+  width: 300px;
+}
+
+mat-form-field{
+  width: 87%;
+}
+
+.create-btn{
+  margin-left: auto;
+}
+
+mat-card-actions{
+  padding: 0 9px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.clear-btn{
+  position: absolute;
+  right: 5px;
+}
+
+fieldset{
+  position: relative;
+}
+
+.error{
+  position: absolute;
+  left: 16px;
+  bottom: 18px;
+}

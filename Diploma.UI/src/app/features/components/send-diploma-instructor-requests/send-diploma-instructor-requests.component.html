@@ -1,0 +1,19 @@
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let request of requests" (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <ng-container [ngSwitch]="request.status">
+          <ng-container *ngSwitchCase="0">В процесі</ng-container>
+          <ng-container *ngSwitchCase="1">Відхилено</ng-container>
+          <ng-container *ngSwitchCase="2">Прийнято</ng-container>
+        </ng-container>
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ request.to.name }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p><strong>Опис теми: </strong> {{ request.description }}</p>
+    <p *ngIf="request.status === 1"><strong>Відповідь: </strong> {{ request.declinedComment }}</p>
+  </mat-expansion-panel>
+</mat-accordion>

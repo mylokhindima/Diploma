@@ -1,0 +1,18 @@
+<form (submit)="onSubmit()" [formGroup]="form" class="container">
+  <mat-form-field>
+    <input matInput placeholder="Тема" formControlName="theme" maxlength="100" required>
+  </mat-form-field>
+
+  <textarea formControlName="description" class="theme" matInput
+    rows="20" name="comment[text]" id="comment_text" cols="40" class="theme ui-autocomplete-input"
+    autocomplete="off" role="textbox" aria-autocomplete="list"
+    aria-haspopup="true" placeholder="Опишіть тему" maxlength="2000"></textarea>
+
+    <div class="errors-container">
+      <mat-error *ngIf="submitted && form.invalid">
+        Заповніть форму
+      </mat-error>
+    </div>
+
+  <button type="submit" class="sing-in-btn" mat-raised-button color="primary">Відправити запит</button>
+</form>

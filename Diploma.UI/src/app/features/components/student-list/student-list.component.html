@@ -1,0 +1,75 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> ПІБ </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef> Пошта </th>
+    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="degree">
+    <th mat-header-cell *matHeaderCellDef> Ступінь </th>
+    <td mat-cell *matCellDef="let element">
+      <ng-container *ngIf="element.degree === 0">Бакалавр</ng-container>
+      <ng-container *ngIf="element.degree === 1">Магістр</ng-container>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="group">
+    <th mat-header-cell *matHeaderCellDef> Група </th>
+    <td mat-cell *matCellDef="let element">
+      <ng-container>{{ element.group }}</ng-container>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="specialty">
+    <th mat-header-cell *matHeaderCellDef> Спеціалізація </th>
+    <td mat-cell *matCellDef="let element">
+      <ng-container>{{ element.educationalProgram.specialty.name }}</ng-container>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="duration">
+    <th mat-header-cell *matHeaderCellDef> Тривалість  </th>
+    <td mat-cell *matCellDef="let element">
+      <ng-container>{{ element.educationalProgram.duration }} місяців</ng-container>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="educationalForm">
+    <th mat-header-cell *matHeaderCellDef> Форма навчання </th>
+    <td mat-cell *matCellDef="let element">
+      <div [ngSwitch]="element.educationalProgram.form">
+         <ng-template ngSwitchCase="0">Денна</ng-template>
+         <ng-template ngSwitchCase="1">Заочна</ng-template>
+         <ng-template ngSwitchCase="2">Дистанційна</ng-template>
+       </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="department">
+    <th mat-header-cell *matHeaderCellDef> Кафедра </th>
+    <td mat-cell *matCellDef="let element">
+      <ng-container>{{ element?.department?.name }}</ng-container>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <ng-container *ngTemplateOutlet="actionsTemplate; context: { item: element }"></ng-container>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

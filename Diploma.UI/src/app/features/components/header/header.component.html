@@ -1,0 +1,25 @@
+<mat-toolbar  color="primary">
+  <mat-toolbar-row class="row">
+    <div class="logo-container">
+      <img class="logo" src="./assets/nure-logo.png" alt="">
+      <div class="title">
+        <span class="alias">ХНУРЕ</span>
+        <p>Харківський національний університет радіоелектроніки</p>
+      </div>
+    </div>
+
+    <div class="menu-container">
+      <span>Ви ввійшли як {{ (user$ | async)?.name }} </span>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button (click)="logout()" mat-menu-item>
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Вийти</span>
+        </button>
+      </mat-menu>
+    </div>
+
+  </mat-toolbar-row>
+</mat-toolbar>

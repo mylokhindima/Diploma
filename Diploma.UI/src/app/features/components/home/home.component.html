@@ -1,0 +1,24 @@
+<app-header></app-header>
+<div>
+  <button (click)="onMenuButtonClick()" class="burger" mat-fab color="primary" aria-label="Example icon button with a delete icon">
+    <div class="hamburger hamburger--slider js-hamburger" [class.is-active]="opened">
+      <div class="hamburger-box">
+        <div class="hamburger-inner"></div>
+      </div>
+    </div>
+  </button>
+  <mat-sidenav-container class="example-container">
+    <mat-sidenav class="side-nav" #sidenav mode="side" [(opened)]="opened">
+      <div class="sidenav-container-top">
+        <ng-container [ngSwitch]="sidebarType">
+         <app-admin-sidebar *ngSwitchCase="0"></app-admin-sidebar>
+         <app-student-sidebar *ngSwitchCase="1"></app-student-sidebar>
+        </ng-container>
+      </div>
+    </mat-sidenav>
+    <mat-sidenav-content class="content">
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+<app-footer></app-footer>

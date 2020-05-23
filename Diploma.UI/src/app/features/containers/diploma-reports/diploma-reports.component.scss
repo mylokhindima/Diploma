@@ -1,0 +1,27 @@
+.container{
+  padding: 0 200px;
+}
+
+.upload-btn {
+  margin-left: auto;
+  display: block;
+}
+
+.mat-list-icon {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.download-container{
+  display: flex;
+  margin-left: auto;
+
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+.items-container{
+  height: 400px;
+  margin-bottom: 20px;
+  overflow: auto;
+}

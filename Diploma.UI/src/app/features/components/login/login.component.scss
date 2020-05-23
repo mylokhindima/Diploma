@@ -1,0 +1,45 @@
+.example-card{
+  width: 700px;
+  height: 700px;
+  position: absolute;
+  left: calc(50% - 350px);
+  top: calc(50% - 350px);
+}
+
+.example-form{
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+}
+
+.sing-in-btn{
+  width: 350px;
+  font-size: 22px;
+}
+
+.logo {
+  width: 250px;
+}
+
+:host::ng-deep {
+  width: 100vw;
+  height: 100vh;
+  background: rgb(211, 211, 211, 0.25);
+  position: fixed;
+
+  .mat-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mat-form-field{
+    font-size: 18px;
+  }
+
+  .mat-card-header .mat-card-title {
+    font-size: 32px;
+    margin-bottom: 36px;
+  }
+}
