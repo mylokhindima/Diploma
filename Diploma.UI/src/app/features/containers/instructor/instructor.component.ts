@@ -41,6 +41,7 @@ export class InstructorComponent implements OnInit {
     this._professorsService.filterByQuery({
       departmentId: student.departmentId,
       isActive: true,
+      available: true,
     }).subscribe(professors => {
       this.professors = professors;
     });

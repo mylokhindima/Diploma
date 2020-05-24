@@ -1,4 +1,6 @@
+import { ProfileService } from './../../../services/profile.service';
 import { Component, OnInit } from '@angular/core';
+import { Role } from '../../../models/role.enum';
 
 @Component({
   selector: 'app-professor-sidebar',
@@ -7,7 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfessorSidebarComponent implements OnInit {
 
-  constructor() { }
+  public get isMethodologicalCommitteeMember(): boolean {
+    const professor = this._profileService.user$.getValue();
+
+    return professor.roles.some(r => r === Role.MethodologicalCommitteeMember);
+  }
+
+  public get isResponsibleForGraduation(): boolean {
+    const professor = this._profileService.user$.getValue();
+
+    return professor.roles.some(r => r === Role.ResponsibleForGraduation);
+  }
+
+  constructor(
+    private _profileService: ProfileService
+  ) { }
 
   ngOnInit(): void {
   }

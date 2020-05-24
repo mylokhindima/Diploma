@@ -21,7 +21,7 @@ export class PracticesController {
     }
 
     @Put(':id/upload')
-    @UseInterceptors(FileInterceptor('file', multerOptions))
+    @UseInterceptors(FileInterceptor('file', multerOptions("reports")))
     @UseGuards(JwtAuthGuard)
     public async uploadFile(@Param('id') id: string, @UploadedFile() file) {
         return await this._practicesStore.upload(id, file);

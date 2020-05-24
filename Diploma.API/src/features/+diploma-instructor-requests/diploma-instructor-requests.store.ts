@@ -12,6 +12,7 @@ import { DiplomaInstructorRequestEntity } from './diploma-instructor-request.ent
 import { diplomaInstructorRequestMapper } from './diploma-instructor-request.mapper';
 import { CreateDiplomaInstructorRequest } from './dtos/create-diploma-instructor-request.dto';
 import { SearchRequestsQuery } from './dtos/search-requests-query';
+import { isNil } from 'lodash';
 
 @Injectable()
 export class DiplomaInstructorRequestsStore {
@@ -29,9 +30,21 @@ export class DiplomaInstructorRequestsStore {
     }
 
     public async filter(query: SearchRequestsQuery): Promise<DiplomaInstructorRequestEntity[]> {
-        const requests = await this._diplomaInstructorRequestModel.find({
-            from: query.fromId,
-        }).where('__t', undefined).populate('from').populate('to').sort([['_id', -1]]);
+        let req = this._diplomaInstructorRequestModel.find();
+
+        if (!isNil(query.toId)) {
+            req = req.find({ to: query.toId });
+        }
+
+        if (!isNil(query.fromId)) {
+            req = req.find({ from: query.fromId });
+        }
+
+        if (!isNil(query.statuses)) {
+            req = req.find({ status: { "$in" : query.statuses} });
+        }
+
+        const requests = await req.where('__t', undefined).populate('from').populate('to').sort([['_id', -1]]);
         
         return requests.map(s => diplomaInstructorRequestMapper(s));
 

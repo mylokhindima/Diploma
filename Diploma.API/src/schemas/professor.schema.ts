@@ -18,6 +18,9 @@ export const ProfessorSchema = new Schema({
             Role.PracticeLeader
         ],
     },
+    capacity: {
+        type: [Number]
+    }
 }, {
     versionKey: false,
 });

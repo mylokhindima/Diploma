@@ -1,10 +1,10 @@
-import { DiplomaProtection } from './../../../models/diploma-protection';
-import { ProfileService } from './../../../services/profile.service';
-import { DiplomaProtectionsService } from './../../../services/diploma-protections.service';
 import { Component, OnInit } from '@angular/core';
+import { tap } from 'rxjs/operators';
 import { Diploma } from 'src/app/models/diploma';
 import { Student } from 'src/app/models/student';
-import { tap } from 'rxjs/operators';
+import { DiplomaProtection } from './../../../models/diploma-protection';
+import { DiplomaProtectionsService } from './../../../services/diploma-protections.service';
+import { ProfileService } from './../../../services/profile.service';
 
 @Component({
   selector: 'app-diploma-protection',

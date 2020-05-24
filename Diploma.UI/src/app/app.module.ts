@@ -34,6 +34,16 @@ import { DiplomaProtectionComponent } from './features/containers/diploma-protec
 import { DiplomaInstructorRequestsComponent } from './features/containers/diploma-instructor-requests/diploma-instructor-requests.component';
 import { ProfessorSidebarComponent } from './features/components/professor-sidebar/professor-sidebar.component';
 import { CommentDialogComponent } from './features/components/comment-dialog/comment-dialog.component';
+import { DiplomaInstructorThemeRequestsComponent } from './features/containers/diploma-instructor-theme-requests/diploma-instructor-theme-requests.component';
+import { DiplomaInstructorRequestsContainerComponent } from './features/components/diploma-instructor-requests-container/diploma-instructor-requests-container.component';
+import { MethodologicalCommiteeApproveRequestsComponent } from './features/containers/methodological-commitee-approve-requests/methodological-commitee-approve-requests.component';
+import { DiplomaReportsForProfessorComponent } from './features/containers/diploma-reports-for-professor/diploma-reports-for-professor.component';
+import { DiplomaReportsContainerComponent } from './features/containers/diploma-reports-container/diploma-reports-container.component';
+import { ReportsComponent } from './features/containers/reports/reports.component';
+import { EditableCommentComponent } from './features/components/editable-comment/editable-comment.component';
+import { ProfessorCapacitiesComponent } from './features/containers/professor-capacities/professor-capacities.component';
+import { ToastrModule } from 'ngx-toastr';
+import { MethodicalInstructionsComponent } from './features/containers/methodical-instructions/methodical-instructions.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +75,15 @@ import { CommentDialogComponent } from './features/components/comment-dialog/com
     DiplomaInstructorRequestsComponent,
     ProfessorSidebarComponent,
     CommentDialogComponent,
+    DiplomaInstructorThemeRequestsComponent,
+    DiplomaInstructorRequestsContainerComponent,
+    MethodologicalCommiteeApproveRequestsComponent,
+    DiplomaReportsForProfessorComponent,
+    DiplomaReportsContainerComponent,
+    ReportsComponent,
+    EditableCommentComponent,
+    ProfessorCapacitiesComponent,
+    MethodicalInstructionsComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,6 +93,7 @@ import { CommentDialogComponent } from './features/components/comment-dialog/com
     BrowserAnimationsModule,
     AppRoutingModule,
     MaterialModule,
+    ToastrModule.forRoot(),
   ],
   providers: [
     {
@@ -85,7 +105,8 @@ import { CommentDialogComponent } from './features/components/comment-dialog/com
   entryComponents: [
     StudentFormComponent,
     CommentDialogComponent,
-    ViewCommentsComponent
+    ViewCommentsComponent,
+    EditableCommentComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

@@ -5,6 +5,26 @@
         <span>Запити на керування атестаційними роботами</span>
         <i class="fa fa-angle-right"></i>
       </a>
+      <a routerLink="/instructor-theme-requests" routerLinkActive="active" class="items-body-content">
+        <span>Запити на вибір тем атестаційних робот</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
+      <a *ngIf="isMethodologicalCommitteeMember" routerLink="/methodological-commitee-approve" routerLinkActive="active" class="items-body-content">
+        <span>Запити на підтвердження тем атестаційних робот</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
+      <a routerLink="/diploma-reports" routerLinkActive="active" class="items-body-content">
+        <span>Частини атестаційних робіт</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
+      <a *ngIf="isResponsibleForGraduation" routerLink="/capacities" routerLinkActive="active" class="items-body-content">
+        <span>Навантаження</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
+      <a *ngIf="isResponsibleForGraduation" routerLink="/materials" routerLinkActive="active" class="items-body-content">
+        <span>Матеріали</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
     </div>
   </div>
 </div>

@@ -5,9 +5,13 @@ import { DiplomaInstructorRequestDocument } from '../../documents/diploma-instru
 import { StudentDocument } from '../../documents/student.document';
 import { ProfessorDocument } from './../../documents/professor.document';
 import { DiplomaInstructorRequestEntity } from './diploma-instructor-request.entity';
+import { baseMapper } from '../../base/base.mapper';
 
 export function diplomaInstructorRequestMapper(request: DiplomaInstructorRequestDocument): DiplomaInstructorRequestEntity {
-    const partial = pick(request, ['description', 'status', 'declinedComment']) as any as Partial<DiplomaInstructorRequestEntity>;
+    const partial = {
+        ...baseMapper(request),
+        ...pick(request, ['description', 'status', 'declinedComment']),
+    } as any as Partial<DiplomaInstructorRequestEntity>;
 
     if (request.populated('from')) {
         partial.from = studentMapper(request.from as StudentDocument);

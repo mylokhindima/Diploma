@@ -3,4 +3,5 @@ import { DepartmentMemberEntity } from './../+department-members/department-memb
 
 export class ProfessorEntity extends DepartmentMemberEntity {
     degree: ProfessorDegree;
+    capacity?: number;
 }

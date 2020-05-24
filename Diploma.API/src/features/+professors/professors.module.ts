@@ -1,3 +1,4 @@
+import { DiplomasModule } from './../+diplomas/diplomas.module';
 import { ProfessorsStore } from './professors.store';
 import { ProfessorSchema } from './../../schemas/professor.schema';
 import { Module } from '@nestjs/common';
@@ -15,6 +16,7 @@ import { DepartmentsModule } from '../+departments/department.module';
         ]),
         UsersModule, 
         DepartmentsModule,
+        DiplomasModule,
     ],
     controllers: [ProfessorsController],
     providers: [

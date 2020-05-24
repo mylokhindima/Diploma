@@ -1,3 +1,4 @@
+import { isNil } from 'lodash';
 import { DeclineRequestDTO } from './../+diploma-instructor-requests/models/decline-request.dto';
 import { UsersStore } from './../+users/users.store';
 import { MailerService } from '@nestjs-modules/mailer';
@@ -39,6 +40,7 @@ export class DiplomaInstructorThemeRequestsStore {
         
         return diplomaInstructorThemeRequestMapper(request);
     }
+    
 
     public async acceptByMethodologicalCommission(id: string, commisionMemberId: string): Promise<void> {
         const user = await this._usersStore.find(commisionMemberId);
@@ -180,9 +182,21 @@ export class DiplomaInstructorThemeRequestsStore {
     }
 
     public async filter(query: SearchRequestsQuery): Promise<DiplomaInstructorThemeRequestEntity[]> {
-        const requests = await this._diplomaInstructorThemeRequestModel.find({
-            from: query.fromId,
-        }).populate('from').populate('to').sort([['_id', -1]]);
+        let req = this._diplomaInstructorThemeRequestModel.find();
+
+        if (!isNil(query.toId)) {
+            req = req.find({ to: query.toId });
+        }
+
+        if (!isNil(query.fromId)) {
+            req = req.find({ from: query.fromId });
+        }
+
+        if (!isNil(query.statuses)) {
+            req = req.find({ status: { "$in" : query.statuses} });
+        }
+
+        const requests = await req.populate('from').populate('to').sort([['_id', -1]]);
         
         return requests.map(s => diplomaInstructorThemeRequestMapper(s));
 

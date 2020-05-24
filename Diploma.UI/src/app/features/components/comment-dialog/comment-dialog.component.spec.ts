@@ -1,3 +1,4 @@
+import { MatDialogRef } from '@angular/material/dialog';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CommentDialogComponent } from './comment-dialog.component';
@@ -8,6 +9,9 @@ describe('CommentDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      providers: [
+        { provide: MatDialogRef, useValue: {} }
+      ],
       declarations: [ CommentDialogComponent ]
     })
     .compileComponents();

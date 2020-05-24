@@ -6,4 +6,6 @@ export class SearchDiplomasQuery {
     studentId?: string | ObjectID;
     @ApiProperty()
     stageId?: string | ObjectID;
+    @ApiProperty()
+    instructorId?: string | ObjectID;
 }

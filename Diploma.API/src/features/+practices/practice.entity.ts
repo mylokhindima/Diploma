@@ -9,7 +9,7 @@ export class PracticeEntity extends BaseEntity<PracticeEntity> {
     location: string;
     student: StudentEntity;
     studentId: string;
-    score: number;
-    file: FileEntity;
-    fileId: string;   
+    score?: number;
+    file?: FileEntity;
+    fileId?: string;   
 }

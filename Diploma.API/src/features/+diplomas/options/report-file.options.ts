@@ -5,7 +5,9 @@ import { mkdirSync, existsSync } from "fs";
 import { v4 as uuid } from 'uuid';
 import path = require("path");
 
-export const multerOptions = {
+
+
+export const multerOptions = (dist) => ({
     // Enable file size limits
     // limits: {
     //     fileSize: +process.env.MAX_FILE_SIZE,
@@ -23,7 +25,7 @@ export const multerOptions = {
     storage: diskStorage({
         // Destination storage path details
         destination: (req: any, file: any, cb: any) => {
-            const uploadPath = path.resolve(process.cwd() + "/public/reports");
+            const uploadPath = path.resolve(process.cwd() + "/public/" + dist);
             // Create folder if doesn't exist
             if (!existsSync(uploadPath)) {
                 mkdirSync(uploadPath, {
@@ -38,4 +40,4 @@ export const multerOptions = {
             cb(null, `${uuid()}${extname(file.originalname)}`);
         },
     }),
-};
+});

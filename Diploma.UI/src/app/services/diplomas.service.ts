@@ -7,7 +7,8 @@ import { convertToHttpParams } from '../core/utils/http-params.converter';
 import { DiplomaReport } from '../models/diploma-report';
 
 interface SearchDiplomasQuery {
-  studentId: string;
+  studentId?: string;
+  instructorId?: string;
 }
 
 @Injectable({
@@ -25,8 +26,19 @@ export class DiplomasService {
     });
   }
 
+  public find(id: string): Observable<Diploma> {
+    return this.http.get<Diploma>(`${AppSettings.host}/diplomas/${id}`);
+  }
+
   public findDiplomaReports(id: string): Observable<DiplomaReport[]> {
     return this.http.get<DiplomaReport[]>(`${AppSettings.host}/diplomas/${id}/reports`);
+  }
+
+  public createComment(reportId: string, comment: string): Observable<DiplomaReport> {
+    return this.http.post<DiplomaReport>(`${AppSettings.host}/diplomas/reports/comments`, {
+      reportId,
+      comment,
+    });
   }
 
   public uploadReport(diplomaId: string, file: FormData): Observable<DiplomaReport> {

@@ -1,0 +1,17 @@
+<mat-list class="container">
+  <mat-list-item *ngFor="let professor of professors" role="listitem">
+    <div class="cont">
+      <div>
+        {{ professor.name }}
+      </div>
+      <div>
+        <mat-form-field class="example-full-width">
+          <input [(ngModel)]="professor.capacity" type="number" onkeypress="return event.charCode != 45" min="1" matInput placeholder="Кіл-ть" [value]="professor.capacity">
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-list-item>
+</mat-list>
+<div class="actions">
+  <button (click)="save()" class="ok-btn" mat-raised-button color="primary">Зберігти</button>
+</div>

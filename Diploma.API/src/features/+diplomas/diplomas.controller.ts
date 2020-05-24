@@ -1,3 +1,4 @@
+import { CreateCommentDTO } from './dtos/create-comment.dto';
 import { Body, ClassSerializerInterceptor, Controller, Get, Post, Query, UploadedFile, UseGuards, UseInterceptors, Param } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
@@ -21,6 +22,13 @@ export class DiplomasController {
     public async getStudentDiploma(@Query() query: SearchDiplomasQuery): Promise<DiplomaEntity[]> {
         return await this._diplomaStore.filter(query);
     }
+    
+    @Get(':id')
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
+    public async get(@Param('id') id: string): Promise<DiplomaEntity> {
+        return await this._diplomaStore.find(id);
+    }
 
     @Post('reports')
     @UseGuards(JwtAuthGuard)
@@ -29,10 +37,17 @@ export class DiplomasController {
         description: 'File',
         type: CreateReportDTO,
     })
-    @UseInterceptors(FileInterceptor('file', multerOptions))
+    @UseInterceptors(FileInterceptor('file', multerOptions("reports")))
     public async uploadReport(@UploadedFile() file, @Body('id') id: string): Promise<ReportEntity> {
         return await this._diplomaStore.createReport(id, file);
     }
+
+    @Post('reports/comments')
+    @UseGuards(JwtAuthGuard)
+    public async addComment(@Body() dto: CreateCommentDTO): Promise<ReportEntity> {
+        return await this._diplomaStore.addComment(dto.reportId, dto.comment);
+    }
+
 
     @Get(':id/reports')
     @UseGuards(JwtAuthGuard)

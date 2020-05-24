@@ -1,6 +1,6 @@
 .container{
   width: 800px;
-  max-height: 800px;
+  max-height: 600px;
   overflow: auto;
   font-size: 18px;
 }
@@ -11,4 +11,10 @@ p{
 
 p:not(:first-child) {
   margin: 20px 0;
+}
+
+:host::ng-deep{
+  ul {
+    list-style: initial;
+  }
 }

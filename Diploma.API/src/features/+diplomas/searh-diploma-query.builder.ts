@@ -21,6 +21,16 @@ export class SearchDiplomaQueryBuilder {
         return this;
     }
 
+    public setProfessorId(id: string | ObjectID): SearchDiplomaQueryBuilder {
+        if (id) {
+            this.query = this.query.find({
+                instructor: id,
+            });
+        }
+        
+        return this;
+    }
+
     public setStageId(id: string | ObjectID): SearchDiplomaQueryBuilder {
         if (id) {
             this.query = this.query.find({

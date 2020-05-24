@@ -3,4 +3,5 @@ import { ProfessorDegree } from './proffesor-degree.enum';
 
 export interface Professor extends DepartmentMember {
   degree: ProfessorDegree;
+  capacity?: number;
 }

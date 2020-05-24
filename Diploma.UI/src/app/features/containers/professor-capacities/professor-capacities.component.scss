@@ -1,0 +1,19 @@
+:host{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.container{
+  height: 475px;
+  overflow: auto;
+  width: 600px;
+  margin-bottom: 10px;
+}
+
+.cont{
+  width: 800px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}

@@ -1,0 +1,33 @@
+<div class="no-requests" *ngIf="!requests.length">
+  <h1 color="primary">Запитів немає</h1>
+</div>
+
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let request of requests" (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ request.from.created_at | date }}
+      </mat-panel-title>
+      <mat-panel-description>
+        <div class="container">
+          <div>
+            <div><b>Студент:</b> {{ request.from.name }}</div>
+            <div><b>Група:</b> {{ request.from.group }}</div>
+          </div>
+          <div class="actions-cont">
+            <div class="actions" *ngIf="forCommitee ? request.methodologicalCommissionApprove === undefined : request.status === 0; else accepted">
+              <button (click)="onApproveClick($event, request)" mat-raised-button color="primary">Підтвердити</button>
+              <button (click)="onDeclineClick($event, request)" mat-raised-button color="warn">Відхилити</button>
+            </div>
+            <ng-template #accepted>
+              <span>Прийнято</span>
+            </ng-template>
+          </div>
+        </div>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p><strong>Тема: </strong> {{ request.theme }} </p>
+    <p><strong>Опис теми: </strong> {{ request.description }}</p>
+  </mat-expansion-panel>
+</mat-accordion>

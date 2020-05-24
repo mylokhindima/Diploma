@@ -18,6 +18,32 @@ export class DiplomaInstructorThemeRequestService {
     return this.http.post<DiplomaInstructorThemeRequest>(`${AppSettings.host}/diplomaInstructorThemeRequests`, request);
   }
 
+  public acceptRequestByProfessor(requestId: string): Observable<void> {
+    return this.http.post<void>(`${AppSettings.host}/diplomaInstructorThemeRequests/professor/accept`, {
+      requestId,
+    });
+  }
+
+  public declineRequestByProfessor(requestId: string, comment: string): Observable<void> {
+    return this.http.post<void>(`${AppSettings.host}/diplomaInstructorThemeRequests/professor/decline`, {
+      requestId,
+      comment
+    });
+  }
+
+  public acceptRequestByMethodologicalCommitee(requestId: string): Observable<void> {
+    return this.http.post<void>(`${AppSettings.host}/diplomaInstructorThemeRequests/commission/accept`, {
+      requestId,
+    });
+  }
+
+  public declineRequestByMethodologicalCommitee(requestId: string, comment: string): Observable<void> {
+    return this.http.post<void>(`${AppSettings.host}/diplomaInstructorThemeRequests/commission/decline`, {
+      requestId,
+      comment
+    });
+  }
+
   public filterRequests(query: SearchRequestsQuery): Observable<DiplomaInstructorThemeRequest[]> {
     const params = convertToHttpParams(query);
 

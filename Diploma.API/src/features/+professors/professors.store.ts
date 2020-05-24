@@ -1,13 +1,16 @@
-import { SearchProfessorsQueryBuilder } from './search-professors-query.builder';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { StudentDocument } from '../../documents/student.document';
+import { DiplomaStore } from './../+diplomas/diplomas.store';
 import { CreateProfessorDTO } from './dtos/create-professor.dto';
+import { ProfessorQuery } from './dtos/professor.query';
 import { ProfessorEntity } from './professor.entity';
 import { professorMapper } from './professor.mapper';
-import { ProfessorQuery } from './dtos/professor.query';
+import { SearchProfessorsQueryBuilder } from './search-professors-query.builder';
+import { request } from 'express';
+import { UpdateCapacityDTO } from './dtos/update-capacities.dto';
 
 var generator = require('generate-password');
 
@@ -16,6 +19,7 @@ export class ProfessorsStore {
     constructor(
         @InjectModel('Professor') private _professorModel: Model<StudentDocument>,
         private readonly mailerService: MailerService,
+        private readonly diplomasStore: DiplomaStore,
     ) { }
 
     public async findAll(): Promise<ProfessorEntity[]> {
@@ -26,6 +30,14 @@ export class ProfessorsStore {
         return professors.map(p => professorMapper(p));
     }
 
+    public async updateCapacities(dtos: UpdateCapacityDTO[]): Promise<void> {
+        const requests = dtos.map(dto => this._professorModel.findByIdAndUpdate(dto.professorId, {
+            capacity: dto.capacity
+        }));
+
+        await Promise.all(requests);
+    }
+
     public async find(id: string): Promise<ProfessorEntity> {
         const professor = await this._professorModel.findById(id).populate('department');
 
@@ -33,11 +45,23 @@ export class ProfessorsStore {
     }
 
     public async findByQuery(query: ProfessorQuery): Promise<ProfessorEntity[]> {
-        const professors = await new SearchProfessorsQueryBuilder(this._professorModel)
+        let professors = await new SearchProfessorsQueryBuilder(this._professorModel)
             .setIsActive(query.isActive)
             .setDepartmentId(query.departmentId)
             .sortAsc()
             .build();
+
+        if (query.available) {
+            const requests = professors.map(p => {
+                return this.diplomasStore.filter({
+                    instructorId: p.id 
+                });    
+            })
+
+            const results = await Promise.all(requests);
+
+            professors = professors.filter((p, i) => p.capacity && p.capacity > results[i].length);
+        }
         
         return professors.map(p => professorMapper(p));
     }

@@ -1,12 +1,13 @@
-import { Body, ClassSerializerInterceptor, Controller, Get, Param, Post, UploadedFile, UseGuards, UseInterceptors, Query } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Get, Param, Post, Put, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from './../+auth/guards/jwt-auth.guard';
 import { CreateProfessorDTO } from './dtos/create-professor.dto';
+import { ProfessorQuery } from './dtos/professor.query';
+import { UpdateCapacityDTO } from './dtos/update-capacities.dto';
 import { ProfessorEntity } from './professor.entity';
 import { ProfessorsService } from './professors.service';
 import { ProfessorsStore } from './professors.store';
-import { ProfessorQuery } from './dtos/professor.query';
 
 @ApiTags('Professors')
 @ApiBearerAuth()
@@ -50,5 +51,11 @@ export class ProfessorsController {
     @UseGuards(JwtAuthGuard)
     public async uploadFile(@UploadedFile() file) {
         return await this._professorsService.upload(file);
+    }
+
+    @Put('capacities')
+    @UseGuards(JwtAuthGuard)
+    public async updateCapacities(@Body() updateDtos: UpdateCapacityDTO[]) {
+        return await this._professorsStore.updateCapacities(updateDtos);
     }
 }

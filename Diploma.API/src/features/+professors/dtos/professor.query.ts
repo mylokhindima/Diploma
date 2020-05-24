@@ -5,4 +5,6 @@ export class ProfessorQuery {
     departmentId?: string;
     @ApiProperty()
     isActive?: boolean;
+    @ApiProperty()
+    available?: boolean;
 }

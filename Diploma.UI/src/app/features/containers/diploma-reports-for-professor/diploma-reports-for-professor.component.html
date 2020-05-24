@@ -1,0 +1,8 @@
+<mat-list role="list">
+  <mat-list-item *ngFor="let diploma of diplomas" role="listitem">
+    <a [routerLink]="diploma.id" routerLinkActive="active" class="items-body-content">
+      {{ diploma.student.name }} ({{ diploma.theme }})
+      <i class="fa fa-angle-right"></i>
+    </a>
+  </mat-list-item>
+</mat-list>

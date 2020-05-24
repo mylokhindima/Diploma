@@ -1,3 +1,5 @@
 import { DeparmentMemberDocument } from './department-member.document';
 
-export class ProfessorDocument extends DeparmentMemberDocument {}
+export class ProfessorDocument extends DeparmentMemberDocument {
+    capacity?: number;
+}

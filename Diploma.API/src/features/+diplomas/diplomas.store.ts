@@ -52,11 +52,21 @@ export class DiplomaStore {
     public async filter(query: SearchDiplomasQuery): Promise<DiplomaEntity[]> {
         const builder = new SearchDiplomaQueryBuilder(this._diplomaModel)
             .setStudentId(query.studentId)
+            .setProfessorId(query.instructorId)
             .setStageId(query.stageId)
 
         const diplomas = await builder.build();
         
         return diplomas.map(d => diplomaMapper(d));
+    }
+
+    public async addComment(reportId: string, comment: string): Promise<ReportEntity> {
+        await this._reportModel.findByIdAndUpdate(reportId, { 
+            $push: { "comments": comment },
+        }, 
+        { "new": true, "upsert": true });
+
+        return this.findReport(reportId);
     }
 
     public async createReport(diplomaId: string, file: any): Promise<ReportEntity> {

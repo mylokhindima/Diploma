@@ -26,6 +26,9 @@ export class ProfessorsService {
     });
   }
 
+  public updateCapacities(dtos: any[]): Observable<void> {
+    return this.http.put<void>(`${AppSettings.host}/professors/capacities`, dtos);
+  }
 
   public create(dto: CreateProfessorDTO): Observable<Professor> {
     return this.http.post<Professor>(`${AppSettings.host}/professors`, dto);

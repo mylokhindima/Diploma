@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ViewCommentsComponent } from './view-comments.component';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 describe('ViewCommentsComponent', () => {
   let component: ViewCommentsComponent;
@@ -8,6 +9,9 @@ describe('ViewCommentsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      providers: [
+        { provide: MAT_DIALOG_DATA, useValue: null }
+      ],
       declarations: [ ViewCommentsComponent ]
     })
     .compileComponents();

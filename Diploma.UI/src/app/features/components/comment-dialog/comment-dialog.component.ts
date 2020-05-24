@@ -1,5 +1,5 @@
-import { MatDialogRef } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-comment-dialog',
@@ -14,6 +14,7 @@ export class CommentDialogComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
 
   public ok(): void {
     this._ref.close(this.text);
