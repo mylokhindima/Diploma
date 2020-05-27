@@ -1,0 +1,29 @@
+<form [formGroup]="form">
+  <mat-form-field class="example-full-width">
+    <label for="group" class="bmd-label-floating">Оберіть освітню програму</label>
+    <mat-select formControlName="educationalProgramId" [disabled]="!programs.length">
+      <mat-option *ngFor="let program of programs" [value]="program.id">
+        {{program.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Початок</mat-label>
+    <input [min]="minStartDate" formControlName="startDate" matInput [matDatepicker]="picker">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Кінець</mat-label>
+    <input [min]="minEndDate" formControlName="endDate" matInput [matDatepicker]="picker2">
+    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+    <mat-datepicker #picker2></mat-datepicker>
+  </mat-form-field>
+
+
+  <button (click)="form.valid && createPracticeOrder()" class="sing-in-btn" mat-raised-button color="primary">Сформувати наказ на практику</button>
+
+  <button (click)="form.valid && createDiplomaOrder()" class="sing-in-btn" mat-raised-button color="primary">Сформувати наказ на дипломування</button>
+</form>

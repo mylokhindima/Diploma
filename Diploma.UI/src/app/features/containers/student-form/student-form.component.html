@@ -34,46 +34,34 @@
       <fieldset class="col">
         <legend>Освітня програма</legend>
 
-        <div *ngIf="showClearBtn" (click)="clearEducationFormGroup()" class="clear-btn">
+        <!-- <div *ngIf="showClearBtn" (click)="clearEducationFormGroup()" class="clear-btn">
           <mat-icon>clear</mat-icon>
-        </div>
+        </div> -->
+          <mat-form-field class="example-full-width">
+            <label for="group" class="bmd-label-floating">Оберіть освітню програму</label>
+            <mat-select formControlName="educationalProgramId" [disabled]="!viewPrograms.length">
+              <mat-option *ngFor="let program of viewPrograms" [value]="program.id">
+                {{program.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-        <mat-form-field class="example-full-width">
-          <label for="group" class="bmd-label-floating">Спеціалізація</label>
-          <mat-select formControlName="specialty">
-            <mat-option *ngFor="let specialty of specialties" [value]="specialty.id">
-              {{specialty.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <ng-container *ngIf="currentProgram">
+          <mat-form-field class="example-full-width">
+            <label for="group" class="bmd-label-floating">Спеціалізація</label>
+            <input [disabled]="true" [value]="currentProgram.specialty.name" matInput type="text" class="form-control" id="group">
+          </mat-form-field>
 
-        <mat-form-field class="example-full-width">
-          <label for="duration" class="bmd-label-floating">Тривалість (місяців)</label>
-          <mat-select formControlName="duration">
-            <mat-option *ngFor="let duration of durations" [value]="duration">
-              {{duration}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <label for="duration" class="bmd-label-floating">Тривалість (місяців)</label>
+            <input [disabled]="true" [value]="currentProgram.duration" matInput type="text" class="form-control" id="group">
+          </mat-form-field>
 
-        <mat-form-field class="example-full-width">
-          <label for="educationalForm" class="bmd-label-floating">Форма навчання</label>
-          <mat-select  formControlName="form">
-            <mat-option *ngFor="let eform of educationalForms" [value]="eform">
-              <ng-container [ngSwitch]="eform">
-                <ng-container *ngSwitchCase="0">
-                  Денна
-                </ng-container>
-                <ng-container *ngSwitchCase="1">
-                  Заочна
-                </ng-container>
-                <ng-container *ngSwitchCase="2">
-                  Дистанційна
-                </ng-container>
-              </ng-container>
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <label for="educationalForm" class="bmd-label-floating">Форма навчання</label>
+            <input [disabled]="true" [value]="formView()" matInput type="text" class="form-control" id="group">
+          </mat-form-field>
+        </ng-container>
       </fieldset>
     </form>
   </mat-card-content>

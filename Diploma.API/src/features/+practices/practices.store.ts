@@ -54,6 +54,6 @@ export class PracticesStore {
             student: id, 
         }).populate('student').populate('instructor').populate('file');
 
-        return practiceMapper(practice);
+        return practice ? practiceMapper(practice) : null;
     }
 }

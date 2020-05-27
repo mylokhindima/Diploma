@@ -1,25 +1,30 @@
-import { FilesStore } from './../+files/files.store';
-import { EducationalProgramEntity } from './../+educational-program/educational-program.entity';
-import { EducationalForm } from './../../enums/educational-form.enum';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { Workbook } from 'exceljs';
+import { existsSync, mkdirSync } from 'fs';
 import { Model } from 'mongoose';
+import { extname } from 'path';
+import { v4 as uuid } from 'uuid';
 import { DiplomaEntity } from '../+diplomas/diploma.entity';
 import { educationalProgramMapper } from '../+educational-program/educational-program.mapper';
 import { StudentEntity } from '../+students/student.entity';
+import { FileType } from '../../enums/file-type.enum';
 import { DiplomaStore } from './../+diplomas/diplomas.store';
+import { FilesStore } from './../+files/files.store';
+import { PracticeEntity } from './../+practices/practice.entity';
+import { PracticesStore } from './../+practices/practices.store';
 import { StudentsStore } from './../+students/students.store';
 import { EducationalProgramDocument } from './../../documents/educational-program.document';
 import { OrderDocument } from './../../documents/order.document';
+import { OrderType } from './../../enums/order-type.enum';
+import { Step } from './../../enums/step.enum';
 import { CreateOrderDTO } from './dtos/create-order.dto';
 import { DiplomaOrderBuilder } from './excel-builders/diploma-order.builder';
-import path = require('path');
-import { existsSync, mkdirSync } from 'fs';
-import { StudentDegree } from '../../enums/student-degree.enum';
-import { Workbook } from 'exceljs';
-import { FileType } from '../../enums/file-type.enum';
+import { ExcelBuilder } from './excel-builders/excel-builder.interface';
+import { PracticeOrderBuilder } from './excel-builders/practice-order.builder';
 import { OrderEntity } from './order.entity';
 import { orderMapper } from './order.mapper';
+import path = require('path');
 
 
 @Injectable()
@@ -29,6 +34,7 @@ export class OrdersStore {
         @InjectModel('EducationalProgram') private _educationalProgramModel: Model<EducationalProgramDocument>,
         private _studentsStore: StudentsStore,
         private _diplomasStore: DiplomaStore,
+        private _practiceStore: PracticesStore,
         private _filesStore: FilesStore,
     ) { }
 
@@ -48,18 +54,28 @@ export class OrdersStore {
             studentId: s.id
         })))).map(d => d[0]);
         
-        const map = diplomas.map((d, i) => ([students[i], d])).filter(([s, d]) => !!d) as [StudentEntity, DiplomaEntity][];
+        let map;
+        let builder: ExcelBuilder;
 
-        const builder = new DiplomaOrderBuilder(educationalProgram, dto.startDate, dto.endDate);
+        if (dto.type === OrderType.Diploma) {
+            map = diplomas.map((d, i) => ([students[i], d])).filter(([s, d]) => !!d && (d as DiplomaEntity).stage.step === Step.MethodologicalMemberThemeChecking) as [StudentEntity, DiplomaEntity][];
+            builder = new DiplomaOrderBuilder(educationalProgram, dto.startDate, dto.endDate); 
+        } else {
+            const practices = (await Promise.all(students.map(s => this._practiceStore.findByStudentId(s.id))));
+            map = diplomas.map((d, i) => ([students[i], d, practices[i]])).filter(([s, d, p]) => !!d && !!p && (d as DiplomaEntity).stage.step === Step.MethodologicalMemberThemeChecking) as [StudentEntity, DiplomaEntity, PracticeEntity][];
+            builder = new PracticeOrderBuilder(educationalProgram, dto.startDate, dto.endDate);
+        }
 
         const workbook = await builder.build(map);
 
-        const fileName = await this._saveExcelFile(educationalProgram, workbook);
+        const path = await this._saveExcelFile(educationalProgram.name, workbook);
+
+        const name = `Наказ на ${OrderType.Diploma === dto.type ? 'дипломування' : 'практику'} (${educationalProgram.name}).xlsx`  
 
         const file = await this._filesStore.create({
-            path: fileName,
-            type: FileType.GraduationOrder,
-            name: fileName,
+            path,
+            type: dto.type === OrderType.Diploma ? FileType.GraduationOrder : FileType.PracticeOrder,
+            name,
         });
 
         const order = await this._orderModel.create({
@@ -72,7 +88,7 @@ export class OrdersStore {
         return orderMapper(order);
     }
 
-    private async _saveExcelFile(educationalProgram: EducationalProgramEntity, workbook: Workbook): Promise<string> {
+    private async _saveExcelFile(name: string, workbook: Workbook): Promise<string> {
         const uploadPath = path.resolve(process.cwd() + "/public/orders");
 
         if (!existsSync(uploadPath)) {
@@ -81,23 +97,7 @@ export class OrdersStore {
             });
         }
 
-        let form: string;
-        let degree = educationalProgram.degree === StudentDegree.Bachelor ? 'bac' : 'mag';
-
-        switch(educationalProgram.form) {
-            case EducationalForm.DayTime: 
-                form = 'day';
-                break;
-            case EducationalForm.Extramural:
-                form = 'extr';
-                break;
-            case EducationalForm.Remote:
-                form = 'rem';
-                break;
-            default:
-        }
-
-        const fileName = `${educationalProgram.specialty.name}-${degree}-${form}.xlsx`;
+        const fileName = `${uuid()}.xlsx`;
 
         const filePath = `${uploadPath}/${fileName}`;
 

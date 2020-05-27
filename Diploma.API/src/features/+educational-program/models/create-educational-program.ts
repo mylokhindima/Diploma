@@ -11,4 +11,6 @@ export class CreateEducationalProgramDTO {
     form: EducationalForm;
     @ApiProperty()
     duration: number;
+    @ApiProperty()
+    name: string;
 }

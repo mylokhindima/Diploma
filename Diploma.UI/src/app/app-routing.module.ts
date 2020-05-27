@@ -1,3 +1,4 @@
+import { FormOrdersComponent } from './features/containers/form-orders/form-orders.component';
 import { ProfessorCapacitiesComponent } from './features/containers/professor-capacities/professor-capacities.component';
 import { DiplomaReportsContainerComponent } from './features/containers/diploma-reports-container/diploma-reports-container.component';
 import { DiplomaReportsForProfessorComponent } from './features/containers/diploma-reports-for-professor/diploma-reports-for-professor.component';
@@ -115,8 +116,13 @@ const routes: Routes = [
       {
         path: 'materials',
         pathMatch: 'full',
-        canActivate: [ProfessorGuard],
         component: MethodicalInstructionsComponent
+      },
+      {
+        path: 'form-orders',
+        pathMatch: 'full',
+        canActivate: [ProfessorGuard],
+        component: FormOrdersComponent,
       }
     ]
   },

@@ -14,6 +14,10 @@ export class ProfessorsService {
 
   constructor(public http: HttpClient) {}
 
+  public getProfessor(id: string): Observable<Professor> {
+    return this.http.get<Professor>(`${AppSettings.host}/professors/${id}`);
+  }
+
   public getProfessors(): Observable<Professor[]> {
     return this.http.get<Professor[]>(`${AppSettings.host}/professors`);
   }

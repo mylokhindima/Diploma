@@ -1,11 +1,12 @@
-import { DiplomasService } from './diplomas.service';
-import { StudentsService } from './students.service';
-import { tap, switchMap, map } from 'rxjs/operators';
-import { UsersService } from './users.service';
 import { Injectable } from '@angular/core';
-import { Observable, of, forkJoin } from 'rxjs';
-import { ProfileService } from '../services/profile.service';
+import { forkJoin, Observable, of } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { Role } from '../models/role.enum';
+import { ProfileService } from '../services/profile.service';
+import { DiplomasService } from './diplomas.service';
+import { ProfessorsService } from './professors.service';
+import { StudentsService } from './students.service';
+import { UsersService } from './users.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class DataService {
     private _profileService: ProfileService,
     private _userService: UsersService,
     private _studentsService: StudentsService,
+    private _professorsService: ProfessorsService,
     private _diplomasService: DiplomasService,
   ) { }
 
@@ -34,6 +36,13 @@ export class DataService {
               this._profileService.student$.next(student);
               this._profileService.diploma$.next(diploma);
             }));
+        } else if (user.roles.includes(Role.Professor)) {
+          return this._professorsService.getProfessor(user.id).pipe(
+            tap(p => {
+              this._profileService.user$.next(user);
+              this._profileService.professor$.next(p);
+            })
+          );
         } else {
           this._profileService.user$.next(user);
         }

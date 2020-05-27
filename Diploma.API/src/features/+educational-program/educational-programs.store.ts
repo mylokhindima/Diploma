@@ -1,3 +1,4 @@
+import { SpecialtyDocument } from './../../documents/specialty.document';
 import { EducationalForm } from './../../enums/educational-form.enum';
 import { StudentDegree } from './../../enums/student-degree.enum';
 import { Injectable } from '@nestjs/common';
@@ -31,6 +32,12 @@ export class EducationalProgramsStore {
         const program = await this._educationalProgramModel.findById(id).populate('specialty');
 
         return program ? educationalProgramMapper(program) : null;
+    }
+
+    public async findByDepartmentId(id: string): Promise<EducationalProgramEntity[]> {
+        let programs = await this.findAll();
+
+        return programs.filter(p => p.specialty.departmentId === id);
     }
 
     public async create(dto: CreateEducationalProgramDTO): Promise<EducationalProgramEntity> {

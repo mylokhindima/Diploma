@@ -9,4 +9,5 @@ export interface EducationalProgram extends Base {
   degree: StudentDegree;
   form: EducationalForm;
   duration: number;
+  name: string;
 }

@@ -1,4 +1,4 @@
-import { Body, ClassSerializerInterceptor, Controller, Get, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Get, Post, UploadedFile, UseGuards, UseInterceptors, Query, Delete, Param } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { multerOptions } from '../+diplomas/options/report-file.options';
@@ -17,7 +17,7 @@ export class FilesController {
     @Get('filter')
     @UseGuards(JwtAuthGuard)
     @UseInterceptors(ClassSerializerInterceptor)
-    public async get(@Body() dto: SearchFileDTO): Promise<FileEntity[]> {
+    public async get(@Query() dto: SearchFileDTO): Promise<FileEntity[]> {
         return await this._filesStore.filter(dto);
     }
 
@@ -31,5 +31,11 @@ export class FilesController {
             path: file.filename,
             name: file.originalname
         });
+    }
+
+    @Delete(':id')
+    @UseGuards(JwtAuthGuard)
+    public async delete(@Param('id') id): Promise<void> {
+        return await this._filesStore.delete(id);
     }
 }

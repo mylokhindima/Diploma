@@ -17,6 +17,11 @@ export const EducationalProgramSchema = new Schema({
     duration: {
         type: Number,
         required: true,
+    },
+    name: {
+        type: String,
+        required: true,
+        unique: true,
     }
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },

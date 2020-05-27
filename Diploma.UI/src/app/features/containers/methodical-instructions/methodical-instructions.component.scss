@@ -1,0 +1,32 @@
+
+.mat-list-icon {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.download-container{
+  display: flex;
+  margin-left: auto;
+  align-items: center;
+
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+.items-container{
+  height: 400px;
+  margin-bottom: 20px;
+  overflow: auto;
+}
+
+.remove-icon{
+  color: red;
+}
+
+.action{
+  width: 100%;
+  button{
+    display: block;
+    margin-left: auto;
+  }
+}

@@ -14,7 +14,7 @@ export class OrdersController {
     @Post()
     @UseGuards(JwtAuthGuard)
     @UseInterceptors(ClassSerializerInterceptor)
-    public async uploadReport(@Body() dto: CreateOrderDTO): Promise<OrderEntity> {
+    public async createOrder(@Body() dto: CreateOrderDTO): Promise<OrderEntity> {
         return await this._ordersStore.create(dto);
     }
 }

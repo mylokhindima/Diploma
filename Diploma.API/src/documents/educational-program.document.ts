@@ -9,4 +9,5 @@ export class EducationalProgramDocument extends Document {
     degree: StudentDegree;
     form: EducationalForm;
     duration: number;
+    name: string;
 }

@@ -6,8 +6,8 @@ import { CreateFileDTO } from './dto/create-file.dto';
 import { FileEntity } from './file.entity';
 import { fileMapper } from './file.mapper';
 import { SearchFileDTO } from './dto/search-file.dto';
-
-
+import * as fs from 'fs';
+import path = require('path');
 
 @Injectable()
 export class FilesStore {
@@ -31,5 +31,13 @@ export class FilesStore {
         const files = await req;
 
         return files.map(f => fileMapper(f));
+    }
+
+    public async delete(id: string): Promise<void> {
+        const file = await this._fileModel.findById(id);
+
+        fs.unlinkSync(path.resolve(`${process.cwd()}/public/files/${file.path}`));
+
+        await this._fileModel.findByIdAndRemove(id);
     }
 }

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { FileSchema } from './../../schemas/file.schema';
 import { FilesStore } from './files.store';
+import { FilesController } from './files.controller';
 
 @Module({
     imports: [
@@ -12,7 +13,7 @@ import { FilesStore } from './files.store';
             },
         ]),
     ],
-    controllers: [],
+    controllers: [FilesController],
     providers: [
         FilesStore,
     ],

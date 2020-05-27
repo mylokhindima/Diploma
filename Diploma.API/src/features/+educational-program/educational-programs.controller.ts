@@ -1,9 +1,10 @@
-import { ClassSerializerInterceptor, Controller, Get, Param, UseGuards, UseInterceptors, Post, Body } from '@nestjs/common';
+import { ClassSerializerInterceptor, Controller, Get, Param, UseGuards, UseInterceptors, Post, Body, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from './../+auth/guards/jwt-auth.guard';
 import { EducationalProgramEntity } from './educational-program.entity';
 import { EducationalProgramsStore } from './educational-programs.store';
 import { CreateEducationalProgramDTO } from './models/create-educational-program';
+import { SearchEducationalProgramQuery } from './models/search-educational-program-query';
 
 @ApiTags('EducationalPrograms')
 @ApiBearerAuth()
@@ -16,6 +17,13 @@ export class EducationalProgramsController {
     @UseInterceptors(ClassSerializerInterceptor)
     public async getAll(): Promise<EducationalProgramEntity[]> {
         return await this._educationalProgramsStore.findAll();
+    }
+
+    @Get(':id')
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
+    public async filter(@Query() query: SearchEducationalProgramQuery): Promise<EducationalProgramEntity[]> {
+        return await this._educationalProgramsStore.findByDepartmentId(query.departmentId);
     }
 
     @Get(':id')

@@ -9,4 +9,5 @@ export class EducationalProgramEntity extends BaseEntity<EducationalProgramEntit
     degree: StudentDegree;
     form: EducationalForm;
     duration: number;
+    name: string;
 } 

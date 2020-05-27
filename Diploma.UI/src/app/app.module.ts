@@ -44,6 +44,8 @@ import { EditableCommentComponent } from './features/components/editable-comment
 import { ProfessorCapacitiesComponent } from './features/containers/professor-capacities/professor-capacities.component';
 import { ToastrModule } from 'ngx-toastr';
 import { MethodicalInstructionsComponent } from './features/containers/methodical-instructions/methodical-instructions.component';
+import { FormOrdersComponent } from './features/containers/form-orders/form-orders.component';
+import { RolesComponent } from './features/containers/roles/roles.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +86,8 @@ import { MethodicalInstructionsComponent } from './features/containers/methodica
     EditableCommentComponent,
     ProfessorCapacitiesComponent,
     MethodicalInstructionsComponent,
+    FormOrdersComponent,
+    RolesComponent,
   ],
   imports: [
     BrowserModule,

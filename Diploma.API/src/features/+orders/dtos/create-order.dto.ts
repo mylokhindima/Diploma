@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { OrderType } from './../../../enums/order-type.enum';
 
 export class CreateOrderDTO {
     @ApiProperty()
@@ -13,4 +14,6 @@ export class CreateOrderDTO {
         format: 'date-time',
     })
     endDate: string;
+    @ApiProperty()
+    type: OrderType;
 }

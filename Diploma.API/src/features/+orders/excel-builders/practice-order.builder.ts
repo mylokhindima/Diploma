@@ -4,30 +4,33 @@ import { StudentDegree } from '../../../enums/student-degree.enum';
 import { StudentEntity } from '../../../features/+students/student.entity';
 import { DiplomaEntity } from './../../+diplomas/diploma.entity';
 import { EducationalProgramEntity } from './../../+educational-program/educational-program.entity';
+import { PracticeEntity } from './../../+practices/practice.entity';
+import { ExcelBuilder } from './excel-builder.interface';
+import { getInstructorWithDegree } from './instructor-with-degree';
 import moment = require('moment');
 import path = require('path');
-import { getInstructorWithDegree } from './instructor-with-degree';
-import { ExcelBuilder } from './excel-builder.interface';
 
-export class DiplomaOrderBuilder implements ExcelBuilder {
+export class PracticeOrderBuilder implements ExcelBuilder {
     
     private _workbook = new Excel.Workbook();
 
     constructor(private _educationalProgram: EducationalProgramEntity, private _startDate: string, private _endDate: string) {}
 
-    public async build(map: [StudentEntity, DiplomaEntity][]): Promise<Excel.Workbook> {
-        this._workbook = await this._workbook.xlsx.readFile(path.join(__dirname + '/diploma-order-template.xlsx')); 
+    public async build(map: [StudentEntity, DiplomaEntity, PracticeEntity][]): Promise<Excel.Workbook> {
+        this._workbook = await this._workbook.xlsx.readFile(path.join(__dirname + '/practice-order-template.xlsx')); 
         
         const worksheet = this._workbook.getWorksheet(1);
-        worksheet.getCell('A9:F9').value = this._getDescriptionText(this._educationalProgram, this._startDate, this._endDate);
+        worksheet.getCell('A9:G9').value = this._getDescriptionText(this._educationalProgram, this._startDate, this._endDate);
 
         const startIndex = 12;
 
-        map.forEach(([student, diploma], i) => {
+        map.forEach(([student, diploma, practice], i) => {
             worksheet.getRow(startIndex + i).values = [
                 i + 1,
                 student.name,
                 student.group,
+                practice.location,
+                getInstructorWithDegree(practice.instructor),
                 diploma.theme,
                 getInstructorWithDegree(diploma.instructor),
             ]
@@ -64,6 +67,6 @@ export class DiplomaOrderBuilder implements ExcelBuilder {
             degreeText = '6-го курсу другого магістерського рівня вищої освіти';
         }
 
-        return ` У відповідності до навчального плану за нижчевказаними студентами ${degreeText} ${form} форми навчання, факультету КН напряму ${educationalProgram.specialty.code} - ${educationalProgram.specialty.name}, освітньою програмою - ${educationalProgram.name} закріпити теми атестаційних робіт, призначити керівників атестаційних робіт і направити студентів на підготовку атестаційних робіт на період з ${t1} р. по ${t2} р.`	
+        return `У відповідності до навчального плану нижче вказаних студентів ${degreeText} ${form} форми навчання, факультету КН за спеціальністю ${educationalProgram.specialty.code} - ${educationalProgram.specialty.name}, освітньою програмою - ${educationalProgram.name} направити з ${t1} по ${t2} на передатестаційну практику з можливістю використання дистанційних технологій, закріпити за ними теми атестаційних робіт, призначити керівників атестаційних робіт та керівників передатестаційної практики. `
     }
 }

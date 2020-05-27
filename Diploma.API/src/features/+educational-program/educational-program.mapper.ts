@@ -8,7 +8,7 @@ import { specialtyMapper } from '../+specialties/specialty.mapper';
 export function educationalProgramMapper(educationalProgram: EducationalProgramDocument): EducationalProgramEntity {
     const isSpecialtyPopulated = educationalProgram.populated('specialty');
 
-    const partial: Partial<EducationalProgramEntity> = pick(educationalProgram, ['degree', 'form', 'duration']) as any as EducationalProgramEntity;
+    const partial: Partial<EducationalProgramEntity> = pick(educationalProgram, ['degree', 'form', 'duration', 'name']) as any as EducationalProgramEntity;
 
     if (isSpecialtyPopulated) {
         const specialty = educationalProgram.specialty as SpecialtyDocument;
