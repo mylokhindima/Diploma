@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+import { OrdersService } from './../../../services/orders.service';
 import { Role } from './../../../models/role.enum';
 import { ProfileService } from './../../../services/profile.service';
 import { Component, OnInit } from '@angular/core';
@@ -5,6 +7,7 @@ import { File } from '../../../models/file';
 import { FileType } from './../../../models/file-type.enum';
 import { FilesService } from './../../../services/files.service';
 import { StaticService } from './../../../services/static.service';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-methodical-instructions',
@@ -23,6 +26,7 @@ export class MethodicalInstructionsComponent implements OnInit {
 
   constructor(
     private _filesService: FilesService,
+    private _ordersService: OrdersService,
     private _staticService: StaticService,
     private _profileService: ProfileService,
   ) { }
@@ -62,7 +66,21 @@ export class MethodicalInstructionsComponent implements OnInit {
     }
   }
 
-  public remove(id): void {
-    this._filesService.remove(id).subscribe(() => this.files = this.files.filter(f => f.id !== id));
+  public remove(file: File): void {
+    let action$: Observable<void>;
+
+    switch (file.type) {
+      case FileType.GraduationOrder:
+      case FileType.PracticeOrder:
+        action$ = this._ordersService.findByFileId(file.id).pipe(
+          switchMap(o => this._ordersService.remove(o.id))
+        );
+        break;
+      default:
+        action$ = this._filesService.remove(file.id);
+    }
+
+    action$.subscribe(() => this.files = this.files.filter(f => f.id !== file.id));
+
   }
 }

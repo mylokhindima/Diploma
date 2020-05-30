@@ -7,7 +7,7 @@
       <div mat-line> {{file.created_at | date}} </div>
       <div class="download-container">
         <mat-icon (click)="download(file)" mat-list-icon>cloud_download</mat-icon>
-        <mat-icon *ngIf="isResponsibleForGraduation" color="warn" class="remove-icon" (click)="remove(file.id)" mat-list-icon>delete</mat-icon>
+        <mat-icon *ngIf="isResponsibleForGraduation" color="warn" class="remove-icon" (click)="remove(file)" mat-list-icon>delete</mat-icon>
       </div>
     </mat-list-item>
   </div>

@@ -4,8 +4,8 @@ export enum Step {
   MethodologicalMemberThemeChecking,
   PracticeReport,
   DiplomaReport,
-  Normscontrol,
   Plagiarism,
+  Normscontrol,
   DiplomaMaterials,
   Graduation
 }

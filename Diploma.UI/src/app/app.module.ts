@@ -46,6 +46,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { MethodicalInstructionsComponent } from './features/containers/methodical-instructions/methodical-instructions.component';
 import { FormOrdersComponent } from './features/containers/form-orders/form-orders.component';
 import { RolesComponent } from './features/containers/roles/roles.component';
+import { StudentPracticeDistributionComponent } from './features/containers/student-practice-distribution/student-practice-distribution.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { RolesComponent } from './features/containers/roles/roles.component';
     MethodicalInstructionsComponent,
     FormOrdersComponent,
     RolesComponent,
+    StudentPracticeDistributionComponent,
   ],
   imports: [
     BrowserModule,

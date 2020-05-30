@@ -1,7 +1,9 @@
-import { AuthService } from './../../services/auth.service';
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map, skip, take, filter } from 'rxjs/operators';
+import { AuthService } from './../../services/auth.service';
+import { ProfileService } from './../../services/profile.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +12,7 @@ export class AuthGuard implements CanActivate {
 
   constructor(
     private _authService: AuthService,
+    private _profileService: ProfileService,
     private _router: Router,
   ) {
 
@@ -23,7 +26,9 @@ export class AuthGuard implements CanActivate {
       return false;
     }
 
-    return true;
+    return new Promise((resolve, reject) => {
+      this._profileService.user$.pipe(filter(Boolean), take(1)).subscribe(() => resolve(true));
+    });
   }
 
 }

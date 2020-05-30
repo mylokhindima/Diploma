@@ -1,3 +1,4 @@
+import { StudentPracticeDistributionComponent } from './features/containers/student-practice-distribution/student-practice-distribution.component';
 import { FormOrdersComponent } from './features/containers/form-orders/form-orders.component';
 import { ProfessorCapacitiesComponent } from './features/containers/professor-capacities/professor-capacities.component';
 import { DiplomaReportsContainerComponent } from './features/containers/diploma-reports-container/diploma-reports-container.component';
@@ -116,6 +117,7 @@ const routes: Routes = [
       {
         path: 'materials',
         pathMatch: 'full',
+        canActivate: [AuthGuard],
         component: MethodicalInstructionsComponent
       },
       {
@@ -123,6 +125,12 @@ const routes: Routes = [
         pathMatch: 'full',
         canActivate: [ProfessorGuard],
         component: FormOrdersComponent,
+      },
+      {
+        path: 'practice-distribution',
+        pathMatch: 'full',
+        canActivate: [ProfessorGuard],
+        component: StudentPracticeDistributionComponent,
       }
     ]
   },

@@ -14,4 +14,12 @@ export class OrdersService {
   public create(dto: CreateOrderDTO): Observable<any> {
     return this.http.post<any>(`${AppSettings.host}/orders`, dto);
   }
+
+  public remove(id: string): Observable<void> {
+    return this.http.delete<void>(`${AppSettings.host}/orders/${id}`);
+  }
+
+  public findByFileId(id: string): Observable<any> {
+    return this.http.get<void>(`${AppSettings.host}/orders/file/${id}`);
+  }
 }

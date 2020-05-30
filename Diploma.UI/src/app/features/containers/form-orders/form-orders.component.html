@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<form class="container" [formGroup]="form">
   <mat-form-field class="example-full-width">
     <label for="group" class="bmd-label-floating">Оберіть освітню програму</label>
     <mat-select formControlName="educationalProgramId" [disabled]="!programs.length">
@@ -23,7 +23,10 @@
   </mat-form-field>
 
 
-  <button (click)="form.valid && createPracticeOrder()" class="sing-in-btn" mat-raised-button color="primary">Сформувати наказ на практику</button>
+  <div class="actions">
+    <button (click)="form.valid && createPracticeOrder()" class="sing-in-btn" mat-raised-button color="primary">Сформувати наказ на практику</button>
 
-  <button (click)="form.valid && createDiplomaOrder()" class="sing-in-btn" mat-raised-button color="primary">Сформувати наказ на дипломування</button>
+    <button (click)="form.valid && createDiplomaOrder()" class="sing-in-btn" mat-raised-button color="primary">Сформувати наказ на дипломування</button>
+  </div>
+
 </form>
