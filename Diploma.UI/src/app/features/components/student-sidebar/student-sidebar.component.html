@@ -6,11 +6,11 @@
         <i class="fa fa-angle-right"></i>
       </a>
       <a routerLink="/theme" routerLinkActive="active" [class.disabled]="step < 1"  class="items-body-content">
-        <span>Тема дипломної роботи</span>
+        <span>Тема атестаційної роботи</span>
         <i class="fa fa-angle-right"></i>
       </a>
       <a routerLink="/diploma-parts" routerLinkActive="active" [class.disabled]="step < 2" class="items-body-content">
-        <span>Записка до диплому</span>
+        <span>Частини звіту з атестаційної роботи</span>
         <i class="fa fa-angle-right"></i>
       </a>
       <a routerLink="/practice-report" routerLinkActive="active" [class.disabled]="step < 4" class="items-body-content">
@@ -18,7 +18,11 @@
         <i class="fa fa-angle-right"></i>
       </a>
       <a routerLink="/diploma-protection" routerLinkActive="active" [class.disabled]="step < 3" class="items-body-content">
-        <span>Запис на захист диплому</span>
+        <span>Звіт з атестаційної роботи (нормоконтроль, плагіат)</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
+      <a routerLink="/diploma-protection" routerLinkActive="active" [class.disabled]="step < 3" class="items-body-content">
+        <span>Запис на захист атестаційної роботи</span>
         <i class="fa fa-angle-right"></i>
       </a>
       <a routerLink="/materials" routerLinkActive="active" class="items-body-content">
