@@ -1,1 +1,34 @@
-<p>student-practice-distribution works!</p>
+<mat-table [dataSource]="students" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef> ПІБ </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="educationalProgram">
+    <mat-header-cell *matHeaderCellDef> Освітня програма </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.educationalProgram.name}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="group">
+    <mat-header-cell *matHeaderCellDef> Група </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.group}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="location">
+    <mat-header-cell *matHeaderCellDef> Місце проходження </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <mat-form-field class="example-full-width">
+        <input [(ngModel)]="element.location" matInput>
+      </mat-form-field>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="instructor">
+    <mat-header-cell *matHeaderCellDef> Керівник </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.instructorId}} </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

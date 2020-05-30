@@ -1,12 +1,11 @@
-import { StagesModule } from './../+stages/stages.module';
-import { DiplomasModule } from './../+diplomas/diplomas.module';
-import { DiplomaInstructorThemeRequestsStore } from './diploma-instructor-theme-requests.store';
 import { Module } from '@nestjs/common';
 import { getModelToken, MongooseModule } from '@nestjs/mongoose';
+import { UsersModule } from '../+users/users.module';
 import { DiplomaInstructorRequestSchema } from '../../schemas/diploma-instructor-request.schema';
 import { DiplomaInstructorThemeRequestSchema } from '../../schemas/diploma-instructor-theme-request.schema';
+import { DiplomasModule } from './../+diplomas/diplomas.module';
 import { DiplomaInstructorThemeRequestsController } from './diploma-instructor-theme-requests.controller';
-import { UsersModule } from '../+users/users.module';
+import { DiplomaInstructorThemeRequestsStore } from './diploma-instructor-theme-requests.store';
 
 @Module({
     imports: [
@@ -17,7 +16,6 @@ import { UsersModule } from '../+users/users.module';
             },
         ]),
         DiplomasModule,
-        StagesModule,
         UsersModule,
     ],
     controllers: [DiplomaInstructorThemeRequestsController],

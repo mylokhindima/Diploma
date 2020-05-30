@@ -4,9 +4,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { ObjectID } from 'mongodb';
 import { Model } from 'mongoose';
 import { EducationalProgramDocument } from '../../documents/educational-program.document';
-import { StudentDocument } from '../../documents/student.document';
+import { DiplomaEntity } from './../+diplomas/diploma.entity';
 import { DiplomaStore } from './../+diplomas/diplomas.store';
+import { StageDocument } from './../../documents/stage.document';
+import { StudentDocument } from './../../documents/student.document';
 import { CreateStudentDTO } from './dtos/create-student.dto';
+import { SearchStudentsDTO } from './dtos/search-students.dto';
 import { StudentEntity } from './student.entity';
 import { studentMapper } from './student.mapper';
 
@@ -17,9 +20,49 @@ export class StudentsStore {
     constructor(
         @InjectModel('Student') private _studentModel: Model<StudentDocument>,
         @InjectModel('EducationalProgram') private _educationalProgramModel: Model<EducationalProgramDocument>,
+        @InjectModel('Stage') private _stageModel: Model<StageDocument>,
         private readonly mailerService: MailerService,
         private readonly diplomaStore: DiplomaStore,
     ) { }
+
+    public async filter(query: SearchStudentsDTO): Promise<StudentEntity[]> {
+        let request = this._studentModel.find();
+
+        if (query.isActive) {
+            request = request.find({
+                isActive: query.isActive,
+            })
+        }
+
+        if (query.departmentId) {
+            request = request.find({
+                department: query.departmentId,
+            })
+        }
+        
+        let students = await request.populate({
+           path: 'educationalProgram', 
+           populate: {
+                path: 'specialty',
+           }
+        }).sort([['_id', -1]]);
+
+        if (query.step) {
+            const stage = await this._stageModel.findOne({
+                step: query.step,
+            });
+
+            const diplomas = (await Promise.all(students.map(s => this.diplomaStore.filter({
+                studentId: s.id,
+            })))).map(diplomas => diplomas[0]);
+
+            students = diplomas.map((d: DiplomaEntity, i) => [d, students[i]])
+                                .filter(([d, s]: [DiplomaEntity, StudentDocument]) => d && d.stageId === stage.id)
+                                .map(([d, s]: [DiplomaEntity, StudentDocument]) => s);
+        }
+        
+        return students.map(s => studentMapper(s));
+    }
 
     public async findAll(): Promise<StudentEntity[]> {
         const students = await this._studentModel.find({

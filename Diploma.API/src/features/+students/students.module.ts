@@ -1,3 +1,4 @@
+import { StageSchema } from './../../schemas/stage.schema';
 import { Module } from '@nestjs/common';
 import { getModelToken, MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from '../+users/users.module';
@@ -24,6 +25,7 @@ import { StudentsStore } from './students.store';
             { name: 'EducationalProgram', schema: EducationalProgramSchema },
             { name: 'Specialty', schema: SpecialtySchema },
             { name: 'Department', schema: DepartmentSchema }, 
+            { name: 'Stage', schema: StageSchema }, 
         ])
     ],
     controllers: [StudentsController],

@@ -1,4 +1,5 @@
-import { Body, ClassSerializerInterceptor, Controller, Get, Param, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { SearchStudentsDTO } from './dtos/search-students.dto';
+import { Body, ClassSerializerInterceptor, Controller, Get, Param, Post, UploadedFile, UseGuards, UseInterceptors, Query } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../+auth/guards/jwt-auth.guard';
@@ -28,6 +29,13 @@ export class StudentsController {
   @UseGuards(JwtAuthGuard)
   public async getAll(): Promise<StudentEntity[]> {
     return await this._studentsStore.findAll();
+  }
+
+  @Get('filter')
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(JwtAuthGuard)
+  public async filter(@Query() dto: SearchStudentsDTO): Promise<StudentEntity[]> {
+    return await this._studentsStore.filter(dto);
   }
 
   @Get(':id')

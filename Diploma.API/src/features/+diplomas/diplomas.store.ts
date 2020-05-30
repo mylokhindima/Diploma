@@ -120,6 +120,17 @@ export class DiplomaStore {
         return diplomaMapper(diploma);
     }
 
+    public async updateDiplomaStage(id: string, step: Step): Promise<DiplomaEntity> {
+        const stage = await this._stagesStore.findByStep(step);
+    
+        const diploma = await this.find(id);
+
+        diploma.stageId = stage.id;
+        diploma.stage = stage;
+
+        return await this.updateById(id, diploma);
+    }
+
     public async create(dto: CreateDiplomaDTO): Promise<DiplomaEntity> {
         const stage = await this._stagesStore.findByStep(Step.ChooseInstructor);
 

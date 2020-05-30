@@ -63,6 +63,9 @@ export class TasksService {
         case Step.InstructorThemeChecking: 
             task = 'Choose diploma theme';
             break;
+        case Step.PracticeDistribution: 
+            task = 'Practice distribution';
+            break;
         case Step.PracticeReport: 
             task = 'Upload practice report';
             break;

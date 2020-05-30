@@ -1,3 +1,4 @@
+import { FileDocument } from './../../documents/file.document';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Workbook } from 'exceljs';
@@ -23,6 +24,7 @@ import { DiplomaOrderBuilder } from './excel-builders/diploma-order.builder';
 import { ExcelBuilder } from './excel-builders/excel-builder.interface';
 import { PracticeOrderBuilder } from './excel-builders/practice-order.builder';
 import { OrderEntity } from './order.entity';
+import * as fs from 'fs';
 import { orderMapper } from './order.mapper';
 import path = require('path');
 
@@ -31,6 +33,7 @@ import path = require('path');
 export class OrdersStore {
     constructor(
         @InjectModel('Order') private _orderModel: Model<OrderDocument>,
+        @InjectModel('File') private _fileModel: Model<FileDocument>,
         @InjectModel('EducationalProgram') private _educationalProgramModel: Model<EducationalProgramDocument>,
         private _studentsStore: StudentsStore,
         private _diplomasStore: DiplomaStore,
@@ -87,6 +90,23 @@ export class OrdersStore {
 
         return orderMapper(order);
     }
+
+    public async findByFileId(id: string): Promise<OrderEntity> {
+        const order = await this._orderModel.findOne({
+            file: id, 
+        }).populate('file');
+
+        return orderMapper(order);
+    }
+
+    public async removeOrder(id: string): Promise<void> {
+        const order = await this._orderModel.findById(id).populate('file');
+
+        fs.unlinkSync(path.resolve(`${process.cwd()}/public/orders/${(order.file as FileDocument).path}`));
+
+        await this._fileModel.findByIdAndRemove(order.file);
+        await this._orderModel.findByIdAndRemove(id);
+    } 
 
     private async _saveExcelFile(name: string, workbook: Workbook): Promise<string> {
         const uploadPath = path.resolve(process.cwd() + "/public/orders");

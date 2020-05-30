@@ -1,12 +1,12 @@
-import { DeclineRequestDTO } from './../+diploma-instructor-requests/models/decline-request.dto';
-import { Body, ClassSerializerInterceptor, Controller, Get, Post, Request, UseGuards, UseInterceptors, Query } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Get, Post, Query, Request, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AcceptRequestDTO } from '../+diploma-instructor-requests/dtos/accept-request.dto';
+import { SearchRequestsQuery } from '../+diploma-instructor-requests/dtos/search-requests-query';
 import { JwtAuthGuard } from './../+auth/guards/jwt-auth.guard';
+import { DeclineRequestDTO } from './../+diploma-instructor-requests/models/decline-request.dto';
 import { DiplomaInstructorThemeRequestEntity } from './diploma-instructor-theme-request.entity';
 import { DiplomaInstructorThemeRequestsStore } from './diploma-instructor-theme-requests.store';
 import { CreateDiplomaInstructorThemeRequestDTO } from './dtos/create-diploma-instructor-theme-request.dto';
-import { AcceptRequestDTO } from '../+diploma-instructor-requests/dtos/accept-request.dto';
-import { SearchRequestsQuery } from '../+diploma-instructor-requests/dtos/search-requests-query';
 
 @ApiTags('DiplomaInstructorThemeRequests')
 @ApiBearerAuth()

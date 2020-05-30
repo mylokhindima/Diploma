@@ -8,7 +8,7 @@ var { StageSchema } = require("../dist/schemas/stage.schema");
 exports.up = function up (done) {
   return mongoose.connect(process.env.MIGRATE_dbConnectionUri, { useUnifiedTopology: true, useNewUrlParser: true }).then(() => {
     const Stage = mongoose.model('stage', StageSchema);
-    const steps = range(9);
+    const steps = range(10);
     return Stage.create(steps.map(s => ({ step: s })));
   }).then(function() { done(); })
 }

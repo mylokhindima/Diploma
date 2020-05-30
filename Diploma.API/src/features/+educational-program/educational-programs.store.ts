@@ -46,6 +46,7 @@ export class EducationalProgramsStore {
             degree: dto.degree,
             form: dto.form,
             duration: dto.duration,
+            name: dto.name,
         })).populate('specialties');
 
         return educationalProgramMapper(createdProgram);

@@ -2,10 +2,11 @@ export enum Step {
     ChooseInstructor,
     InstructorThemeChecking,
     MethodologicalMemberThemeChecking,
+    PracticeDistribution,
     PracticeReport,
     DiplomaReport,
-    Normscontrol,
     Plagiarism,
+    Normscontrol,
     DiplomaMaterials,
     Graduation
 }

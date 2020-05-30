@@ -68,7 +68,7 @@ import { MatTreeModule } from '@angular/material/tree';
         MatToolbarModule,
         MatTooltipModule,
         MatTreeModule,
-        MatNativeDateModule
+        MatNativeDateModule,
     ],
     exports: [
         MatAutocompleteModule,

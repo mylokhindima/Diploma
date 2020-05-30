@@ -1,21 +1,20 @@
-import { isNil } from 'lodash';
-import { DeclineRequestDTO } from './../+diploma-instructor-requests/models/decline-request.dto';
-import { UsersStore } from './../+users/users.store';
 import { MailerService } from '@nestjs-modules/mailer';
 import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { isNil } from 'lodash';
 import { ObjectID } from 'mongodb';
 import { Model } from 'mongoose';
+import { SearchRequestsQuery } from '../+diploma-instructor-requests/dtos/search-requests-query';
+import { Role } from '../../enums/role.enum';
+import { DeclineRequestDTO } from './../+diploma-instructor-requests/models/decline-request.dto';
 import { DiplomaStore as DiplomasStore } from './../+diplomas/diplomas.store';
-import { StagesStore } from './../+stages/stages.store';
+import { UsersStore } from './../+users/users.store';
 import { DiplomaInstructorThemeRequestDocument } from './../../documents/diploma-instructor-theme-request.document';
 import { RequestStatus } from './../../enums/request-status.enum';
 import { Step } from './../../enums/step.enum';
 import { DiplomaInstructorThemeRequestEntity } from './diploma-instructor-theme-request.entity';
 import { diplomaInstructorThemeRequestMapper } from './diploma-instructor-theme-request.mapper';
 import { CreateDiplomaInstructorThemeRequestDTO } from './dtos/create-diploma-instructor-theme-request.dto';
-import { Role } from '../../enums/role.enum';
-import { SearchRequestsQuery } from '../+diploma-instructor-requests/dtos/search-requests-query';
 
 
 
@@ -25,7 +24,6 @@ export class DiplomaInstructorThemeRequestsStore {
         @InjectModel('DiplomaInstructorThemeRequest') private _diplomaInstructorThemeRequestModel: Model<DiplomaInstructorThemeRequestDocument>,
         private readonly _diplomasStore: DiplomasStore,
         private readonly mailerService: MailerService,
-        private readonly _stagesStore: StagesStore,
         private readonly _usersStore: UsersStore,
     ) { }
 
@@ -58,6 +56,8 @@ export class DiplomaInstructorThemeRequestsStore {
         const diploma = (await this._diplomasStore.filter({
             studentId: request.fromId,
         }))[0];
+        
+        await this._diplomasStore.updateDiplomaStage(diploma.id, Step.PracticeDistribution);
 
         this.mailerService.sendMail({
             to: diploma.student.email, 
@@ -85,12 +85,7 @@ export class DiplomaInstructorThemeRequestsStore {
             studentId: request.fromId,
         }))[0];
 
-        const stage = await this._stagesStore.findByStep(Step.InstructorThemeChecking);
-
-        diploma.stage = stage;
-        diploma.stageId = stage.id;
-
-        await this._diplomasStore.updateById(diploma.id, diploma);
+        await this._diplomasStore.updateDiplomaStage(diploma.id, Step.InstructorThemeChecking);
 
         this.mailerService.sendMail({
             to: diploma.student.email, 
@@ -112,14 +107,7 @@ export class DiplomaInstructorThemeRequestsStore {
             studentId: request.fromId,
         }))[0];
 
-        const stage = await this._stagesStore.findByStep(Step.MethodologicalMemberThemeChecking);
-
-        diploma.stage = stage;
-        diploma.stageId = stage.id;
-
-        diploma.theme = request.theme;
-
-        await this._diplomasStore.updateById(diploma.id, diploma);
+        await this._diplomasStore.updateDiplomaStage(diploma.id, Step.MethodologicalMemberThemeChecking);
 
         this.mailerService.sendMail({
             to: diploma.student.email, 

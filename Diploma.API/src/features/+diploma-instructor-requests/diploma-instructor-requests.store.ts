@@ -1,25 +1,23 @@
-import { DeclineRequestDTO } from './models/decline-request.dto';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { isNil } from 'lodash';
 import { Model } from 'mongoose';
 import { DiplomaStore } from '../+diplomas/diplomas.store';
 import { Step } from '../../enums/step.enum';
-import { StagesStore } from './../+stages/stages.store';
 import { DiplomaInstructorRequestDocument } from './../../documents/diploma-instructor-request.document';
 import { RequestStatus } from './../../enums/request-status.enum';
 import { DiplomaInstructorRequestEntity } from './diploma-instructor-request.entity';
 import { diplomaInstructorRequestMapper } from './diploma-instructor-request.mapper';
 import { CreateDiplomaInstructorRequest } from './dtos/create-diploma-instructor-request.dto';
 import { SearchRequestsQuery } from './dtos/search-requests-query';
-import { isNil } from 'lodash';
+import { DeclineRequestDTO } from './models/decline-request.dto';
 
 @Injectable()
 export class DiplomaInstructorRequestsStore {
     constructor(
         @InjectModel('DiplomaInstructorRequest') private _diplomaInstructorRequestModel: Model<DiplomaInstructorRequestDocument>,
         private _diplomasStore: DiplomaStore,
-        private _stagesStore: StagesStore,
         private readonly mailerService: MailerService,
     ) { }
 
@@ -67,14 +65,7 @@ export class DiplomaInstructorRequestsStore {
             studentId: request.fromId,
         }))[0];
 
-        const stage = await this._stagesStore.findByStep(Step.InstructorThemeChecking);
-
-        diploma.stage = stage;
-        diploma.stageId = stage.id;
-
-        diploma.instructorId = request.to.id;
-
-        await this._diplomasStore.updateById(diploma.id, diploma);
+        await this._diplomasStore.updateDiplomaStage(diploma.id, Step.InstructorThemeChecking);
 
         this.mailerService.sendMail({
             to: diploma.student.email, 
