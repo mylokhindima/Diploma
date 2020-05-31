@@ -3,12 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { isNil } from 'lodash';
 import { Subject } from 'rxjs';
-import { filter, takeUntil, switchMap } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
+import { formView } from '../../../core/utils/educational-form-view';
 import { EducationalProgram } from '../../../models/educational-program';
 import { SpecialtiesService } from '../../../services/specialties.service';
-import { CreateStudentDTO } from './../../../models/create-student.dto';
-import { EducationalForm } from './../../../models/educational-form.enum';
-import { Specialty } from './../../../models/specialty';
 import { StudentDegree } from './../../../models/student-degree.enum';
 import { EducationalProgramService } from './../../../services/educational-program.service';
 import { StudentsService } from './../../../services/students.service';
@@ -151,14 +149,7 @@ export class StudentFormComponent implements OnInit, OnDestroy {
   }
 
   public formView(): string {
-    switch (this.currentProgram.form) {
-      case 0:
-        return 'Денна';
-      case 1:
-        return 'Заочна';
-      case 2:
-        return 'Дистанційна';
-    }
+    return formView(this.currentProgram.form);
   }
 
   // private _prepareDTO(): CreateStudentDTO {

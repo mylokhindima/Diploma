@@ -47,6 +47,11 @@ import { MethodicalInstructionsComponent } from './features/containers/methodica
 import { FormOrdersComponent } from './features/containers/form-orders/form-orders.component';
 import { RolesComponent } from './features/containers/roles/roles.component';
 import { StudentPracticeDistributionComponent } from './features/containers/student-practice-distribution/student-practice-distribution.component';
+import { DepartmentsComponent } from './features/containers/departments/departments.component';
+import { DepartmentListComponent } from './features/components/department-list/department-list.component';
+import { CreateDepartmentComponent } from './features/components/create-department/create-department.component';
+import { CreateSpecialtyComponent } from './features/components/create-specialty/create-specialty.component';
+import { CreateEducationalProgramComponent } from './features/components/create-educational-program/create-educational-program.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +95,11 @@ import { StudentPracticeDistributionComponent } from './features/containers/stud
     FormOrdersComponent,
     RolesComponent,
     StudentPracticeDistributionComponent,
+    DepartmentsComponent,
+    DepartmentListComponent,
+    CreateDepartmentComponent,
+    CreateSpecialtyComponent,
+    CreateEducationalProgramComponent,
   ],
   imports: [
     BrowserModule,
@@ -112,7 +122,10 @@ import { StudentPracticeDistributionComponent } from './features/containers/stud
     StudentFormComponent,
     CommentDialogComponent,
     ViewCommentsComponent,
-    EditableCommentComponent
+    EditableCommentComponent,
+    CreateDepartmentComponent,
+    CreateSpecialtyComponent,
+    CreateEducationalProgramComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

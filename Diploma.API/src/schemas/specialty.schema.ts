@@ -15,7 +15,8 @@ export const SpecialtySchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Department',
         required: true, 
-    }
+    },
+    educationalPrograms: [ { type: Schema.Types.ObjectId, ref: 'EducationalProgram', require: true } ],
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
     versionKey: false,

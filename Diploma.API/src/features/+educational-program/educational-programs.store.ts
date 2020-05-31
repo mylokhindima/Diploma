@@ -1,7 +1,7 @@
 import { SpecialtyDocument } from './../../documents/specialty.document';
 import { EducationalForm } from './../../enums/educational-form.enum';
 import { StudentDegree } from './../../enums/student-degree.enum';
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { EducationalProgramDocument } from '../../documents/educational-program.document';
@@ -20,6 +20,7 @@ interface EducationalProgramQuery {
 export class EducationalProgramsStore {
     constructor(
         @InjectModel('EducationalProgram') private _educationalProgramModel: Model<EducationalProgramDocument>,
+        @InjectModel('Specialty') private _specialtyModel: Model<SpecialtyDocument>,
     ) { }
 
     public async findAll(): Promise<EducationalProgramEntity[]> {
@@ -41,6 +42,12 @@ export class EducationalProgramsStore {
     }
 
     public async create(dto: CreateEducationalProgramDTO): Promise<EducationalProgramEntity> {
+        const specialty = await this._specialtyModel.findById(dto.specialtyId);
+
+        if (!specialty) {
+            throw new BadRequestException();
+        }
+        
         const createdProgram = (await this._educationalProgramModel.create({  
             specialty: dto.specialtyId,
             degree: dto.degree,
@@ -48,6 +55,10 @@ export class EducationalProgramsStore {
             duration: dto.duration,
             name: dto.name,
         })).populate('specialties');
+
+        specialty.get('educationalPrograms').push(createdProgram);
+
+        specialty.save();
 
         return educationalProgramMapper(createdProgram);
     }

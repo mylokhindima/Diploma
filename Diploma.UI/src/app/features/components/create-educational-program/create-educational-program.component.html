@@ -1,0 +1,49 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>
+      Додати освітню програму
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="form" class="example-form">
+      <mat-form-field class="example-full-width">
+        <label for="exampleInputName2" class="bmd-label-floating">Назва</label>
+        <input formControlName="name" matInput type="text" class="form-control" id="exampleInputName2">
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <label  class="bmd-label-floating">Ступінь</label>
+        <mat-select formControlName="degree">
+          <mat-option [value]="degree" *ngFor="let degree of [0, 1]">
+            <ng-container *ngIf="degree === 0">Бакалавр</ng-container>
+            <ng-container *ngIf="degree === 1">Магістр</ng-container>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <label for="duration" class="bmd-label-floating">Тривалість (місяців)</label>
+        <input min="9" formControlName="duration" matInput type="number" class="form-control" id="group">
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <label  class="bmd-label-floating">Форма навчання</label>
+        <mat-select formControlName="form">
+          <mat-option [value]="form" *ngFor="let form of [0, 1, 2]">
+            {{ formView(form) }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-error class="error" *ngIf="submitted && form.invalid && form.errors && form.errors.duplicate; else defaultError">Така назва вже існує</mat-error>
+      <ng-template #defaultError>
+        <mat-error class="error" *ngIf="submitted && form.invalid">Форма заповнена некоректно</mat-error>
+      </ng-template>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button (click)="add()" type="submit" class="create-btn" mat-raised-button color="primary">Додати</button>
+  </mat-card-actions>
+</mat-card>
+
+

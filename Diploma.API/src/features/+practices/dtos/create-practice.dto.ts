@@ -2,9 +2,9 @@ import { ApiProperty } from "@nestjs/swagger"
 
 export class CreatePracticeDTO {
     @ApiProperty()
-    instructorId: string;
+    instructorId?: string;
     @ApiProperty()
-    location: string;
+    location?: string;
     @ApiProperty()
     studentId: string;
 }

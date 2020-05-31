@@ -1,34 +1,47 @@
-<mat-table [dataSource]="students" class="mat-elevation-z8">
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
   <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef> ПІБ </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef>  ПІБ </mat-header-cell>
+    <mat-cell *matCellDef="let element"> <span>{{element[0].name}} </span> </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="educationalProgram">
     <mat-header-cell *matHeaderCellDef> Освітня програма </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.educationalProgram.name}} </mat-cell>
+    <mat-cell *matCellDef="let element"> {{element[0].educationalProgram.name}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="group">
     <mat-header-cell *matHeaderCellDef> Група </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.group}} </mat-cell>
+    <mat-cell *matCellDef="let element"> {{element[0].group}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="location">
     <mat-header-cell *matHeaderCellDef> Місце проходження </mat-header-cell>
     <mat-cell *matCellDef="let element">
       <mat-form-field class="example-full-width">
-        <input [(ngModel)]="element.location" matInput>
+        <input [(ngModel)]="element[1].location" matInput>
       </mat-form-field>
     </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="instructor">
     <mat-header-cell *matHeaderCellDef> Керівник </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.instructorId}} </mat-cell>
+    <mat-cell *matCellDef="let element">
+      <mat-form-field>
+        <mat-label>Оберіть керівника</mat-label>
+        <mat-select [(ngModel)]="element[1].instructorId">
+          <mat-option *ngFor="let professor of professors" [value]="professor.id">
+            {{professor.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
+
+<div class="actions-container">
+  <button (click)="save()" mat-raised-button color="primary">Зберігти</button>
+</div>

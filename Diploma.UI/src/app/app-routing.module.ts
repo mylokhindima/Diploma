@@ -23,6 +23,7 @@ import { PracticeReportComponent } from './features/containers/practice-report/p
 import { StudentsComponent } from './features/containers/students/students.component';
 import { ThemeComponent } from './features/containers/theme/theme.component';
 import { MethodicalInstructionsComponent } from './features/containers/methodical-instructions/methodical-instructions.component';
+import { DepartmentsComponent } from './features/containers/departments/departments.component';
 
 
 const routes: Routes = [
@@ -47,6 +48,12 @@ const routes: Routes = [
         pathMatch: 'full',
         canActivate: [AdminGuard],
         component: EmployeesComponent,
+      },
+      {
+        path: 'departments',
+        pathMatch: 'full',
+        canActivate: [AdminGuard],
+        component: DepartmentsComponent,
       },
       {
         path: 'instructor',

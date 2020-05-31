@@ -1,3 +1,4 @@
+import { CreateDepartmentDTO } from './../models/create-department.dto';
 import { HttpClient } from '@angular/common/http';
 import { Department } from './../models/department';
 import { Observable } from 'rxjs';
@@ -13,5 +14,9 @@ export class DepartmentsService {
 
   public getDepartments(): Observable<Department[]> {
     return this.http.get<Department[]>(`${AppSettings.host}/departments`);
+  }
+
+  public create(dto: CreateDepartmentDTO): Observable<Department> {
+    return this.http.post<Department>(`${AppSettings.host}/departments`, dto);
   }
 }

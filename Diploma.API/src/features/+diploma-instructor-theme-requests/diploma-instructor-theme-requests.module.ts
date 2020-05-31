@@ -1,3 +1,4 @@
+import { PracticesModule } from './../+practices/practices.module';
 import { Module } from '@nestjs/common';
 import { getModelToken, MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from '../+users/users.module';
@@ -17,6 +18,7 @@ import { DiplomaInstructorThemeRequestsStore } from './diploma-instructor-theme-
         ]),
         DiplomasModule,
         UsersModule,
+        PracticesModule,
     ],
     controllers: [DiplomaInstructorThemeRequestsController],
     providers: [

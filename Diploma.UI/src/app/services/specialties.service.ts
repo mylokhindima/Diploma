@@ -1,3 +1,4 @@
+import { CreateSpecialtyDTO } from './../models/create-specialty.dto';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -13,5 +14,9 @@ export class SpecialtiesService {
 
   public getSpecialties(): Observable<Specialty[]> {
     return this.http.get<Specialty[]>(`${AppSettings.host}/specialties`);
+  }
+
+  public create(dto: CreateSpecialtyDTO): Observable<Specialty> {
+    return this.http.post<Specialty>(`${AppSettings.host}/specialties`, dto);
   }
 }

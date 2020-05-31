@@ -17,7 +17,12 @@ export class DepartmentsStore {
     ) { }
 
     public async findAll(): Promise<DepartmentEntity[]> {
-        const departments = await this._departmentModel.find().populate('specialties');
+        const departments = await this._departmentModel.find().populate({
+            path: 'specialties', 
+            populate: {
+                path: 'educationalPrograms',
+            }
+        });
         
         return departments.map(d => departmentMapper(d));
     }

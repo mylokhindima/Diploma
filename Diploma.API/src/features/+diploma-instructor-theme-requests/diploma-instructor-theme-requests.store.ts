@@ -15,6 +15,7 @@ import { Step } from './../../enums/step.enum';
 import { DiplomaInstructorThemeRequestEntity } from './diploma-instructor-theme-request.entity';
 import { diplomaInstructorThemeRequestMapper } from './diploma-instructor-theme-request.mapper';
 import { CreateDiplomaInstructorThemeRequestDTO } from './dtos/create-diploma-instructor-theme-request.dto';
+import { PracticesStore } from '../+practices/practices.store';
 
 
 
@@ -25,6 +26,7 @@ export class DiplomaInstructorThemeRequestsStore {
         private readonly _diplomasStore: DiplomasStore,
         private readonly mailerService: MailerService,
         private readonly _usersStore: UsersStore,
+        private readonly _practicesStore: PracticesStore,
     ) { }
 
     public async findAll(): Promise<DiplomaInstructorThemeRequestEntity[]> {
@@ -58,6 +60,10 @@ export class DiplomaInstructorThemeRequestsStore {
         }))[0];
         
         await this._diplomasStore.updateDiplomaStage(diploma.id, Step.PracticeDistribution);
+
+        await this._practicesStore.create({
+            studentId: diploma.studentId,
+        });
 
         this.mailerService.sendMail({
             to: diploma.student.email, 

@@ -1,14 +1,14 @@
-import { ObjectID } from 'mongodb';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { ObjectID } from 'mongodb';
 import { Model } from 'mongoose';
+import { FilesStore } from '../+files/files.store';
+import { FileType } from '../../enums/file-type.enum';
 import { PracticeDocument } from './../../documents/practice.document';
 import { CreatePracticeDTO } from './dtos/create-practice.dto';
 import { PracticeEntity } from './practice.entity';
 import { practiceMapper } from './practice.mapper';
 import path = require('path');
-import { FilesStore } from '../+files/files.store';
-import { FileType } from '../../enums/file-type.enum';
 
 
 @Injectable()
@@ -26,6 +26,17 @@ export class PracticesStore {
         });
 
         return practiceMapper(practice);
+    }
+
+    public async update(dtos: PracticeEntity[]): Promise<PracticeEntity[]> {
+        const practices = await Promise.all(dtos.map(dto => this._practiceModel.findByIdAndUpdate(dto.id, {
+            ...dto,
+            instructor: dto.instructorId,
+            student: dto.studentId,
+            file: dto.fileId
+        })));
+
+        return practices.map(p => practiceMapper(p)); 
     }
 
     public async upload(id: string, file: any): Promise<PracticeEntity> {
@@ -47,6 +58,12 @@ export class PracticesStore {
         const practice = await this._practiceModel.findById(id).populate('student').populate('instructor').populate('file');
 
         return practiceMapper(practice);
+    }
+
+    public async findAll(): Promise<PracticeEntity[]> {
+        const practices = await this._practiceModel.find().populate('student').populate('instructor').populate('file');
+
+        return practices.map(p => practiceMapper(p)); 
     }
 
     public async findByStudentId(id: string | ObjectID): Promise<PracticeEntity> {

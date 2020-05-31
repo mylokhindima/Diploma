@@ -19,6 +19,13 @@ export class PracticesController {
     public async create(@Body() dto: CreatePracticeDTO): Promise<PracticeEntity> {
         return await this._practicesStore.create(dto);
     }
+    
+    @Put('update/many')
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
+    public async updateMany(@Body() dtos) {
+        return await this._practicesStore.update(dtos);
+    }
 
     @Put(':id/upload')
     @UseInterceptors(FileInterceptor('file', multerOptions("reports")))
@@ -28,6 +35,13 @@ export class PracticesController {
     }
 
     @Get()
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
+    public async getAll(): Promise<PracticeEntity[]> {
+        return await this._practicesStore.findAll();
+    }
+
+    @Get('filter')
     @UseGuards(JwtAuthGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     public async getByStudentId(@Query('studentId') id: string): Promise<PracticeEntity> {

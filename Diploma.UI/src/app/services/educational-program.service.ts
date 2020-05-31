@@ -1,3 +1,4 @@
+import { CreateEducationalProgramDTO } from './../models/create-educational-program';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -23,5 +24,9 @@ export class EducationalProgramService {
     return this.http.get<EducationalProgram[]>(`${AppSettings.host}/educationalPrograms/filter`, {
       params
     });
+  }
+
+  public create(dto: CreateEducationalProgramDTO): Observable<EducationalProgram> {
+    return this.http.post<EducationalProgram>(`${AppSettings.host}/educationalPrograms`, dto);
   }
 }
