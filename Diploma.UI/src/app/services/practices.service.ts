@@ -17,6 +17,10 @@ export class PracticesService {
     return this.http.get<Practice[]>(`${AppSettings.host}/practices`);
   }
 
+  public getPractice(id: string): Observable<Practice> {
+    return this.http.get<Practice>(`${AppSettings.host}/practices/${id}`);
+  }
+
   public filter(query: SearchPracticesDTO): Observable<Practice[]> {
     const params = convertToHttpParams(query);
 
@@ -31,6 +35,12 @@ export class PracticesService {
 
   public uploadPracticeReport(id: string, file: any): Observable<Practice> {
     return this.http.put<Practice>(`${AppSettings.host}/practices/${id}/upload`, file);
+  }
+
+  public examine(id: string, score: number): Observable<Practice> {
+    return this.http.put<Practice>(`${AppSettings.host}/practices/${id}/examine`, {
+      score,
+    });
   }
 
   public updateMany(practices: Practice[]): Observable<Practice[]> {

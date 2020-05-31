@@ -1,0 +1,23 @@
+.action{
+  display: flex;
+  justify-content: center;
+  .actions{
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+    align-items: center;
+    button{
+      height: 40px;
+    }
+  }
+}
+
+.back{
+  font-size: 48px;
+  color: #3f51b5;
+}
+
+.add-btn{
+  font-size: 24px;
+  color: rgba(0, 0, 0, 0.54);
+}

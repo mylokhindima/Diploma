@@ -54,6 +54,7 @@ import { CreateSpecialtyComponent } from './features/components/create-specialty
 import { CreateEducationalProgramComponent } from './features/components/create-educational-program/create-educational-program.component';
 import { PracticeReportsForExamineComponent } from './features/containers/practice-reports-for-examine/practice-reports-for-examine.component';
 import { PracticeReportForStudentComponent } from './features/containers/practice-report-for-student/practice-report-for-student.component';
+import { PracticeReportForExamineComponent } from './features/containers/practice-report-for-examine/practice-report-for-examine.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +105,7 @@ import { PracticeReportForStudentComponent } from './features/containers/practic
     CreateEducationalProgramComponent,
     PracticeReportsForExamineComponent,
     PracticeReportForStudentComponent,
+    PracticeReportForExamineComponent,
   ],
   imports: [
     BrowserModule,

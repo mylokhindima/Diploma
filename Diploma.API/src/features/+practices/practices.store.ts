@@ -29,6 +29,16 @@ export class PracticesStore {
         return practiceMapper(practice);
     }
 
+    
+    public async examine(id: string, score: number): Promise<PracticeEntity> {
+        await this._practiceModel.findByIdAndUpdate(id, {
+            score,
+        });
+
+        return await this.find(id);
+    }
+
+
     public async update(dtos: PracticeEntity[]): Promise<PracticeEntity[]> {
         const practices = await Promise.all(dtos.map(dto => this._practiceModel.findByIdAndUpdate(dto.id, {
             ...dto,

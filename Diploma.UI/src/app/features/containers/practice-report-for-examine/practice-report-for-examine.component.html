@@ -1,0 +1,18 @@
+<a routerLink="/practice-examination" routerLinkActive="active" class="items-body-content">
+  <mat-icon class="back">arrow_back</mat-icon>
+</a>
+
+<app-practice-report [practice]="practice"></app-practice-report>
+
+<div *ngIf="practice && !practice.score" class="action">
+  <div class="actions">
+    <mat-form-field  class="example-form-field">
+      <mat-label>Впишіть оцінку</mat-label>
+      <input min="0" max="100" type="number" onkeypress="return event.charCode != 45" matInput [formControl]="score">
+    </mat-form-field>
+    <button (click)="save()" mat-button mat-raised-button color="primary">
+      Поставити
+    </button>
+  </div>
+</div>
+

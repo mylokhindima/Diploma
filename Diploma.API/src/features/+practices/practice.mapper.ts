@@ -20,7 +20,7 @@ export function practiceMapper(practice: PracticeDocument): PracticeEntity {
 
         partial.instructorId = instructor.id;
         partial.instructor = professorMapper(instructor);
-    } else {    
+    } else if(practice.instructor) {    
         partial.instructorId = practice.instructor.toString();
         partial.instructor = null;
     }

@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { Practice } from '../../../models/practice';
-import { Student } from '../../../models/student';
 import { StaticService } from './../../../services/static.service';
 
 @Component({
@@ -11,8 +10,6 @@ import { StaticService } from './../../../services/static.service';
 export class PracticeReportComponent {
 
   @Input() public practice: Practice;
-
-  public readonly student: Student;
 
   constructor(
     private _staticService: StaticService,

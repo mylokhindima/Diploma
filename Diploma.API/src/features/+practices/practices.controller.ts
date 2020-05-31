@@ -7,6 +7,7 @@ import { PracticesStore } from './practices.store';
 import { PracticeEntity } from './practice.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from '../+diplomas/options/report-file.options';
+import { ExamineDTO } from './dtos/examine.dto';
 
 @ApiTags('Practices')
 @ApiBearerAuth()
@@ -26,6 +27,13 @@ export class PracticesController {
     @UseInterceptors(ClassSerializerInterceptor)
     public async updateMany(@Body() dtos) {
         return await this._practicesStore.update(dtos);
+    }
+
+    @Put(':id/examine')
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
+    public async examine(@Param('id') id: string, @Body() dto: ExamineDTO) {
+        return await this._practicesStore.examine(id, dto.score);
     }
 
     @Put(':id/upload')
@@ -54,5 +62,12 @@ export class PracticesController {
     @UseInterceptors(ClassSerializerInterceptor)
     public async getByStudentId(@Param('id') id: string): Promise<PracticeEntity> {
         return await this._practicesStore.findByStudentId(id);
+    }
+    
+    @Get(':id')
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
+    public async get(@Param('id') id: string): Promise<PracticeEntity> {
+        return await this._practicesStore.find(id);
     }
 }

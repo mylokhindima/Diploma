@@ -26,6 +26,7 @@ import { MethodicalInstructionsComponent } from './features/containers/methodica
 import { DepartmentsComponent } from './features/containers/departments/departments.component';
 import { PracticeReportsForExamineComponent } from './features/containers/practice-reports-for-examine/practice-reports-for-examine.component';
 import { PracticeReportForStudentComponent } from './features/containers/practice-report-for-student/practice-report-for-student.component';
+import { PracticeReportForExamineComponent } from './features/containers/practice-report-for-examine/practice-report-for-examine.component';
 
 
 const routes: Routes = [
@@ -151,7 +152,7 @@ const routes: Routes = [
         path: 'practice-examination/:id',
         pathMatch: 'full',
         canActivate: [ProfessorGuard],
-        component: PracticeReportComponent,
+        component: PracticeReportForExamineComponent,
       }
     ]
   },
