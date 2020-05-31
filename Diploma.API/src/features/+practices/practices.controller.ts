@@ -1,3 +1,4 @@
+import { SearchPracticesDTO } from './dtos/search-practices.dto';
 import { CreatePracticeDTO } from './dtos/create-practice.dto';
 import { ClassSerializerInterceptor, Controller, Post, UseGuards, UseInterceptors, Body, Get, Query, UploadedFile, Put, Param } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -44,7 +45,14 @@ export class PracticesController {
     @Get('filter')
     @UseGuards(JwtAuthGuard)
     @UseInterceptors(ClassSerializerInterceptor)
-    public async getByStudentId(@Query('studentId') id: string): Promise<PracticeEntity> {
+    public async filter(@Query() query: SearchPracticesDTO): Promise<PracticeEntity[]> {
+        return await this._practicesStore.filter(query);
+    }
+
+    @Get('student/:id')
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
+    public async getByStudentId(@Param('id') id: string): Promise<PracticeEntity> {
         return await this._practicesStore.findByStudentId(id);
     }
 }

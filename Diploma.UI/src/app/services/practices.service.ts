@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Practice } from '../models/practice';
 import { AppSettings } from '../core/settings';
 import { convertToHttpParams } from '../core/utils/http-params.converter';
+import { SearchPracticesDTO } from '../models/search-practices.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -16,14 +17,16 @@ export class PracticesService {
     return this.http.get<Practice[]>(`${AppSettings.host}/practices`);
   }
 
-  public getStudentPractice(studentId: string): Observable<Practice> {
-    const params = convertToHttpParams({
-      studentId,
-    });
+  public filter(query: SearchPracticesDTO): Observable<Practice[]> {
+    const params = convertToHttpParams(query);
 
-    return this.http.get<Practice>(`${AppSettings.host}/practices/filter`, {
+    return this.http.get<Practice[]>(`${AppSettings.host}/practices/filter`, {
       params
     });
+  }
+
+  public getStudentPractice(studentId: string): Observable<Practice> {
+    return this.http.get<Practice>(`${AppSettings.host}/practices/student/${studentId}`);
   }
 
   public uploadPracticeReport(id: string, file: any): Observable<Practice> {

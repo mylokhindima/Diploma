@@ -1,3 +1,4 @@
+import { SearchPracticesDTO } from './dtos/search-practices.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ObjectID } from 'mongodb';
@@ -58,6 +59,21 @@ export class PracticesStore {
         const practice = await this._practiceModel.findById(id).populate('student').populate('instructor').populate('file');
 
         return practiceMapper(practice);
+    }
+
+    
+    public async filter(dto: SearchPracticesDTO): Promise<PracticeEntity[]> {
+        let query = this._practiceModel.find();
+
+        if (dto.instructorId) {
+            query = query.find({
+                instructor: dto.instructorId
+            });
+        }
+
+        const practices = await query.populate('student').populate('instructor').populate('file');
+
+        return practices.map(p => practiceMapper(p));
     }
 
     public async findAll(): Promise<PracticeEntity[]> {

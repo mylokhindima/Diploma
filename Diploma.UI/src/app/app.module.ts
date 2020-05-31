@@ -52,6 +52,8 @@ import { DepartmentListComponent } from './features/components/department-list/d
 import { CreateDepartmentComponent } from './features/components/create-department/create-department.component';
 import { CreateSpecialtyComponent } from './features/components/create-specialty/create-specialty.component';
 import { CreateEducationalProgramComponent } from './features/components/create-educational-program/create-educational-program.component';
+import { PracticeReportsForExamineComponent } from './features/containers/practice-reports-for-examine/practice-reports-for-examine.component';
+import { PracticeReportForStudentComponent } from './features/containers/practice-report-for-student/practice-report-for-student.component';
 
 @NgModule({
   declarations: [
@@ -100,6 +102,8 @@ import { CreateEducationalProgramComponent } from './features/components/create-
     CreateDepartmentComponent,
     CreateSpecialtyComponent,
     CreateEducationalProgramComponent,
+    PracticeReportsForExamineComponent,
+    PracticeReportForStudentComponent,
   ],
   imports: [
     BrowserModule,

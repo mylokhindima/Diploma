@@ -14,7 +14,7 @@ $dark-pri: #0B5AA2;
 }
 
 .items {
-  width: 331px;
+  width: 300px;
   background: $sec;
 }
 
@@ -41,6 +41,7 @@ $dark-pri: #0B5AA2;
 
 .items-body-content {
   padding: 10px;
+  width: 100%;
   padding-right: 0px;
   text-decoration: none;
   display: grid;
@@ -82,15 +83,4 @@ $dark-pri: #0B5AA2;
   }
 }
 
-a.disabled {
-  pointer-events: none;
-  cursor: default;
-  color: lightgrey;
-}
 
-
-
-.items-body{
-  max-height: 500px;
-  overflow: auto;
-}

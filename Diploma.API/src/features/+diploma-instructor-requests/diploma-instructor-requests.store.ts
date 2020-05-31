@@ -65,6 +65,10 @@ export class DiplomaInstructorRequestsStore {
             studentId: request.fromId,
         }))[0];
 
+        diploma.instructorId = professorId;
+
+        await this._diplomasStore.updateById(diploma.id, diploma);
+
         await this._diplomasStore.updateDiplomaStage(diploma.id, Step.InstructorThemeChecking);
 
         this.mailerService.sendMail({

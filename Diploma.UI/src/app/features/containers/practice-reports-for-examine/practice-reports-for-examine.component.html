@@ -1,0 +1,8 @@
+<mat-list role="list">
+  <mat-list-item *ngFor="let practice of practices" role="listitem">
+    <a [routerLink]="practice.id" routerLinkActive="active" class="items-body-content">
+      {{ practice.student.name }} ({{ practice.student.group }})
+      <i class="fa fa-angle-right"></i>
+    </a>
+  </mat-list-item>
+</mat-list>

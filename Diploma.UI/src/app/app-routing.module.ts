@@ -24,6 +24,8 @@ import { StudentsComponent } from './features/containers/students/students.compo
 import { ThemeComponent } from './features/containers/theme/theme.component';
 import { MethodicalInstructionsComponent } from './features/containers/methodical-instructions/methodical-instructions.component';
 import { DepartmentsComponent } from './features/containers/departments/departments.component';
+import { PracticeReportsForExamineComponent } from './features/containers/practice-reports-for-examine/practice-reports-for-examine.component';
+import { PracticeReportForStudentComponent } from './features/containers/practice-report-for-student/practice-report-for-student.component';
 
 
 const routes: Routes = [
@@ -77,7 +79,7 @@ const routes: Routes = [
         path: 'practice-report',
         pathMatch: 'full',
         canActivate: [StudentGuard],
-        component: PracticeReportComponent
+        component: PracticeReportForStudentComponent,
       },
       {
         path: 'diploma-protection',
@@ -138,6 +140,18 @@ const routes: Routes = [
         pathMatch: 'full',
         canActivate: [ProfessorGuard],
         component: StudentPracticeDistributionComponent,
+      },
+      {
+        path: 'practice-examination',
+        pathMatch: 'full',
+        canActivate: [ProfessorGuard],
+        component: PracticeReportsForExamineComponent,
+      },
+      {
+        path: 'practice-examination/:id',
+        pathMatch: 'full',
+        canActivate: [ProfessorGuard],
+        component: PracticeReportComponent,
       }
     ]
   },
