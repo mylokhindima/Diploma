@@ -58,7 +58,10 @@ export class DiplomaInstructorThemeRequestsStore {
         const diploma = (await this._diplomasStore.filter({
             studentId: request.fromId,
         }))[0];
+
+        diploma.theme = request.theme;
         
+        await this._diplomasStore.updateById(diploma.id, diploma);
         await this._diplomasStore.updateDiplomaStage(diploma.id, Step.PracticeDistribution);
 
         await this._practicesStore.create({

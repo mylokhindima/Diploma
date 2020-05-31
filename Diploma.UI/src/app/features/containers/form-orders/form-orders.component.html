@@ -1,4 +1,5 @@
 <form class="container" [formGroup]="form">
+  <mat-toolbar color="primary">Наказ</mat-toolbar>
   <mat-form-field class="example-full-width">
     <label for="group" class="bmd-label-floating">Оберіть освітню програму</label>
     <mat-select formControlName="educationalProgramId" [disabled]="!programs.length">

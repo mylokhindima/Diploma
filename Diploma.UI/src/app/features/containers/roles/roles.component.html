@@ -1,8 +1,7 @@
 <div class="container">
-  <mat-toolbar color="primary">Працівники</mat-toolbar>
+  <mat-toolbar color="primary">Ролі</mat-toolbar>
   <mat-list role="list">
     <mat-list-item *ngFor="let professor of professors" role="listitem">
-      <div class="item">
         <div>{{ professor.name }}</div>
         <mat-form-field>
           <mat-label>Ролі</mat-label>
@@ -15,7 +14,6 @@
             <mat-option [value]="8">Керівник практики</mat-option>
           </mat-select>
         </mat-form-field>
-      </div>
     </mat-list-item>
   </mat-list>
 </div>

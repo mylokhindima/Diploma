@@ -4,14 +4,22 @@
   flex-direction: column;
   align-items: center;
 }
-.container{
-  mat-list{
-    padding-top: 20px;
-    max-height: 400px;
-    overflow: auto;
+
+:host::ng-deep{
+  .mat-list-item-content{
+    display: flex;
+    justify-content: space-between;
   }
+}
+
+mat-list{
+  max-height: 400px;
   width: 800px;
+  overflow: auto;
   margin-bottom: 20px;
+  mat-form-field{
+    width: 300px;
+  }
 }
 .item{
   width: 100%;
@@ -25,6 +33,6 @@
   display: flex;
   justify-content: flex-end;
   button{
-    width: 200px;
+    width: 100px;
   }
 }
