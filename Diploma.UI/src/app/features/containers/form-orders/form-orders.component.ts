@@ -1,10 +1,11 @@
+import { Router } from '@angular/router';
 import { OrdersService } from './../../../services/orders.service';
 import { Component, OnInit } from '@angular/core';
 import { EducationalProgram } from './../../../models/educational-program';
 import { EducationalProgramService } from './../../../services/educational-program.service';
 import { ProfileService } from './../../../services/profile.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { OrderType } from 'src/app/models/order-type.enum';
+import { OrderType } from '../../../models/order-type.enum';
 
 @Component({
   selector: 'app-form-orders',
@@ -39,6 +40,7 @@ export class FormOrdersComponent implements OnInit {
     private educationalPrograms: EducationalProgramService,
     private _profileService: ProfileService,
     private _ordersService: OrdersService,
+    private _router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -52,14 +54,15 @@ export class FormOrdersComponent implements OnInit {
     this._ordersService.create({
       ...this.form.value,
       type: OrderType.Diploma
-    }).subscribe();
+    }).subscribe(() => this._router.navigateByUrl('/materials'));
   }
 
   public createPracticeOrder(): void {
+    this._router.navigateByUrl('/materials');
     this._ordersService.create({
       ...this.form.value,
       type: OrderType.Practice
-    }).subscribe();
+    }).subscribe(() => this._router.navigateByUrl('/materials'));
   }
 
 }

@@ -45,8 +45,8 @@
         <span>Встановлення дедлайнів</span>
         <i class="fa fa-angle-right"></i>
       </a>
-      <a  routerLink="/diploma-protections" routerLinkActive="active" class="items-body-content">
-        <span>Встановлення дат захисту</span>
+      <a *ngIf="hasRole(Role.ExaminationCommitteeSecretary)" routerLink="/diploma-protections" routerLinkActive="active" class="items-body-content">
+        <span>Дати захисту</span>
         <i class="fa fa-angle-right"></i>
       </a>
     </div>

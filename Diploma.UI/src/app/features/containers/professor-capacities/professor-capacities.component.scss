@@ -5,10 +5,12 @@
   align-items: center;
 }
 .container{
-  height: 475px;
-  overflow: auto;
   width: 800px;
   margin-bottom: 10px;
+  mat-list{
+    height: 400px;
+    overflow: auto;
+  }
 }
 
 .cont{
