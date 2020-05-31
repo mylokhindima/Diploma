@@ -1,0 +1,24 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="educationalProgram">
+    <th mat-header-cell *matHeaderCellDef> Назва освітньої програми </th>
+    <td mat-cell *matCellDef="let element"> {{element.educationalProgram.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef> Дата </th>
+    <td mat-cell *matCellDef="let element"> {{element.timeStart | date}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="timeStart">
+    <th mat-header-cell *matHeaderCellDef> Початок </th>
+    <td mat-cell *matCellDef="let element"> {{element.timeStart | date:'shortTime'}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="timeEnd">
+    <th mat-header-cell *matHeaderCellDef> Кінець </th>
+    <td mat-cell *matCellDef="let element"> {{element.timeEnd | date:'shortTime'}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

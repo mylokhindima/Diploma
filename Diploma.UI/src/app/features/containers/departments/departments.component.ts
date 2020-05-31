@@ -101,7 +101,6 @@ export class DepartmentsComponent implements OnInit {
   }
 
   public addEdProgram(node: any): void {
-
     this._matDialog.open(CreateEducationalProgramComponent, {
       data: {
         specialtyId: node.id,

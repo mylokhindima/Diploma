@@ -4,7 +4,7 @@ import { EducationalProgram } from './educational-program';
 export interface DiplomaProtection extends Base {
   educationalProgram: EducationalProgram;
   educationalProgramId: string;
-  timeStart: string;
-  timeEnd: string;
+  timeStart: string | Date;
+  timeEnd: string | Date;
   shift: number;
 }

@@ -1,21 +1,21 @@
-import { FileDocument } from './../../documents/file.document';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Workbook } from 'exceljs';
+import * as fs from 'fs';
 import { existsSync, mkdirSync } from 'fs';
 import { Model } from 'mongoose';
-import { extname } from 'path';
 import { v4 as uuid } from 'uuid';
 import { DiplomaEntity } from '../+diplomas/diploma.entity';
 import { educationalProgramMapper } from '../+educational-program/educational-program.mapper';
-import { StudentEntity } from '../+students/student.entity';
 import { FileType } from '../../enums/file-type.enum';
 import { DiplomaStore } from './../+diplomas/diplomas.store';
 import { FilesStore } from './../+files/files.store';
 import { PracticeEntity } from './../+practices/practice.entity';
 import { PracticesStore } from './../+practices/practices.store';
+import { StudentEntity } from './../+students/student.entity';
 import { StudentsStore } from './../+students/students.store';
 import { EducationalProgramDocument } from './../../documents/educational-program.document';
+import { FileDocument } from './../../documents/file.document';
 import { OrderDocument } from './../../documents/order.document';
 import { OrderType } from './../../enums/order-type.enum';
 import { Step } from './../../enums/step.enum';
@@ -24,7 +24,6 @@ import { DiplomaOrderBuilder } from './excel-builders/diploma-order.builder';
 import { ExcelBuilder } from './excel-builders/excel-builder.interface';
 import { PracticeOrderBuilder } from './excel-builders/practice-order.builder';
 import { OrderEntity } from './order.entity';
-import * as fs from 'fs';
 import { orderMapper } from './order.mapper';
 import path = require('path');
 
@@ -61,11 +60,11 @@ export class OrdersStore {
         let builder: ExcelBuilder;
 
         if (dto.type === OrderType.Diploma) {
-            map = diplomas.map((d, i) => ([students[i], d])).filter(([s, d]) => !!d && (d as DiplomaEntity).stage.step === Step.MethodologicalMemberThemeChecking) as [StudentEntity, DiplomaEntity][];
+            map = diplomas.map((d, i) => ([students[i], d])).filter(([s, d]) => !!d && (d as DiplomaEntity).stage.step === Step.PracticeReport) as [StudentEntity, DiplomaEntity][];
             builder = new DiplomaOrderBuilder(educationalProgram, dto.startDate, dto.endDate); 
         } else {
             const practices = (await Promise.all(students.map(s => this._practiceStore.findByStudentId(s.id))));
-            map = diplomas.map((d, i) => ([students[i], d, practices[i]])).filter(([s, d, p]) => !!d && !!p && (d as DiplomaEntity).stage.step === Step.MethodologicalMemberThemeChecking) as [StudentEntity, DiplomaEntity, PracticeEntity][];
+            map = diplomas.map((d, i) => ([students[i], d, practices[i]])).filter(([s, d, p]) => !!d && !!p && (d as DiplomaEntity).stage.step === Step.PracticeDistribution) as [StudentEntity, DiplomaEntity, PracticeEntity][];
             builder = new PracticeOrderBuilder(educationalProgram, dto.startDate, dto.endDate);
         }
 
@@ -80,6 +79,8 @@ export class OrdersStore {
             type: dto.type === OrderType.Diploma ? FileType.GraduationOrder : FileType.PracticeOrder,
             name,
         });
+
+        map.map(([s, d]) => d).forEach(d => this._diplomasStore.updateDiplomaStage(d.id, dto.type === OrderType.Diploma ? Step.DiplomaReport : Step.PracticeReport));
 
         const order = await this._orderModel.create({
             educationalProgram: educationalProgram.id, 

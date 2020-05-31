@@ -29,6 +29,7 @@ import { DepartmentsComponent } from './features/containers/departments/departme
 import { PracticeReportsForExamineComponent } from './features/containers/practice-reports-for-examine/practice-reports-for-examine.component';
 import { PracticeReportForStudentComponent } from './features/containers/practice-report-for-student/practice-report-for-student.component';
 import { PracticeReportForExamineComponent } from './features/containers/practice-report-for-examine/practice-report-for-examine.component';
+import { DiplomaProtectionsComponent } from './features/containers/diploma-protections/diploma-protections.component';
 
 
 const routes: Routes = [
@@ -167,7 +168,13 @@ const routes: Routes = [
         pathMatch: 'full',
         canActivate: [ProfessorGuard],
         component: DeadlinesComponent
-      }
+      },
+      {
+        path: 'diploma-protections',
+        pathMatch: 'full',
+        canActivate: [ProfessorGuard],
+        component: DiplomaProtectionsComponent
+      },
     ]
   },
   {

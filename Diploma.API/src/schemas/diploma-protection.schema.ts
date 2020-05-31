@@ -17,7 +17,7 @@ export const DiplomaProtectionSchema = new Schema({
     shift: {
         type: Number,
         required: true,
-        default: 15,
+        default: 30,
     }
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },

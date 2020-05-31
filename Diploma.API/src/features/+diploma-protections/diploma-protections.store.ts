@@ -18,6 +18,18 @@ export class DiplomaProtectionsStore {
         @InjectModel('DiplomaProtection') private _diplomaProtectionModel: Model<DiplomaProtectionDocument>,
         @InjectModel('TimeSection') private _timeSectionModel: Model<TimeSectionDocument>,
     ) { }
+    
+    public async findAll(): Promise<DiplomaProtectionEntity[]> {
+        const protections = await this._diplomaProtectionModel.find().populate('educationalProgram').sort([['_id', -1]]);
+
+        return protections.map(p => diplomaProtectionMapper(p));
+    }
+
+    public async find(id: string): Promise<DiplomaProtectionEntity> {
+        const protection = await this._diplomaProtectionModel.findById(id).populate('educationalProgram');
+
+        return diplomaProtectionMapper(protection);
+    }
 
     public async create(dto: CreateDiplomaProtectionDTO): Promise<DiplomaProtectionEntity> {
         const diplomaProtection = await this._diplomaProtectionModel.create({
@@ -26,13 +38,13 @@ export class DiplomaProtectionsStore {
             timeEnd: dto.timeEnd,
         });
 
-        return diplomaProtectionMapper(diplomaProtection);
+        return await this.find(diplomaProtection.id);
     }
 
     public async findByEducationalProgram(id: string): Promise<DiplomaProtectionEntity[]> {
         const diplomaProtections = await this._diplomaProtectionModel.find({
             educationalProgram: id,
-        });
+        }).populate('educationalProgram');
 
         return diplomaProtections.map(diplomaProtection => diplomaProtectionMapper(diplomaProtection));
     }

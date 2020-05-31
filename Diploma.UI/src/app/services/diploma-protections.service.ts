@@ -14,4 +14,12 @@ export class DiplomaProtectionsService {
   public findProtectionsByEducationalProgram(educationalProgramId: string): Observable<DiplomaProtection[]> {
     return this.http.get<DiplomaProtection[]>(`${AppSettings.host}/diplomaProtections/educationalProgram/${educationalProgramId}`);
   }
+
+  public create(protection: DiplomaProtection): Observable<DiplomaProtection> {
+    return this.http.post<DiplomaProtection>(`${AppSettings.host}/diplomaProtections`, protection)
+  }
+
+  public getDiplomaProtections(): Observable<DiplomaProtection[]> {
+    return this.http.get<DiplomaProtection[]>(`${AppSettings.host}/diplomaProtections`);
+  }
 }

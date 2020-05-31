@@ -20,6 +20,13 @@ export class DiplomaProtectionsController {
         return await this._store.create(dto);
     }
 
+    @Get()
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
+    public async getAll(): Promise<DiplomaProtectionEntity[]> {
+        return await this._store.findAll();
+    }
+
     @Get('educationalProgram/:educationalProgramId')
     @UseGuards(JwtAuthGuard)
     @UseInterceptors(ClassSerializerInterceptor)

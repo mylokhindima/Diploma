@@ -56,6 +56,9 @@ import { PracticeReportsForExamineComponent } from './features/containers/practi
 import { PracticeReportForStudentComponent } from './features/containers/practice-report-for-student/practice-report-for-student.component';
 import { PracticeReportForExamineComponent } from './features/containers/practice-report-for-examine/practice-report-for-examine.component';
 import { DeadlinesComponent } from './features/containers/deadlines/deadlines.component';
+import { DiplomaProtectionsComponent } from './features/containers/diploma-protections/diploma-protections.component';
+import { DiplomaProtectionListComponent } from './features/components/diploma-protection-list/diploma-protection-list.component';
+import { CreateDiplomaProtectionComponent } from './features/components/create-diploma-protection/create-diploma-protection.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +111,9 @@ import { DeadlinesComponent } from './features/containers/deadlines/deadlines.co
     PracticeReportForStudentComponent,
     PracticeReportForExamineComponent,
     DeadlinesComponent,
+    DiplomaProtectionsComponent,
+    DiplomaProtectionListComponent,
+    CreateDiplomaProtectionComponent,
   ],
   imports: [
     BrowserModule,
