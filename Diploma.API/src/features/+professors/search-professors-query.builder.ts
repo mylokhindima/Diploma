@@ -2,6 +2,7 @@ import { isNil } from 'lodash';
 import { ObjectID } from 'mongodb';
 import { DocumentQuery, Model } from "mongoose";
 import { ProfessorDocument } from './../../documents/professor.document';
+import { Role } from './../../enums/role.enum';
 
 export class SearchProfessorsQueryBuilder {
     private query: DocumentQuery<ProfessorDocument[], ProfessorDocument, {}>;
@@ -26,6 +27,18 @@ export class SearchProfessorsQueryBuilder {
         if (id) {
             this.query = this.query.find({
                 department: id,
+            });
+        }
+        
+        return this;
+    }
+
+    public setRole(role: Role): SearchProfessorsQueryBuilder {
+        if (!isNil(role)) {
+            this.query = this.query.find({
+                roles: {
+                    "$in": [role]
+                },
             });
         }
         

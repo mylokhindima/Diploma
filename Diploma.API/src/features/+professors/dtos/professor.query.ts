@@ -1,3 +1,4 @@
+import { Role } from './../../../enums/role.enum';
 import { ApiProperty } from "@nestjs/swagger";
 
 export class ProfessorQuery {
@@ -7,4 +8,6 @@ export class ProfessorQuery {
     isActive?: boolean;
     @ApiProperty()
     available?: boolean;
+    @ApiProperty()
+    role?: Role;
 }

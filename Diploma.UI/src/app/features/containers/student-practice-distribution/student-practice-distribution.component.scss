@@ -5,7 +5,11 @@ mat-table{
   margin-bottom: 10px;
 }
 
-.actions-container{
+.actions {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  button{
+    width: 200px;
+  }
 }
+

@@ -30,6 +30,10 @@ export class ProfessorsService {
     });
   }
 
+  public setRolesMany(dtos: any[]): Observable<void> {
+    return this.http.put<void>(`${AppSettings.host}/professors/roles/many`, dtos);
+  }
+
   public updateCapacities(dtos: any[]): Observable<void> {
     return this.http.put<void>(`${AppSettings.host}/professors/capacities`, dtos);
   }

@@ -19,7 +19,9 @@ export class StagesStore {
     }
 
     public async updateMany(dtos: StageEntity[]): Promise<StageEntity[]> {
-        const stages = await this._stageModel.updateMany({}, dtos);
+        const stages = await Promise.all(dtos.map(dto => {
+            return this._stageModel.findByIdAndUpdate(dto.id, dto);
+        }));
     
         return stages.map(s => stageMapper(s));
     }

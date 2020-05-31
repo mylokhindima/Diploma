@@ -23,24 +23,12 @@ interface SelectableDegree {
 })
 export class StudentFormComponent implements OnInit, OnDestroy {
 
-  // public specialties: Specialty[] = [];
   public programs: EducationalProgram[] = [];
   public viewPrograms: EducationalProgram[] = [];
-
-  // public durations: Set<number> = new Set();
-  // public educationalForms: Set<EducationalForm> = new Set();
 
   public submitted: boolean = false;
 
   public currentProgram: EducationalProgram = null;
-
-  // public get showClearBtn(): boolean {
-  //   const { duration, specialty, form } = this.form.controls;
-
-  //   return [duration, specialty, form].some(c => !isNil(c.value));
-  // }
-
-  // private _specialties: Specialty[] = [];
 
   private _destroy$ = new Subject<void>();
 
@@ -72,16 +60,9 @@ export class StudentFormComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    // this._specialtiesService.getSpecialties().subscribe(specialties => {
-    //   this._specialties = specialties;
-    //   this.specialties = specialties;
-    // });
 
     this._educationalProgramsService.getPrograms().subscribe(programs => {
       this.programs = programs;
-
-      // this.durations = new Set(programs.map(p => p.duration).sort((a, b) => a - b));
-      // this.educationalForms = new Set(programs.map(p => p.form));
     });
 
     this.form.get('educationalProgramId').valueChanges.pipe(takeUntil(this._destroy$)).subscribe(value => {
@@ -93,36 +74,6 @@ export class StudentFormComponent implements OnInit, OnDestroy {
 
       this.viewPrograms = this.programs.filter(p => p.degree === value);
     });
-
-    // this.form.get('specialty').valueChanges.pipe(
-    //   filter(v => !isNil(v)),
-    //   takeUntil(this._destroy$)
-    // ).subscribe(value => {
-    //   const sp = this.programs.filter(p => p.specialtyId === value);
-
-    //   this.educationalForms = new Set(sp.map(p => p.form));
-    //   this.durations = new Set(sp.map(p => p.duration));
-    // });
-
-    // this.form.get('duration').valueChanges.pipe(
-    //   filter(v => !isNil(v)),
-    //   takeUntil(this._destroy$)
-    // ).subscribe(value => {
-    //   const programs = this.programs.filter(p => p.duration === value);
-
-    //   this.educationalForms = new Set(programs.map(p => p.form));
-    //   this.specialties = this._specialties.filter(s => programs.some(p => p.specialtyId === s.id));
-    // });
-
-    // this.form.get('form').valueChanges.pipe(
-    //   filter(v => !isNil(v)),
-    //   takeUntil(this._destroy$)
-    // ).subscribe(value => {
-    //   const programs = this.programs.filter(p => p.form === value);
-
-    //   this.durations = new Set(programs.map(p => p.duration));
-    //   this.specialties = this._specialties.filter(s => programs.some(p => p.specialtyId === s.id));
-    // });
   }
 
   public clearEducationFormGroup(): void {
@@ -145,26 +96,14 @@ export class StudentFormComponent implements OnInit, OnDestroy {
 
     if (this.form.invalid) { return; }
 
-    this._studentsService.create(this.form.value).subscribe(s => this._dialogRef.close(s));
+    this._studentsService.create(this.form.value).subscribe(s => this._dialogRef.close(s), () => {
+      this.form.get('email').setErrors({
+        duplicate: true,
+      });
+    });
   }
 
   public formView(): string {
     return formView(this.currentProgram.form);
   }
-
-  // private _prepareDTO(): CreateStudentDTO {
-  //   const { name, email, degree, group, specialty, duration, form } = this.form.value;
-
-  //   // const educationalProgramId = this.programs.find(p => p.specialtyId === specialty && p.duration === duration && p.form === form).id;
-
-  //   const dto: CreateStudentDTO = {
-  //     name,
-  //     degree,
-  //     email,
-  //     group,
-  //     educationalProgramId,
-  //   };
-
-  //   return dto;
-  // }
 }

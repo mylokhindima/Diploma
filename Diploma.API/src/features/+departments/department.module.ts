@@ -1,8 +1,9 @@
-import { DepartmentSchema } from './../../schemas/department.schema';
-import { Module } from '@nestjs/common';
+import { ProfessorsModule } from './../+professors/professors.module';
+import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { DepartmentsStore } from './departments.store';
+import { DepartmentSchema } from './../../schemas/department.schema';
 import { DepartmentsController } from './departments.controller';
+import { DepartmentsStore } from './departments.store';
 
 @Module({
     imports: [
@@ -12,6 +13,7 @@ import { DepartmentsController } from './departments.controller';
                 schema: DepartmentSchema,
             },
         ]),
+        forwardRef(() => ProfessorsModule),
     ],
     controllers: [DepartmentsController],
     providers: [DepartmentsStore],

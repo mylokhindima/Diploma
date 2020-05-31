@@ -1,3 +1,5 @@
+import { DeadlinesComponent } from './features/containers/deadlines/deadlines.component';
+import { RolesComponent } from './features/containers/roles/roles.component';
 import { StudentPracticeDistributionComponent } from './features/containers/student-practice-distribution/student-practice-distribution.component';
 import { FormOrdersComponent } from './features/containers/form-orders/form-orders.component';
 import { ProfessorCapacitiesComponent } from './features/containers/professor-capacities/professor-capacities.component';
@@ -53,7 +55,7 @@ const routes: Routes = [
         component: EmployeesComponent,
       },
       {
-        path: 'departments',
+        path: 'structure',
         pathMatch: 'full',
         canActivate: [AdminGuard],
         component: DepartmentsComponent,
@@ -153,6 +155,18 @@ const routes: Routes = [
         pathMatch: 'full',
         canActivate: [ProfessorGuard],
         component: PracticeReportForExamineComponent,
+      },
+      {
+        path: 'roles',
+        pathMatch: 'full',
+        canActivate: [ProfessorGuard],
+        component: RolesComponent
+      },
+      {
+        path: 'deadlines',
+        pathMatch: 'full',
+        canActivate: [ProfessorGuard],
+        component: DeadlinesComponent
       }
     ]
   },

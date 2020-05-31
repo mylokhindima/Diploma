@@ -55,6 +55,7 @@ import { CreateEducationalProgramComponent } from './features/components/create-
 import { PracticeReportsForExamineComponent } from './features/containers/practice-reports-for-examine/practice-reports-for-examine.component';
 import { PracticeReportForStudentComponent } from './features/containers/practice-report-for-student/practice-report-for-student.component';
 import { PracticeReportForExamineComponent } from './features/containers/practice-report-for-examine/practice-report-for-examine.component';
+import { DeadlinesComponent } from './features/containers/deadlines/deadlines.component';
 
 @NgModule({
   declarations: [
@@ -106,6 +107,7 @@ import { PracticeReportForExamineComponent } from './features/containers/practic
     PracticeReportsForExamineComponent,
     PracticeReportForStudentComponent,
     PracticeReportForExamineComponent,
+    DeadlinesComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,6 @@
+import { ProfessorsStore } from './../+professors/professors.store';
+import { Role } from './../../enums/role.enum';
+import { ProfessorDocument } from './../../documents/professor.document';
 import { DepartmentDocument } from './../../documents/department.document';
 import { DepartmentEntity } from './department.entity';
 import { Model } from 'mongoose';
@@ -14,6 +17,7 @@ interface EducationalProgramQuery {
 export class DepartmentsStore {
     constructor(
         @InjectModel('Department') private _departmentModel: Model<DepartmentDocument>,
+       private _professorsStore: ProfessorsStore,
     ) { }
 
     public async findAll(): Promise<DepartmentEntity[]> {
@@ -23,8 +27,24 @@ export class DepartmentsStore {
                 path: 'educationalPrograms',
             }
         });
+
+        const data = departments.map(d => departmentMapper(d));
+
+        const professors = await this._professorsStore.findByQuery({
+            role: Role.HeadOfDepartment,
+            isActive: true,
+        });
+
+        professors.forEach(p => {
+            const department = data.find(d => d.id === p.departmentId);
+
+            if (department) {
+                department.responsible = p;
+                department.responsibleId = p.id;
+            }
+        })
         
-        return departments.map(d => departmentMapper(d));
+        return data;
     }
 
     public async find(id: string): Promise<DepartmentEntity> {

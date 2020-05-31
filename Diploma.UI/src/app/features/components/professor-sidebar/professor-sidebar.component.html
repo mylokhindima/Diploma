@@ -9,7 +9,7 @@
         <span>Запити на вибір тем атестаційних робот</span>
         <i class="fa fa-angle-right"></i>
       </a>
-      <a *ngIf="isMethodologicalCommitteeMember" routerLink="/methodological-commitee-approve" routerLinkActive="active" class="items-body-content">
+      <a *ngIf="hasRole(Role.MethodologicalCommitteeMember)" routerLink="/methodological-commitee-approve" routerLinkActive="active" class="items-body-content">
         <span>Запити на підтвердження тем атестаційних робот</span>
         <i class="fa fa-angle-right"></i>
       </a>
@@ -17,7 +17,7 @@
         <span>Частини атестаційних робіт</span>
         <i class="fa fa-angle-right"></i>
       </a>
-      <a *ngIf="isResponsibleForGraduation" routerLink="/capacities" routerLinkActive="active" class="items-body-content">
+      <a *ngIf="hasRole(Role.ResponsibleForGraduation)" routerLink="/capacities" routerLinkActive="active" class="items-body-content">
         <span>Навантаження</span>
         <i class="fa fa-angle-right"></i>
       </a>
@@ -25,16 +25,24 @@
         <span>Матеріали</span>
         <i class="fa fa-angle-right"></i>
       </a>
-      <a routerLink="/form-orders" routerLinkActive="active" class="items-body-content">
+      <a *ngIf="hasRole(Role.ResponsibleForGraduation)" routerLink="/form-orders" routerLinkActive="active" class="items-body-content">
         <span>Формування наказів</span>
         <i class="fa fa-angle-right"></i>
       </a>
-      <a *ngIf="isResponsibleForGraduation" routerLink="/practice-distribution" routerLinkActive="active" class="items-body-content">
+      <a *ngIf="hasRole(Role.ResponsibleForGraduation)" routerLink="/practice-distribution" routerLinkActive="active" class="items-body-content">
         <span>Розподілення студентів по місцям практики</span>
         <i class="fa fa-angle-right"></i>
       </a>
-      <a routerLink="/practice-examination" routerLinkActive="active" class="items-body-content">
+      <a *ngIf="hasRole(Role.PracticeLeader)" routerLink="/practice-examination" routerLinkActive="active" class="items-body-content">
         <span>Звіти з практики</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
+      <a *ngIf="hasRole(Role.HeadOfDepartment)" routerLink="/roles" routerLinkActive="active" class="items-body-content">
+        <span>Призначення ролей</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
+      <a *ngIf="hasRole(Role.ResponsibleForGraduation)" routerLink="/deadlines" routerLinkActive="active" class="items-body-content">
+        <span>Встановлення дедлайнів</span>
         <i class="fa fa-angle-right"></i>
       </a>
     </div>

@@ -1,3 +1,4 @@
+import { SetRolesDTO } from './dtos/set-roles.dto';
 import { Body, ClassSerializerInterceptor, Controller, Get, Param, Post, Put, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -51,6 +52,12 @@ export class ProfessorsController {
     @UseGuards(JwtAuthGuard)
     public async uploadFile(@UploadedFile() file) {
         return await this._professorsService.upload(file);
+    }
+
+    @Put('roles/many')
+    @UseGuards(JwtAuthGuard)
+    public async setRoles(@Body() dtos: SetRolesDTO[]) {
+        return await this._professorsStore.setRoles(dtos);
     }
 
     @Put('capacities')

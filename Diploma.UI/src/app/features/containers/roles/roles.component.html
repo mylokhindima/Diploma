@@ -1,1 +1,21 @@
-<p>roles works!</p>
+<mat-list role="list">
+  <mat-list-item *ngFor="let professor of professors" role="listitem">
+    <div class="item">
+      <div>{{ professor.name }}</div>
+      <mat-form-field>
+        <mat-label>Ролі</mat-label>
+        <mat-select [(ngModel)]="professor.roles" multiple>
+          <mat-option [value]="2">Відповідальний за дипломування</mat-option>
+          <mat-option [value]="3">Член метод комісії</mat-option>
+          <mat-option [value]="5">Нормоконтролер</mat-option>
+          <mat-option [value]="6">Відповідальний за архівування</mat-option>
+          <mat-option [value]="7">Секретар екзаменаційної комісії</mat-option>
+          <mat-option [value]="8">Керівник практики</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </mat-list-item>
+</mat-list>
+<div class="actions" *ngIf="professors.length">
+  <button (click)="save()" class="ok-btn" mat-raised-button color="primary">Зберігти</button>
+</div>

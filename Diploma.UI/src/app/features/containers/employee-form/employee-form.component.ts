@@ -1,10 +1,10 @@
 import { ProfessorsService } from './../../../services/professors.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Department } from './../../../models/department';
 import { ProfessorDegree } from './../../../models/proffesor-degree.enum';
 import { DepartmentsService } from './../../../services/departments.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 interface SelectableDegree {
   key: string;
@@ -35,13 +35,19 @@ export class EmployeeFormComponent implements OnInit {
     private _departmentsService: DepartmentsService,
     private _professorsService: ProfessorsService,
     private _dialogRef: MatDialogRef<any, any>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-    this.form = new FormGroup({
+    const controls: any = {
       name: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       degree: new FormControl('', [Validators.required]),
-      departmentId: new FormControl('', [Validators.required]),
-    });
+    };
+
+    if (!data.departmentId) {
+      controls.departmentId = new FormControl('', [Validators.required]);
+    }
+
+    this.form = new FormGroup(controls);
   }
 
   ngOnInit(): void {
@@ -53,7 +59,21 @@ export class EmployeeFormComponent implements OnInit {
 
     if (this.form.invalid) { return; }
 
-    this._professorsService.create(this.form.value).subscribe(s => this._dialogRef.close(s));
+    const dto = { ...this.form.value };
+
+    if (this.data.roles) {
+      dto.roles = this.data.roles;
+    }
+
+    if (this.data.departmentId) {
+      dto.departmentId = this.data.departmentId;
+    }
+
+    this._professorsService.create(dto).subscribe(s => this._dialogRef.close(s), () => {
+      this.form.get('email').setErrors({
+        duplicate: true,
+      });
+    });
   }
 
 }

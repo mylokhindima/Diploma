@@ -19,7 +19,12 @@ export class TasksService {
   @Cron(CronExpression.EVERY_DAY_AT_8AM)
   async notifyStudentDeadlines() {
     const stages = (await this.stagesStore.findAll())
-        .filter(s => s.step !== Step.MethodologicalMemberThemeChecking && s.endDate);
+        .filter(s => ![
+            Step.MethodologicalMemberThemeChecking,
+            Step.PracticeDistribution,
+            Step.Normscontrol,
+            Step.Plagiarism
+          ].includes(s.step) && s.endDate);
 
     const filters = stages.map(s => this.diplomasStore.filter({ stageId: s.id }));
 

@@ -1,5 +1,5 @@
 <app-view-entity (add)="addDepartment()">
   <ng-container list>
-    <app-department-list (add)="onAdd($event)" [dataSource]="dataSource"></app-department-list>
+    <app-department-list (add)="onAdd($event)" (addResponsible)="onResponsibleAdd($event)" [dataSource]="dataSource"></app-department-list>
   </ng-container>
 </app-view-entity>

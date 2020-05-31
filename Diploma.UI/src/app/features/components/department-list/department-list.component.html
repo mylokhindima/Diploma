@@ -8,6 +8,8 @@
         <button mat-icon-button disabled></button>
         <span>{{node.name}}</span>
         <button (click)="add.emit(node)" *ngIf="node.type !== 2" mat-icon-button><mat-icon>add</mat-icon></button>
+        <button (click)="addResponsible.emit(node)" *ngIf="node.type === 0 && !node.responsible" mat-icon-button><mat-icon>person_add</mat-icon></button>
+        <span *ngIf="node.type === 0 && node.responsible">Завідуючий: {{ node.responsible.name }}</span>
     </li>
   </mat-tree-node>
   <!-- This is the tree node template for expandable nodes -->
@@ -23,6 +25,8 @@
         </button>
         <span>{{node.name}}</span>
         <button (click)="add.emit(node)" mat-icon-button><mat-icon>add</mat-icon></button>
+        <button (click)="addResponsible.emit(node)" *ngIf="node.type === 0 && !node.responsible" mat-icon-button><mat-icon>person_add</mat-icon></button>
+        <span *ngIf="node.type === 0 && node.responsible">Завідуючий: {{ node.responsible.name }}</span>
       </div>
       <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
         <ng-container matTreeNodeOutlet></ng-container>
@@ -30,3 +34,4 @@
     </li>
   </mat-nested-tree-node>
 </mat-tree>
+

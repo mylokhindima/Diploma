@@ -1,3 +1,4 @@
+import { Role } from './../../../models/role.enum';
 import { ToastrService } from 'ngx-toastr';
 import { PracticesService } from './../../../services/practices.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
@@ -42,6 +43,7 @@ export class StudentPracticeDistributionComponent implements OnInit {
 
     const professorLoad$ = this._professorsService.filterByQuery({
       isActive: true,
+      role: Role.PracticeLeader,
       departmentId: professor.departmentId,
     }).pipe(
       tap(professors => this.professors = professors),

@@ -1,13 +1,16 @@
-import { EducationalProgram } from './../../../models/educational-program';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { filter } from 'rxjs/operators';
 import { Department } from '../../../models/department';
+import { CreateEducationalProgramComponent } from '../../components/create-educational-program/create-educational-program.component';
+import { EducationalProgram } from './../../../models/educational-program';
+import { Professor } from './../../../models/proffesor';
+import { Role } from './../../../models/role.enum';
 import { Specialty } from './../../../models/specialty';
 import { DepartmentsService } from './../../../services/departments.service';
 import { CreateDepartmentComponent } from './../../components/create-department/create-department.component';
 import { CreateSpecialtyComponent } from './../../components/create-specialty/create-specialty.component';
-import { CreateEducationalProgramComponent } from '../../components/create-educational-program/create-educational-program.component';
+import { EmployeeFormComponent } from './../employee-form/employee-form.component';
 
 @Component({
   selector: 'app-departments',
@@ -54,6 +57,24 @@ export class DepartmentsComponent implements OnInit {
         break;
       default:
     }
+  }
+
+  public onResponsibleAdd(node: any): void {
+    this._matDialog.open(EmployeeFormComponent, {
+      data: {
+        departmentId: node.id,
+        roles: [Role.HeadOfDepartment],
+      }
+    }).afterClosed().pipe(
+      filter(Boolean),
+    ).subscribe((e: Professor) => {
+      node.responsible = e;
+      node.responsibleId = e.id;
+
+      this.dataSource = JSON.parse(JSON.stringify([...this.dataSource]));
+
+      this._cdr.detectChanges();
+    })
   }
 
   public addSpecialty(node: any): void {

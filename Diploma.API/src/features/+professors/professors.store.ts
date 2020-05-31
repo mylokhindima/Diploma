@@ -1,3 +1,4 @@
+import { SetRolesDTO } from './dtos/set-roles.dto';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -38,6 +39,14 @@ export class ProfessorsStore {
         await Promise.all(requests);
     }
 
+    public async setRoles(dtos: SetRolesDTO[]): Promise<void> {
+        const requests = dtos.map(dto => this._professorModel.findByIdAndUpdate(dto.professorId, {
+            roles: dto.roles,
+        }));
+
+        await Promise.all(requests);
+    }
+
     public async find(id: string): Promise<ProfessorEntity> {
         const professor = await this._professorModel.findById(id).populate('department');
 
@@ -48,6 +57,7 @@ export class ProfessorsStore {
         let professors = await new SearchProfessorsQueryBuilder(this._professorModel)
             .setIsActive(query.isActive)
             .setDepartmentId(query.departmentId)
+            .setRole(query.role)
             .sortAsc()
             .build();
 

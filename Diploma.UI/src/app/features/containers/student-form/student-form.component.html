@@ -28,15 +28,14 @@
           <input formControlName="group" matInput type="text" class="form-control" id="group">
         </mat-form-field>
 
-        <mat-error class="error" *ngIf="submitted && form.invalid">Форма заповнена некоректно</mat-error>
+        <mat-error class="error" *ngIf="submitted && form.invalid && form.get('email').errors.duplicate; else defaultError">Форма заповнена некоректно</mat-error>
+        <ng-template #defaultError>
+          <mat-error class="error" *ngIf="submitted && form.invalid">Форма заповнена некоректно</mat-error>
+        </ng-template>
       </div>
 
       <fieldset class="col">
         <legend>Освітня програма</legend>
-
-        <!-- <div *ngIf="showClearBtn" (click)="clearEducationFormGroup()" class="clear-btn">
-          <mat-icon>clear</mat-icon>
-        </div> -->
           <mat-form-field class="example-full-width">
             <label for="group" class="bmd-label-floating">Оберіть освітню програму</label>
             <mat-select formControlName="educationalProgramId" [disabled]="!viewPrograms.length">

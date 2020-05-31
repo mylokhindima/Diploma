@@ -23,7 +23,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field *ngIf="form.get('departmentId')">
         <label for="departmentId" class="bmd-label-floating">Кафедра</label>
         <mat-select formControlName="departmentId">
           <mat-option *ngFor="let department of departments" [value]="department.id">
@@ -32,7 +32,10 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-error class="error" *ngIf="submitted && form.invalid">Форма заповнена некоректно</mat-error>
+      <mat-error class="error" *ngIf="submitted && form.invalid && form.get('email').errors.duplicate; else defaultError">Форма заповнена некоректно</mat-error>
+      <ng-template #defaultError>
+        <mat-error class="error" *ngIf="submitted && form.invalid">Форма заповнена некоректно</mat-error>
+      </ng-template>
     </form>
   </mat-card-content>
   <mat-card-actions>

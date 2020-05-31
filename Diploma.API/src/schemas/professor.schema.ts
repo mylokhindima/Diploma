@@ -19,7 +19,7 @@ export const ProfessorSchema = new Schema({
         ],
     },
     capacity: {
-        type: [Number]
+        type: Number
     }
 }, {
     versionKey: false,

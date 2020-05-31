@@ -13,7 +13,7 @@ export class PracticeReportForExamineComponent implements OnInit {
 
   public practice: Practice = null;
 
-  public score: FormControl = new FormControl(null, [Validators.required]);
+  public score: FormControl = new FormControl(null, [Validators.required, Validators.max(100), Validators.min(0)]);
 
   constructor(
     private route: ActivatedRoute,

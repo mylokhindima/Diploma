@@ -12,6 +12,7 @@ export class DepartmentListComponent implements OnInit {
   @Input() dataSource = new MatTreeNestedDataSource<any>();
 
   @Output() add: EventEmitter<any> = new EventEmitter<any>();
+  @Output() addResponsible: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
   ) {

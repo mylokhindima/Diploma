@@ -1,7 +1,7 @@
 import { DiplomasModule } from './../+diplomas/diplomas.module';
 import { ProfessorsStore } from './professors.store';
 import { ProfessorSchema } from './../../schemas/professor.schema';
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { UserSchema } from './../../schemas/user.schema';
 import { ProfessorsController } from './professors.controller';
@@ -15,7 +15,7 @@ import { DepartmentsModule } from '../+departments/department.module';
             { name: 'User', schema: UserSchema }, 
         ]),
         UsersModule, 
-        DepartmentsModule,
+        forwardRef(() => DepartmentsModule),
         DiplomasModule,
     ],
     controllers: [ProfessorsController],
@@ -29,6 +29,6 @@ import { DepartmentsModule } from '../+departments/department.module';
         },
         ProfessorsService
     ],
-    exports: [],
+    exports: [ProfessorsStore],
 })
 export class ProfessorsModule { }
