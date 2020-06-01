@@ -59,6 +59,8 @@ import { DeadlinesComponent } from './features/containers/deadlines/deadlines.co
 import { DiplomaProtectionsComponent } from './features/containers/diploma-protections/diploma-protections.component';
 import { DiplomaProtectionListComponent } from './features/components/diploma-protection-list/diploma-protection-list.component';
 import { CreateDiplomaProtectionComponent } from './features/components/create-diploma-protection/create-diploma-protection.component';
+import { DiplomaRecordComponent } from './features/containers/diploma-record/diploma-record.component';
+import { DiplomaRecordFormComponent } from './features/components/diploma-record-form/diploma-record-form.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +116,8 @@ import { CreateDiplomaProtectionComponent } from './features/components/create-d
     DiplomaProtectionsComponent,
     DiplomaProtectionListComponent,
     CreateDiplomaProtectionComponent,
+    DiplomaRecordComponent,
+    DiplomaRecordFormComponent,
   ],
   imports: [
     BrowserModule,

@@ -22,13 +22,13 @@ export class MethodicalInstructionsComponent implements OnInit {
   public orders: Order[] = [];
 
   public get isResponsibleForGraduation(): boolean {
-    const professor = this._profileService.user$.getValue();
+    const user = this._profileService.user$.getValue();
 
-    return professor.roles.some(r => r === Role.ResponsibleForGraduation);
+    return user.roles.some(r => r === Role.ResponsibleForGraduation);
   }
 
   public get isHeadOfDepartment(): boolean {
-    return this._profileService.professor$.getValue().roles.includes(Role.HeadOfDepartment);
+    return this._profileService.user$.getValue().roles.includes(Role.HeadOfDepartment);
   }
 
   constructor(
@@ -98,7 +98,7 @@ export class MethodicalInstructionsComponent implements OnInit {
       const index = this.orders.findIndex(o => o.id === approvedOrder.id);
 
       this.orders[index] = approvedOrder;
-debugger;
+
       this._cdr.detectChanges();
     });
   }

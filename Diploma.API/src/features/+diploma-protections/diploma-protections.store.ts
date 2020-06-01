@@ -10,6 +10,7 @@ import path = require('path');
 import { CreateTimeSectionDTO } from './dtos/create-time-section.dto';
 import { TimeSectionEntity } from './entities/time-section.entity';
 import { timeSectionMapper } from './mappers/time-section.mapper';
+import { request } from 'express';
 
 
 @Injectable()
@@ -25,6 +26,20 @@ export class DiplomaProtectionsStore {
         return protections.map(p => diplomaProtectionMapper(p));
     }
 
+    public async findTimeSections(): Promise<TimeSectionEntity[]> {
+        const sections = await this._timeSectionModel.find();
+
+        return sections.map(s => timeSectionMapper(s));
+    }
+
+    public async findTimeSectionByStudentId(studentId: string): Promise<TimeSectionEntity> {
+        const section = await this._timeSectionModel.findOne({
+            student: studentId,
+        });
+
+        return section ? timeSectionMapper(section) : null;
+    }
+
     public async find(id: string): Promise<DiplomaProtectionEntity> {
         const protection = await this._diplomaProtectionModel.findById(id).populate('educationalProgram');
 
@@ -38,6 +53,28 @@ export class DiplomaProtectionsStore {
             timeEnd: dto.timeEnd,
         });
 
+        const startFrom = new Date(diplomaProtection.timeStart);
+
+        const endTo = new Date(diplomaProtection.timeEnd);
+
+        const requests = [];
+
+        const to = endTo.getHours() * 60 + endTo.getMinutes();
+
+        for (let from = startFrom.getHours() * 60 + startFrom.getMinutes(); from <= to; from += diplomaProtection.shift) {
+            const time = new Date(startFrom.getTime());
+            time.setMinutes(0);
+            time.setHours(0);
+            time.setMinutes(from);
+
+            requests.push(this._timeSectionModel.create({
+                diplomaProtection: diplomaProtection.id,
+                startTime: time.toString(),
+            }))
+        } 
+
+        await Promise.all(requests);
+
         return await this.find(diplomaProtection.id);
     }
 
@@ -47,6 +84,14 @@ export class DiplomaProtectionsStore {
         }).populate('educationalProgram');
 
         return diplomaProtections.map(diplomaProtection => diplomaProtectionMapper(diplomaProtection));
+    }
+
+    public async record(timeSectionId: string, studentId: string): Promise<TimeSectionEntity> {
+        const section = await this._timeSectionModel.findByIdAndUpdate(timeSectionId, {
+            student: studentId
+        });
+
+        return timeSectionMapper(section);
     }
 
     public async createTimeSection(dto: CreateTimeSectionDTO): Promise<TimeSectionEntity> {

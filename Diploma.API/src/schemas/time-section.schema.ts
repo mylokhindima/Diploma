@@ -9,7 +9,6 @@ export const TimeSectionSchema = new Schema({
     student: {
         type: Schema.Types.ObjectId,
         ref: 'Student',
-        required: true,
     },
     startTime: {
         type: Date,

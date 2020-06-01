@@ -1,3 +1,4 @@
+import { DiplomaRecordComponent } from './features/containers/diploma-record/diploma-record.component';
 import { DeadlinesComponent } from './features/containers/deadlines/deadlines.component';
 import { RolesComponent } from './features/containers/roles/roles.component';
 import { StudentPracticeDistributionComponent } from './features/containers/student-practice-distribution/student-practice-distribution.component';
@@ -174,6 +175,12 @@ const routes: Routes = [
         pathMatch: 'full',
         canActivate: [ProfessorGuard],
         component: DiplomaProtectionsComponent
+      },
+      {
+        path: 'diploma-record',
+        pathMatch: 'full',
+        canActivate: [StudentGuard],
+        component: DiplomaRecordComponent,
       },
     ]
   },

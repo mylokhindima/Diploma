@@ -14,12 +14,12 @@ export function timeSectionMapper(timeSection: TimeSectionDocument): TimeSection
         ...pick(timeSection, ['startTime'])
     } as any as Partial<TimeSectionEntity>;
 
-    if (timeSection.populated('student')) {
+    if (timeSection.student && timeSection.populated('student')) {
         const student = (timeSection.student as StudentDocument);
 
         partial.studentId = student.id;
         partial.student = studentMapper(student);
-    } else {        
+    } else if (timeSection.student) {        
         partial.studentId = timeSection.student.toString();
         partial.student = null;
     }

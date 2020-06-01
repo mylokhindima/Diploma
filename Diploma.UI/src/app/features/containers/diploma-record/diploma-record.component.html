@@ -1,0 +1,4 @@
+<ng-container *ngIf="(loaded | async)">
+  <app-diploma-record-form (added)="onAdded($event)" *ngIf="!section"></app-diploma-record-form>
+  <h1 color="primary" *ngIf="section">Захист: {{ section.startTime | date: 'M/d/yy, h:mm a' }}</h1>
+</ng-container>
