@@ -53,7 +53,7 @@ export class PracticesStore {
     public async upload(id: string, file: any): Promise<PracticeEntity> {
         const createdFile = await this.filesStore.create({
             path: file.filename,
-            type: FileType.PracticeOrder,
+            type: FileType.PracticeExplanatoryNote,
             name: file.originalname,
         });
 

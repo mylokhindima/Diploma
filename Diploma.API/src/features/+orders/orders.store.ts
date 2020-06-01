@@ -80,8 +80,6 @@ export class OrdersStore {
             name,
         });
 
-        map.map(([s, d]) => d).forEach(d => this._diplomasStore.updateDiplomaStage(d.id, dto.type === OrderType.Diploma ? Step.DiplomaReport : Step.PracticeReport));
-
         const order = await this._orderModel.create({
             educationalProgram: educationalProgram.id, 
             file: file.id,
@@ -90,6 +88,43 @@ export class OrdersStore {
         });
 
         return orderMapper(order);
+    }
+
+    public async filter(departmentId: string): Promise<OrderEntity[]> {
+        const orders = await this._orderModel.find().populate({
+            path: 'educationalProgram',
+            populate: {
+                path: 'specialty'
+            }    
+        }).populate('file') as any;
+
+        return orders.filter(o => o.educationalProgram.specialty.department.toString() === departmentId).map(o => orderMapper(o));
+    }
+
+    public async approve(id: string): Promise<OrderEntity> {
+        const order = await this._orderModel.findByIdAndUpdate(id, {
+            approved: true,
+        }).populate('file').populate('educationalProgram');
+
+        const students = await this._studentsStore.findByEducationalProgramId((order.educationalProgram as EducationalProgramDocument).id);
+
+        const diplomas = (await Promise.all(students.map(s => this._diplomasStore.filter({
+            studentId: s.id
+        })))).map(d => d[0]);
+        
+        const type = (order.file as FileDocument).type;
+
+        if (type === FileType.PracticeOrder) {
+            await Promise.all(diplomas.filter(d => d.stage.step ===  Step.PracticeDistribution).map(d => {
+                this._diplomasStore.updateDiplomaStage(d.id, Step.PracticeReport)
+            }));
+        } else if (type === FileType.GraduationOrder) {
+            await Promise.all(diplomas.filter(d => d.stage.step ===  Step.PracticeReport).map(d => {
+                this._diplomasStore.updateDiplomaStage(d.id, Step.DiplomaReport)
+            }));
+        }
+
+        return orderMapper(await this._orderModel.findById(order.id).populate('file').populate('educationalProgram'));
     }
 
     public async findByFileId(id: string): Promise<OrderEntity> {

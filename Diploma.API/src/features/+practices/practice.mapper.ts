@@ -35,7 +35,7 @@ export function practiceMapper(practice: PracticeDocument): PracticeEntity {
         partial.student = null;
     }
 
-    if (practice.populated('file')) {
+    if (practice.file && practice.populated('file')) {
         const file = (practice.file as FileDocument);
 
         partial.fileId = file.id;

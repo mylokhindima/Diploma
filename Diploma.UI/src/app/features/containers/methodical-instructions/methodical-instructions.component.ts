@@ -1,13 +1,15 @@
-import { Observable } from 'rxjs';
-import { OrdersService } from './../../../services/orders.service';
-import { Role } from './../../../models/role.enum';
-import { ProfileService } from './../../../services/profile.service';
-import { Component, OnInit } from '@angular/core';
-import { File } from '../../../models/file';
-import { FileType } from './../../../models/file-type.enum';
-import { FilesService } from './../../../services/files.service';
-import { StaticService } from './../../../services/static.service';
+import { Order } from './../../../models/order';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Observable, forkJoin } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { File } from '../../../models/file';
+import { DepartmentMember } from './../../../models/department-member';
+import { FileType } from './../../../models/file-type.enum';
+import { Role } from './../../../models/role.enum';
+import { FilesService } from './../../../services/files.service';
+import { OrdersService } from './../../../services/orders.service';
+import { ProfileService } from './../../../services/profile.service';
+import { StaticService } from './../../../services/static.service';
 
 @Component({
   selector: 'app-methodical-instructions',
@@ -17,6 +19,7 @@ import { switchMap } from 'rxjs/operators';
 export class MethodicalInstructionsComponent implements OnInit {
 
   public files: File[] = [];
+  public orders: Order[] = [];
 
   public get isResponsibleForGraduation(): boolean {
     const professor = this._profileService.user$.getValue();
@@ -24,17 +27,29 @@ export class MethodicalInstructionsComponent implements OnInit {
     return professor.roles.some(r => r === Role.ResponsibleForGraduation);
   }
 
+  public get isHeadOfDepartment(): boolean {
+    return this._profileService.professor$.getValue().roles.includes(Role.HeadOfDepartment);
+  }
+
   constructor(
     private _filesService: FilesService,
     private _ordersService: OrdersService,
     private _staticService: StaticService,
     private _profileService: ProfileService,
+    private _cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
-    this._filesService.filter({
-      types: [FileType.MethodicalInstructions, FileType.PracticeOrder, FileType.GraduationOrder]
-    }).subscribe(files => {
+    const departmentMember: DepartmentMember = this._profileService.professor$.getValue() || this._profileService.student$.getValue();
+
+    const loadOrders$ = this._ordersService.filter(departmentMember.departmentId);
+
+    const loadFiles$ = this._filesService.filter({
+      types: [FileType.MethodicalInstructions],
+    });
+
+    forkJoin(loadOrders$, loadFiles$).subscribe(([orders, files]) => {
+      this.orders = orders;
       this.files = files;
     });
   }
@@ -66,21 +81,25 @@ export class MethodicalInstructionsComponent implements OnInit {
     }
   }
 
-  public remove(file: File): void {
-    let action$: Observable<void>;
+  public removeOrder(order: Order): void {
+    this._ordersService.remove(order.id).subscribe(() => {
+      this.orders = this.orders.filter(o => o.id !== order.id);
+    });
+  }
 
-    switch (file.type) {
-      case FileType.GraduationOrder:
-      case FileType.PracticeOrder:
-        action$ = this._ordersService.findByFileId(file.id).pipe(
-          switchMap(o => this._ordersService.remove(o.id))
-        );
-        break;
-      default:
-        action$ = this._filesService.remove(file.id);
-    }
+  public removeFile(file: File): void {
+    this._filesService.remove(file.id).subscribe(() => {
+      this.files = this.files.filter(f => f.id !== file.id);
+    });
+  }
 
-    action$.subscribe(() => this.files = this.files.filter(f => f.id !== file.id));
+  public approve(order: Order): void {
+    this._ordersService.approve(order.id).subscribe(approvedOrder => {
+      const index = this.orders.findIndex(o => o.id === approvedOrder.id);
 
+      this.orders[index] = approvedOrder;
+debugger;
+      this._cdr.detectChanges();
+    });
   }
 }

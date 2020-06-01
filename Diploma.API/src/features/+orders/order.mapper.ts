@@ -28,7 +28,7 @@ export function orderMapper(order: OrderDocument): OrderEntity {
 
         partial.fileId = file.id;
         partial.file = fileMapper(file);
-    } else {    
+    } else if (order.file) {    
         partial.fileId = order.file.toString();
         partial.file = null;
     }

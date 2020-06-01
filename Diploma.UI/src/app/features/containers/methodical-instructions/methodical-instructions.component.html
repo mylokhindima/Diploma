@@ -1,13 +1,23 @@
 <mat-list>
   <div mat-subheader>Матеріали</div>
   <div class="items-container">
+    <mat-list-item *ngFor="let order of orders">
+      <mat-icon mat-list-icon>note</mat-icon>
+      <div mat-line>{{ order.file.name }}</div>
+      <div mat-line> {{order.file.created_at | date}} </div>
+      <div class="download-container">
+        <mat-icon (click)="download(order.file)" mat-list-icon>cloud_download</mat-icon>
+        <mat-icon *ngIf="isResponsibleForGraduation" color="warn" class="remove-icon" (click)="removeOrder(order)" mat-list-icon>delete</mat-icon>
+        <button (click)="approve(order)" *ngIf="isHeadOfDepartment && !order.approved" mat-raised-button color="primary">Прийняти</button>
+      </div>
+    </mat-list-item>
     <mat-list-item *ngFor="let file of files">
       <mat-icon mat-list-icon>note</mat-icon>
       <div mat-line>{{ file.name }}</div>
       <div mat-line> {{file.created_at | date}} </div>
       <div class="download-container">
         <mat-icon (click)="download(file)" mat-list-icon>cloud_download</mat-icon>
-        <mat-icon *ngIf="isResponsibleForGraduation" color="warn" class="remove-icon" (click)="remove(file)" mat-list-icon>delete</mat-icon>
+        <mat-icon *ngIf="isResponsibleForGraduation" color="warn" class="remove-icon" (click)="removeFile(file)" mat-list-icon>delete</mat-icon>
       </div>
     </mat-list-item>
   </div>

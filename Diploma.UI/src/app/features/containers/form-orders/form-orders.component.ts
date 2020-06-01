@@ -58,7 +58,6 @@ export class FormOrdersComponent implements OnInit {
   }
 
   public createPracticeOrder(): void {
-    this._router.navigateByUrl('/materials');
     this._ordersService.create({
       ...this.form.value,
       type: OrderType.Practice
