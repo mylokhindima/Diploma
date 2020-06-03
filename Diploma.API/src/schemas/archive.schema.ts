@@ -1,14 +1,14 @@
 import { Schema } from 'mongoose';
 
 export const ArchiveSchema = new Schema({
-    otherFiles: {
-        type: [Schema.Types.ObjectId],
+    otherFiles: [{
+        type: Schema.Types.ObjectId,
         ref: 'File',
         default: [],
-    },
+    }],
     diplomaReport: {
         type: Schema.Types.ObjectId,
-        ref: 'Report',
+        ref: 'File',
         required: true,
     }
 }, {

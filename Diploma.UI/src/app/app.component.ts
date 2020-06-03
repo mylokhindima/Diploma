@@ -1,3 +1,4 @@
+import { ArchievesService } from './services/archieves.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { DataService } from './services/data.service';
@@ -12,6 +13,7 @@ export class AppComponent implements OnInit {
   constructor(
     private _authService: AuthService,
     private _dataService: DataService,
+    private _archivesService: ArchievesService,
   ) {}
 
   title = 'Diploma';

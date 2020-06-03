@@ -7,14 +7,16 @@ import path = require("path");
 
 
 
-export const multerOptions = (dist) => ({
+export const multerOptions = (dist, mimetypes: string[] = []) => ({
     // Enable file size limits
     // limits: {
     //     fileSize: +process.env.MAX_FILE_SIZE,
     // },
     // Check the mimetypes to allow for upload
     fileFilter: (req: any, file: any, cb: any) => {
-        if (file.mimetype.match(/\/(pdf|docx|doc|vnd.openxmlformats-officedocument.wordprocessingml.document)$/)) {
+        const pattern = `\/(pdf|docx|doc|vnd.openxmlformats-officedocument.wordprocessingml.document${mimetypes.map(t => `|${t}`)})$`;
+
+        if (file.mimetype.match(new RegExp(pattern))) {
             cb(null, true);
         } else {
             // Reject file

@@ -1,20 +1,21 @@
-import { ReportEntity } from './report.entity';
-import { FilesStore } from './../+files/files.store';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { FileType } from '../../enums/file-type.enum';
 import { Step } from '../../enums/step.enum';
+import { ArchievesStore } from './../+archieves/archieves.store';
+import { FilesStore } from './../+files/files.store';
 import { StagesStore } from './../+stages/stages.store';
 import { DiplomaDocument } from './../../documents/diploma.document';
 import { ReportDocument } from './../../documents/report.document';
 import { DiplomaEntity } from './diploma.entity';
 import { CreateDiplomaDTO } from './dtos/create-diploma.dto';
+import { SearchDiplomaReports } from './dtos/search-diploma-reports.dto';
 import { SearchDiplomasQuery } from './dtos/search-diplomas-query.dto';
 import { diplomaMapper } from './mappers/diploma.mapper';
-import { SearchDiplomaQueryBuilder } from './searh-diploma-query.builder';
-import { FileType } from '../../enums/file-type.enum';
 import { reportMapper } from './mappers/report.mapper';
-import { SearchDiplomaReports } from './dtos/search-diploma-reports.dto';
+import { ReportEntity } from './report.entity';
+import { SearchDiplomaQueryBuilder } from './searh-diploma-query.builder';
 
 
 
@@ -25,6 +26,7 @@ export class DiplomaStore {
         @InjectModel('Report') private _reportModel: Model<ReportDocument>,
         private _stagesStore: StagesStore,
         private _filesStore: FilesStore,
+        private _archievesStore: ArchievesStore,
     ) { }
 
     public async findAll(): Promise<DiplomaEntity[]> {
@@ -151,6 +153,12 @@ export class DiplomaStore {
 
     public async passNormscontrol(diplomaId: string): Promise<void> {
         await this.updateDiplomaStage(diplomaId, Step.Graduation);
+
+        const diploma = await this.find(diplomaId);
+
+        await this._archievesStore.create({
+            diplomaReportId: diploma.mainReport.fileId,
+        });
     }
 
     public async failNormscontrol(diplomaId: string): Promise<void> {

@@ -1,7 +1,8 @@
-import { FilesModule } from './../+files/files.module';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DiplomaSchema } from '../../schemas/diploma.schema';
+import { ArchievesModule } from './../+archieves/archieves.module';
+import { FilesModule } from './../+files/files.module';
 import { StagesModule } from './../+stages/stages.module';
 import { ReportSchema } from './../../schemas/report.schema';
 import { DiplomasController } from './diplomas.controller';
@@ -21,6 +22,7 @@ import { DiplomaStore } from './diplomas.store';
         ]),
         StagesModule,
         FilesModule,
+        ArchievesModule,
     ],
     controllers: [DiplomasController],
     providers: [

@@ -1,3 +1,5 @@
+import { FileSchema } from './../../schemas/file.schema';
+import { FilesModule } from './../+files/files.module';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ArchiveSchema } from './../../schemas/archive.schema';
@@ -12,6 +14,7 @@ import { ArchivesController } from './archives.controller';
                 schema: ArchiveSchema,
             },
         ]),
+        FilesModule,
     ],
     controllers: [ArchivesController],
     providers: [
