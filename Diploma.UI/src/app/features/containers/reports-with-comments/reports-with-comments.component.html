@@ -1,0 +1,10 @@
+<app-reports [valueContent]="valueContent" [reports]="reports">
+  <div mat-subheader>{{ subheader }}</div>
+</app-reports>
+
+<ng-template #valueContent let-item="item">
+  <mat-icon (click)="onAddComment(item)" class="add-btn">add</mat-icon>
+  <ng-container *ngIf="actionsContent">
+    <ng-container *ngTemplateOutlet="actionsContent; context: { item: item }"></ng-container>
+  </ng-container>
+</ng-template>

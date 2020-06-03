@@ -51,7 +51,7 @@ export function diplomaMapper(diploma: DiplomaDocument): DiplomaEntity {
         partial.mainReportId = partial.mainReport.id;
     } else {
         partial.mainReport = null;
-        partial.mainReportId = diploma.mainReport ? partial.mainReport.toString() : null;
+        partial.mainReportId = diploma.mainReport ? (diploma.mainReport as ObjectID).toHexString() : null;
     }
     
     return new DiplomaEntity({

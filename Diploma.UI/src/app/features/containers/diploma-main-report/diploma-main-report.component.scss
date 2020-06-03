@@ -1,0 +1,50 @@
+.container{
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.download-btn{
+  font-size: 32px;
+  height: 48px;
+}
+
+.mat-list-icon {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.download-container{
+  display: flex;
+  margin-left: auto;
+  align-items: center;
+
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+.a{
+  display: flex;
+  align-items: center;
+}
+
+.b{
+  margin-left: 5px;
+}
+
+.report {
+  margin-bottom: 50px;
+  font-size: 24px;
+  .date{
+    font-size: 18px;
+  }
+  display: flex;
+  justify-content: space-between;
+  &>div{
+    margin-left: 5px;
+  }
+  display: flex;
+  width: 75%;
+}

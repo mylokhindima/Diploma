@@ -33,10 +33,10 @@ export class FilesStore {
         return files.map(f => fileMapper(f));
     }
 
-    public async delete(id: string): Promise<void> {
+    public async delete(id: string, subpath: string = 'files'): Promise<void> {
         const file = await this._fileModel.findById(id);
 
-        fs.unlinkSync(path.resolve(`${process.cwd()}/public/files/${file.path}`));
+        fs.unlinkSync(path.resolve(`${process.cwd()}/public/${subpath}/${file.path}`));
 
         await this._fileModel.findByIdAndRemove(id);
     }

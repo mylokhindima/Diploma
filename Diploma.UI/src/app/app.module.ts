@@ -61,6 +61,11 @@ import { DiplomaProtectionListComponent } from './features/components/diploma-pr
 import { CreateDiplomaProtectionComponent } from './features/components/create-diploma-protection/create-diploma-protection.component';
 import { DiplomaRecordComponent } from './features/containers/diploma-record/diploma-record.component';
 import { DiplomaRecordFormComponent } from './features/components/diploma-record-form/diploma-record-form.component';
+import { DiplomaMainReportComponent } from './features/containers/diploma-main-report/diploma-main-report.component';
+import { DiplomasComponent } from './features/containers/diplomas/diplomas.component';
+import { ReportsWithCommentsComponent } from './features/containers/reports-with-comments/reports-with-comments.component';
+import { PlagiarismComponent } from './features/containers/plagiarism/plagiarism.component';
+import { NormscontrolComponent } from './features/containers/normscontrol/normscontrol.component';
 
 @NgModule({
   declarations: [
@@ -118,6 +123,11 @@ import { DiplomaRecordFormComponent } from './features/components/diploma-record
     CreateDiplomaProtectionComponent,
     DiplomaRecordComponent,
     DiplomaRecordFormComponent,
+    DiplomaMainReportComponent,
+    DiplomasComponent,
+    ReportsWithCommentsComponent,
+    PlagiarismComponent,
+    NormscontrolComponent,
   ],
   imports: [
     BrowserModule,

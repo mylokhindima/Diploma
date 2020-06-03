@@ -14,6 +14,7 @@ import { diplomaMapper } from './mappers/diploma.mapper';
 import { SearchDiplomaQueryBuilder } from './searh-diploma-query.builder';
 import { FileType } from '../../enums/file-type.enum';
 import { reportMapper } from './mappers/report.mapper';
+import { SearchDiplomaReports } from './dtos/search-diploma-reports.dto';
 
 
 
@@ -69,19 +70,39 @@ export class DiplomaStore {
         return this.findReport(reportId);
     }
 
+    public async createMainReport(diplomaId: string, file: any): Promise<ReportEntity> {
+        const diploma = await this.find(diplomaId);
+
+        let report: ReportEntity = diploma.mainReportId && await this.findReport(diploma.mainReportId);
+
+        if (report) {
+            await this._filesStore.delete(report.fileId, 'reports');
+
+            const createdFile = await this._filesStore.create({
+                path: file.filename,
+                type: FileType.DiplomaExplanatoryNote,
+                name: file.originalname,
+            });
+
+            await this._reportModel.findByIdAndUpdate(report.id, { 
+                file: createdFile.id,
+            });
+
+            report.fileId = createdFile.id;
+            report.file = createdFile;
+        } else {
+            report = await this._createReport(diplomaId, file);
+
+            await this._diplomaModel.findByIdAndUpdate(diplomaId, { 
+                mainReport: report.id,
+            });
+        }
+
+        return report;
+    }
+
     public async createReport(diplomaId: string, file: any): Promise<ReportEntity> {
-        const createdFile = await this._filesStore.create({
-            path: file.filename,
-            type: FileType.DiplomaExplanatoryNote,
-            name: file.originalname,
-        });
-
-        const createdReport = await this._reportModel.create({
-            file: createdFile.id,
-            diploma: diplomaId,
-        });
-
-        const report = await this.findReport(createdReport.id);
+        const report = await this._createReport(diplomaId, file);
 
         await this._diplomaModel.findByIdAndUpdate(diplomaId, { 
             $push: { "reports": report.id },
@@ -89,7 +110,6 @@ export class DiplomaStore {
         { "new": true, "upsert": true });
 
         return report;
-        
     }
 
     public async findReports(diplomaId: string): Promise<ReportEntity[]> {
@@ -97,7 +117,44 @@ export class DiplomaStore {
             diploma: diplomaId,
         }).populate('file').sort([['_id', -1]]);
 
-        return reports.map(r => reportMapper(r));
+        const diploma = await this.find(diplomaId);
+
+        return reports.map(r => reportMapper(r)).filter(r => diploma.mainReportId !== r.id);
+    }
+
+    public async filterMainReports(query: SearchDiplomaReports): Promise<ReportEntity[]> {
+        let stageId: string;
+        
+        if (query.step) {
+            stageId = (await this._stagesStore.findByStep(query.step)).id;
+        }
+        
+        let diplomas = await this.filter({
+            instructorId: query.instructorId,
+            stageId,
+        });
+
+        return await Promise.all(diplomas.filter(d => d.mainReportId).map(d => this.findReport(d.mainReportId)));
+    }
+
+    public async acceptByInstructor(diplomaId: string): Promise<void> {
+        await this.updateDiplomaStage(diplomaId, Step.Plagiarism);
+    }
+
+    public async passPlagiarism(diplomaId: string): Promise<void> {
+        await this.updateDiplomaStage(diplomaId, Step.Normscontrol);
+    }
+
+    public async failPlagiarism(diplomaId: string): Promise<void> {
+        await this.updateDiplomaStage(diplomaId, Step.DiplomaReport);
+    }
+
+    public async passNormscontrol(diplomaId: string): Promise<void> {
+        await this.updateDiplomaStage(diplomaId, Step.Graduation);
+    }
+
+    public async failNormscontrol(diplomaId: string): Promise<void> {
+        await this.updateDiplomaStage(diplomaId, Step.Plagiarism);
     }
 
     public async findReport(id: string): Promise<ReportEntity> {
@@ -142,5 +199,22 @@ export class DiplomaStore {
         });
 
         return await this.find(diploma.id);
+    }
+
+    private async _createReport(diplomaId: string, file: any): Promise<ReportEntity> {
+        const createdFile = await this._filesStore.create({
+            path: file.filename,
+            type: FileType.DiplomaExplanatoryNote,
+            name: file.originalname,
+        });
+
+        const createdReport = await this._reportModel.create({
+            file: createdFile.id,
+            diploma: diplomaId,
+        });
+
+        const report = await this.findReport(createdReport.id);
+
+        return report;
     }
 }

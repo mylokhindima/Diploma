@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Diploma } from '../models/diploma';
 import { AppSettings } from '../core/settings';
 import { convertToHttpParams } from '../core/utils/http-params.converter';
-import { DiplomaReport } from '../models/diploma-report';
+import { Diploma } from '../models/diploma';
+import { SearchDiplomaReports } from '../models/search-diploma-reports.dto';
+import { DiplomaReport } from './../models/diploma-report';
 
 interface SearchDiplomasQuery {
   studentId?: string;
@@ -26,12 +27,25 @@ export class DiplomasService {
     });
   }
 
+  public filterMainReports(query: SearchDiplomaReports): Observable<DiplomaReport[]> {
+    const params = convertToHttpParams(query);
+
+    return this.http.get<DiplomaReport[]>(`${AppSettings.host}/diplomas/reports/main/filter`, {
+      params
+    });
+  }
+
+
   public find(id: string): Observable<Diploma> {
     return this.http.get<Diploma>(`${AppSettings.host}/diplomas/${id}`);
   }
 
   public findDiplomaReports(id: string): Observable<DiplomaReport[]> {
     return this.http.get<DiplomaReport[]>(`${AppSettings.host}/diplomas/${id}/reports`);
+  }
+
+  public findDiplomaReport(id: string): Observable<DiplomaReport> {
+    return this.http.get<DiplomaReport>(`${AppSettings.host}/diplomas/reports/${id}`);
   }
 
   public createComment(reportId: string, comment: string): Observable<DiplomaReport> {
@@ -41,8 +55,29 @@ export class DiplomasService {
     });
   }
 
+  public uploadMainReport(diplomaId: string, file: FormData): Observable<DiplomaReport> {
+    file.append('id', diplomaId);
+    return this.http.post<DiplomaReport>(`${AppSettings.host}/diplomas/reports/main`, file);
+  }
+
   public uploadReport(diplomaId: string, file: FormData): Observable<DiplomaReport> {
     file.append('id', diplomaId);
     return this.http.post<DiplomaReport>(`${AppSettings.host}/diplomas/reports`, file);
+  }
+
+  public acceptByInstructor(diplomaId: string): Observable<void> {
+    return this.http.put<void>(`${AppSettings.host}/diplomas/${diplomaId}/instructor/accept`, {});
+  }
+
+  public passPlagiarism(diplomaId: string): Observable<void> {
+    return this.http.put<void>(`${AppSettings.host}/diplomas/${diplomaId}/plagiarism/accept`, {});
+  }
+
+  public failPlagiarism(diplomaId: string): Observable<void> {
+    return this.http.put<void>(`${AppSettings.host}/diplomas/${diplomaId}/plagiarism/decline`, {});
+  }
+
+  public passNormscontrol(diplomaId: string): Observable<void> {
+    return this.http.put<void>(`${AppSettings.host}/diplomas/${diplomaId}/normscontrol/accept`, {});
   }
 }

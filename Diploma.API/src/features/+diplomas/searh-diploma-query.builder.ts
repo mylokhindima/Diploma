@@ -42,6 +42,6 @@ export class SearchDiplomaQueryBuilder {
     }
 
     public build() {
-        return this.query.populate('student').populate('instructor').populate('stage').exec();
+        return this.query.populate('student').populate('instructor').populate('stage').populate('mainReport').exec();
     }
 }

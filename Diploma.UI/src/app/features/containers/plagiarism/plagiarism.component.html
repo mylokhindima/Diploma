@@ -1,0 +1,8 @@
+<app-reports-with-comments [reports]="reports" [subheader]="'Атестаційні роботи'" [actionsContent]="valueContent"></app-reports-with-comments>
+
+<ng-template #valueContent let-item="item">
+  <div class="actions">
+    <button (click)="accept(item)" type="submit" class="create-btn" mat-raised-button color="primary">Прийняти</button>
+    <button (click)="decline(item)" type="submit" class="create-btn" mat-raised-button color="warn">Відхилити</button>
+  </div>
+</ng-template>

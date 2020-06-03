@@ -1,5 +1,7 @@
 <div class="container">
-  <app-reports [reports]="reports"></app-reports>
+  <app-reports [reports]="reports">
+    <div mat-subheader>Частини диплому</div>
+  </app-reports>
   <input (change)="onExcelChange($event)" #fileInput id="input_file" type="file" style="display: none;" accept=".pdf,.doc,.docx">
 
   <button (click)="fileInput.click()" class="upload-btn" mat-raised-button color="primary">Завантажити</button>

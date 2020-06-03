@@ -8,5 +8,6 @@ export enum Role {
   ResponsibleForArchiving,
   ExaminationCommitteeSecretary,
   PracticeLeader,
-  Admin
+  Admin,
+  ResponsibleForPlagiarism
 }

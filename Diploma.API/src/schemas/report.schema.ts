@@ -11,7 +11,7 @@ export const ReportSchema = new Schema({
     diploma: {
         type: Schema.Types.ObjectId,
         ref: 'Diploma',
-    }
+    },
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
     versionKey: false,

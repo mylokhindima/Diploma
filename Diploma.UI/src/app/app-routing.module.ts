@@ -1,11 +1,5 @@
-import { DiplomaRecordComponent } from './features/containers/diploma-record/diploma-record.component';
-import { DeadlinesComponent } from './features/containers/deadlines/deadlines.component';
-import { RolesComponent } from './features/containers/roles/roles.component';
-import { StudentPracticeDistributionComponent } from './features/containers/student-practice-distribution/student-practice-distribution.component';
-import { FormOrdersComponent } from './features/containers/form-orders/form-orders.component';
-import { ProfessorCapacitiesComponent } from './features/containers/professor-capacities/professor-capacities.component';
-import { DiplomaReportsContainerComponent } from './features/containers/diploma-reports-container/diploma-reports-container.component';
-import { DiplomaReportsForProfessorComponent } from './features/containers/diploma-reports-for-professor/diploma-reports-for-professor.component';
+import { NormscontrolComponent } from './features/containers/normscontrol/normscontrol.component';
+import { PlagiarismComponent } from './features/containers/plagiarism/plagiarism.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminGuard } from './core/guards/admin.guard';
@@ -14,23 +8,32 @@ import { ProfessorGuard } from './core/guards/professor.guard';
 import { StudentGuard } from './core/guards/student.guard';
 import { HomeComponent } from './features/components/home/home.component';
 import { LoginComponent } from './features/components/login/login.component';
-import { MethodologicalCommiteeApproveRequestsComponent } from './features/containers/methodological-commitee-approve-requests/methodological-commitee-approve-requests.component';
 import { PageNotFoundComponent } from './features/components/page-not-found/page-not-found.component';
+import { DeadlinesComponent } from './features/containers/deadlines/deadlines.component';
+import { DepartmentsComponent } from './features/containers/departments/departments.component';
 import { DiplomaInstructorRequestsComponent } from './features/containers/diploma-instructor-requests/diploma-instructor-requests.component';
 import { DiplomaInstructorThemeRequestsComponent } from './features/containers/diploma-instructor-theme-requests/diploma-instructor-theme-requests.component';
+import { DiplomaMainReportComponent } from './features/containers/diploma-main-report/diploma-main-report.component';
 import { DiplomaProtectionComponent } from './features/containers/diploma-protection/diploma-protection.component';
+import { DiplomaProtectionsComponent } from './features/containers/diploma-protections/diploma-protections.component';
+import { DiplomaRecordComponent } from './features/containers/diploma-record/diploma-record.component';
+import { DiplomaReportsContainerComponent } from './features/containers/diploma-reports-container/diploma-reports-container.component';
+import { DiplomaReportsForProfessorComponent } from './features/containers/diploma-reports-for-professor/diploma-reports-for-professor.component';
 import { DiplomaReportsComponent } from './features/containers/diploma-reports/diploma-reports.component';
+import { DiplomasComponent } from './features/containers/diplomas/diplomas.component';
 import { EmployeesComponent } from './features/containers/employees/employees.component';
+import { FormOrdersComponent } from './features/containers/form-orders/form-orders.component';
 import { InstructorComponent } from './features/containers/instructor/instructor.component';
-import { PracticeReportComponent } from './features/containers/practice-report/practice-report.component';
+import { MethodicalInstructionsComponent } from './features/containers/methodical-instructions/methodical-instructions.component';
+import { MethodologicalCommiteeApproveRequestsComponent } from './features/containers/methodological-commitee-approve-requests/methodological-commitee-approve-requests.component';
+import { PracticeReportForExamineComponent } from './features/containers/practice-report-for-examine/practice-report-for-examine.component';
+import { PracticeReportForStudentComponent } from './features/containers/practice-report-for-student/practice-report-for-student.component';
+import { PracticeReportsForExamineComponent } from './features/containers/practice-reports-for-examine/practice-reports-for-examine.component';
+import { ProfessorCapacitiesComponent } from './features/containers/professor-capacities/professor-capacities.component';
+import { RolesComponent } from './features/containers/roles/roles.component';
+import { StudentPracticeDistributionComponent } from './features/containers/student-practice-distribution/student-practice-distribution.component';
 import { StudentsComponent } from './features/containers/students/students.component';
 import { ThemeComponent } from './features/containers/theme/theme.component';
-import { MethodicalInstructionsComponent } from './features/containers/methodical-instructions/methodical-instructions.component';
-import { DepartmentsComponent } from './features/containers/departments/departments.component';
-import { PracticeReportsForExamineComponent } from './features/containers/practice-reports-for-examine/practice-reports-for-examine.component';
-import { PracticeReportForStudentComponent } from './features/containers/practice-report-for-student/practice-report-for-student.component';
-import { PracticeReportForExamineComponent } from './features/containers/practice-report-for-examine/practice-report-for-examine.component';
-import { DiplomaProtectionsComponent } from './features/containers/diploma-protections/diploma-protections.component';
 
 
 const routes: Routes = [
@@ -182,6 +185,30 @@ const routes: Routes = [
         canActivate: [StudentGuard],
         component: DiplomaRecordComponent,
       },
+      {
+        path: 'main-report',
+        pathMatch: 'full',
+        canActivate: [StudentGuard],
+        component: DiplomaMainReportComponent,
+      },
+      {
+        path: 'diplomas',
+        pathMatch: 'full',
+        canActivate: [ProfessorGuard],
+        component: DiplomasComponent,
+      },
+      {
+        path: 'plagiarism',
+        pathMatch: 'full',
+        canActivate: [ProfessorGuard],
+        component: PlagiarismComponent,
+      },
+      {
+        path: 'normscontrol',
+        pathMatch: 'full',
+        canActivate: [ProfessorGuard],
+        component: NormscontrolComponent,
+      }
     ]
   },
   {

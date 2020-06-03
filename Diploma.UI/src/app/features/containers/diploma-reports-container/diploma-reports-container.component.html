@@ -2,8 +2,5 @@
   <mat-icon class="back">arrow_back</mat-icon>
 </a>
 
-<app-reports [valueContent]="valueContent" [reports]="reports"></app-reports>
+<app-reports-with-comments [reports]="reports" [subheader]="'Частини диплому'"></app-reports-with-comments>
 
-<ng-template #valueContent let-item="item">
-  <mat-icon (click)="addComment(item)" class="add-btn">add</mat-icon>
-</ng-template>

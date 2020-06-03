@@ -17,6 +17,18 @@
         <span>Частини атестаційних робіт</span>
         <i class="fa fa-angle-right"></i>
       </a>
+      <a routerLink="/diplomas" routerLinkActive="active" class="items-body-content">
+        <span>Атестаційні роботи</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
+      <a *ngIf="hasRole(Role.ResponsibleForPlagiarism)" routerLink="/plagiarism" routerLinkActive="active" class="items-body-content">
+        <span>Перевірка на плагіат</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
+      <a *ngIf="hasRole(Role.NormController)" routerLink="/normscontrol" routerLinkActive="active" class="items-body-content">
+        <span>Перевірка на нормоконтроль</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
       <a *ngIf="hasRole(Role.ResponsibleForGraduation)" routerLink="/capacities" routerLinkActive="active" class="items-body-content">
         <span>Навантаження</span>
         <i class="fa fa-angle-right"></i>

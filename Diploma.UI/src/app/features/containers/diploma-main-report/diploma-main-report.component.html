@@ -1,0 +1,25 @@
+<div *ngIf="loaded | async" class="container">
+  <div class="report" *ngIf="report">
+    <div class="a">
+      <mat-icon mat-list-icon>note</mat-icon>
+      <div class="b">
+        <div>{{ report.file.name }}</div>
+        <div class="date"> {{report.created_at | date}} </div>
+      </div>
+    </div>
+    <div>
+      <div *ngIf="diploma.stage.step > 5">Керівник: <mat-icon>check_circle</mat-icon></div>
+      <div *ngIf="diploma.stage.step > 6">Плагіат: <mat-icon>check_circle</mat-icon></div>
+      <div *ngIf="diploma.stage.step > 7">Нормоконтроль: <mat-icon>check_circle</mat-icon></div>
+    </div>
+    <div class="download-container">
+      <mat-icon *ngIf="report.comments.length" (click)="openView()" mat-list-icon>info</mat-icon>
+      <mat-icon (click)="download()" mat-list-icon>cloud_download</mat-icon>
+    </div>
+  </div>
+
+  <input (change)="onExcelChange($event)" #fileInput id="input_file" type="file" style="display: none;" accept=".pdf,.doc,.docx">
+
+  <button (click)="fileInput.click()" class="download-btn" mat-raised-button color="primary">Завантажити</button>
+</div>
+
