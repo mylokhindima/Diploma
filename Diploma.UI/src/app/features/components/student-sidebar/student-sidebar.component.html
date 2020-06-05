@@ -25,6 +25,10 @@
         <span>Матеріали</span>
         <i class="fa fa-angle-right"></i>
       </a>
+      <a routerLink="/archieve" routerLinkActive="active" [class.disabled]="step < 8" class="items-body-content">
+        <span>Архівування</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
       <a routerLink="/diploma-record" routerLinkActive="active" [class.disabled]="step < 9" class="items-body-content">
         <span>Запис на захист диплому</span>
         <i class="fa fa-angle-right"></i>

@@ -35,6 +35,9 @@ export class DiplomasService {
     });
   }
 
+  public updateMany(dtos: any): Observable<Diploma[]> {
+    return this.http.put<Diploma[]>(`${AppSettings.host}/diplomas`, dtos);
+  }
 
   public find(id: string): Observable<Diploma> {
     return this.http.get<Diploma>(`${AppSettings.host}/diplomas/${id}`);

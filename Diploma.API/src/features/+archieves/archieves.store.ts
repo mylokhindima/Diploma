@@ -22,6 +22,7 @@ export class ArchievesStore {
     public async create(dto: CreateArchieveDTO): Promise<ArchieveEntity> {
         const archive = await this._archiveModel.create({
             diplomaReport: dto.diplomaReportId,
+            diploma: dto.diplomaId,
         });
 
         return archiveMapper(archive);
@@ -37,6 +38,26 @@ export class ArchievesStore {
 
     public async find(id: string): Promise<ArchieveEntity> {
         const archive = await this._archiveModel.findById(id).populate('diplomaReport').populate('otherFiles');
+
+        return archiveMapper(archive);
+    }
+
+    public async findAll(): Promise<ArchieveEntity[]> {
+        const archives = await this._archiveModel.find().populate('diplomaReport').populate('otherFiles').populate({
+            path: 'diploma',
+            populate: {
+                path: 'student',
+            }
+        });
+
+        return archives.map(a => archiveMapper(a));
+    }
+
+
+    public async findByDiplomaId(id: string): Promise<ArchieveEntity> {
+        const archive = await this._archiveModel.findOne({
+
+        }).populate('diplomaReport').populate('otherFiles');
 
         return archiveMapper(archive);
     }

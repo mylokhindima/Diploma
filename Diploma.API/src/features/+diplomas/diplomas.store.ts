@@ -1,3 +1,4 @@
+import { UpdateDiplomaDTO } from './dtos/update-diploma.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -114,6 +115,17 @@ export class DiplomaStore {
         return report;
     }
 
+    public async updateMany(dtos: UpdateDiplomaDTO[]): Promise<DiplomaEntity[]> {
+        const requests = dtos.map(dto => this._diplomaModel.findByIdAndUpdate(dto.id, {
+            theme: dto.theme,
+            instructor: dto.instructorId,
+        }));
+
+        await Promise.all(requests);
+
+        return await Promise.all(dtos.map(dto => this.find(dto.id)));
+    }
+
     public async findReports(diplomaId: string): Promise<ReportEntity[]> {
         const reports = await this._reportModel.find({
             diploma: diplomaId,
@@ -157,6 +169,7 @@ export class DiplomaStore {
         const diploma = await this.find(diplomaId);
 
         await this._archievesStore.create({
+            diplomaId: diploma.id,
             diplomaReportId: diploma.mainReport.fileId,
         });
     }

@@ -66,6 +66,9 @@ import { DiplomasComponent } from './features/containers/diplomas/diplomas.compo
 import { ReportsWithCommentsComponent } from './features/containers/reports-with-comments/reports-with-comments.component';
 import { PlagiarismComponent } from './features/containers/plagiarism/plagiarism.component';
 import { NormscontrolComponent } from './features/containers/normscontrol/normscontrol.component';
+import { ArchieveComponent } from './features/containers/archieve/archieve.component';
+import { ArchievesComponent } from './features/containers/archieves/archieves.component';
+import { StudentsInfoComponent } from './features/containers/students-info/students-info.component';
 
 @NgModule({
   declarations: [
@@ -128,6 +131,9 @@ import { NormscontrolComponent } from './features/containers/normscontrol/normsc
     ReportsWithCommentsComponent,
     PlagiarismComponent,
     NormscontrolComponent,
+    ArchieveComponent,
+    ArchievesComponent,
+    StudentsInfoComponent,
   ],
   imports: [
     BrowserModule,

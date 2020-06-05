@@ -20,7 +20,7 @@ export function diplomaMapper(diploma: DiplomaDocument): DiplomaEntity {
         partial.instructorId = partial.instructor.id;
     } else {
         partial.instructor = null;
-        partial.instructorId = partial.instructor?.toString();
+        partial.instructorId = diploma.instructor?.toString();
     }
 
     if (diploma.populated('student')) {
@@ -28,7 +28,7 @@ export function diplomaMapper(diploma: DiplomaDocument): DiplomaEntity {
         partial.studentId = partial.student.id;
     } else {
         partial.student = null;
-        partial.studentId = partial.student.toString();
+        partial.studentId = diploma.student.toString();
     }
 
     if (diploma.populated('stage')) {
@@ -36,7 +36,7 @@ export function diplomaMapper(diploma: DiplomaDocument): DiplomaEntity {
         partial.stageId = partial.stage.id;
     } else {
         partial.stage = null;
-        partial.stageId = partial.stage.toString();
+        partial.stageId = diploma.stage.toString();
     }
 
     if (diploma.reports && diploma.populated('reports')) {

@@ -1,0 +1,43 @@
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>  ПІБ </mat-header-cell>
+    <mat-cell *matCellDef="let element"> <span>{{element.student.name}} </span> </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="group">
+    <mat-header-cell *matHeaderCellDef> Група </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.student.group}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="theme">
+    <mat-header-cell *matHeaderCellDef> Тема </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <mat-form-field class="example-full-width">
+        <input minlength="1" [(ngModel)]="element.theme" matInput>
+      </mat-form-field>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="instructor">
+    <mat-header-cell *matHeaderCellDef> Керівник </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <mat-form-field>
+        <mat-label>Оберіть керівника</mat-label>
+        <mat-select [(ngModel)]="element.instructorId">
+          <mat-option *ngIf="element.instructorId" [value]="element.instructorId">{{ getInstructorName(element.instructorId) }}</mat-option>
+          <mat-option *ngFor="let professor of availableProfessors" [value]="professor.id">
+            {{professor.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<div class="actions">
+  <button (click)="save()" mat-raised-button color="primary">Зберігти</button>
+</div>

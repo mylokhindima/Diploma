@@ -21,6 +21,20 @@ export class ArchivesController {
         return await this._archivesStore.create(dto);
     }
 
+    @Get()
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
+    public async getAll(): Promise<ArchieveEntity[]> {
+        return await this._archivesStore.findAll();
+    } 
+
+    @Get(':diplomaId')
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
+    public async get(@Param('diplomaId') diplomaId: string): Promise<ArchieveEntity> {
+        return await this._archivesStore.findByDiplomaId(diplomaId);
+    } 
+
     @Post('files')
     @UseGuards(JwtAuthGuard)
     @ApiConsumes('multipart/form-data')
@@ -33,7 +47,7 @@ export class ArchivesController {
         return await this._archivesStore.saveFile(dto, file);
     }
 
-    @Get(':id')
+    @Get(':id/generate')
     @UseGuards(JwtAuthGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     public async generate(@Param('id') id: string, @Response() res): Promise<any> {

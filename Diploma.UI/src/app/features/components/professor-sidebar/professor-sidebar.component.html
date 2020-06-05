@@ -33,6 +33,10 @@
         <span>Навантаження</span>
         <i class="fa fa-angle-right"></i>
       </a>
+      <a *ngIf="hasRole(Role.ResponsibleForGraduation)" routerLink="/diplomas-info" routerLinkActive="active" class="items-body-content">
+        <span>Підготовка</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
       <a routerLink="/materials" routerLinkActive="active" class="items-body-content">
         <span>Матеріали</span>
         <i class="fa fa-angle-right"></i>
@@ -59,6 +63,10 @@
       </a>
       <a *ngIf="hasRole(Role.ExaminationCommitteeSecretary)" routerLink="/diploma-protections" routerLinkActive="active" class="items-body-content">
         <span>Дати захисту</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
+      <a *ngIf="hasRole(Role.ResponsibleForArchiving)" routerLink="/archieves" routerLinkActive="active" class="items-body-content">
+        <span>Архівування</span>
         <i class="fa fa-angle-right"></i>
       </a>
     </div>

@@ -1,3 +1,4 @@
+import { UpdateDiplomaDTO } from './dtos/update-diploma.dto';
 import { SearchDiplomaReports } from './dtos/search-diploma-reports.dto';
 import { CreateCommentDTO } from './dtos/create-comment.dto';
 import { Body, ClassSerializerInterceptor, Controller, Get, Post, Query, UploadedFile, UseGuards, UseInterceptors, Param, Put } from '@nestjs/common';
@@ -24,6 +25,13 @@ export class DiplomasController {
         return await this._diplomaStore.filter(query);
     }
     
+    @Put()
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
+    public async updateMany(@Body() dtos: UpdateDiplomaDTO[]): Promise<DiplomaEntity[]> {
+        return await this._diplomaStore.updateMany(dtos);
+    }
+
     @Get(':id')
     @UseGuards(JwtAuthGuard)
     @UseInterceptors(ClassSerializerInterceptor)

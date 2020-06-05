@@ -1,0 +1,18 @@
+<mat-list>
+  <div mat-subheader>Файли</div>
+  <div class="items-container">
+    <mat-list-item *ngFor="let file of archieve?.otherFiles">
+      <mat-icon mat-list-icon>note</mat-icon>
+      <div mat-line>{{ file.name }}</div>
+      <div mat-line> {{file.created_at | date}} </div>
+      <div class="download-container">
+        <mat-icon (click)="download(file)" mat-list-icon>cloud_download</mat-icon>
+      </div>
+    </mat-list-item>
+  </div>
+</mat-list>
+
+<div class="action">
+  <input (change)="onExcelChange($event)" #fileInput id="input_file" type="file" style="display: none;" accept="pdf, doc, docx">
+  <button (click)="fileInput.click()" class="upload-btn" mat-raised-button color="primary">Завантажити файл</button>
+</div>

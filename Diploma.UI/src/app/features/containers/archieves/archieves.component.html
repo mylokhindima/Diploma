@@ -1,0 +1,12 @@
+<mat-list>
+  <div mat-subheader>Сгенерувати архів студента</div>
+  <div class="items-container">
+    <mat-list-item *ngFor="let archieve of archieves">
+      <mat-icon mat-list-icon>note</mat-icon>
+      <div mat-line>{{ archieve.diploma.student.name + ' ' + archieve.diploma.student.group }}</div>
+      <div class="download-container">
+        <mat-icon (click)="generate(archieve)" mat-list-icon>library_books</mat-icon>
+      </div>
+    </mat-list-item>
+  </div>
+</mat-list>
