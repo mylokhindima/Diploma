@@ -15,7 +15,7 @@ import { reportMapper } from './report.mapper';
 export function diplomaMapper(diploma: DiplomaDocument): DiplomaEntity {
     const partial = pick(diploma, ['theme']) as any as Partial<DiplomaEntity>;
 
-    if (diploma.populated('instructor')) {
+    if (diploma.instructor && diploma.populated('instructor')) {
         partial.instructor = professorMapper(diploma.instructor as ProfessorDocument);
         partial.instructorId = partial.instructor.id;
     } else {
@@ -23,7 +23,7 @@ export function diplomaMapper(diploma: DiplomaDocument): DiplomaEntity {
         partial.instructorId = diploma.instructor?.toString();
     }
 
-    if (diploma.populated('student')) {
+    if (diploma.student && diploma.populated('student')) {
         partial.student = studentMapper(diploma.student as StudentDocument);
         partial.studentId = partial.student.id;
     } else {
