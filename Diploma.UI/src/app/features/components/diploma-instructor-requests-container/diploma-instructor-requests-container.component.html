@@ -27,6 +27,7 @@
         </div>
       </mat-panel-description>
     </mat-expansion-panel-header>
+    <p *ngIf="request.theme"><strong>Тема: </strong> {{ request.theme }}</p>
     <p><strong>Опис теми: </strong> {{ request.description }}</p>
   </mat-expansion-panel>
 </mat-accordion>
