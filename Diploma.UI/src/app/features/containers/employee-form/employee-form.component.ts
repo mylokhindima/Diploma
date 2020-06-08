@@ -43,7 +43,7 @@ export class EmployeeFormComponent implements OnInit {
       degree: new FormControl('', [Validators.required]),
     };
 
-    if (!data.departmentId) {
+    if (data && !data.departmentId) {
       controls.departmentId = new FormControl('', [Validators.required]);
     }
 
