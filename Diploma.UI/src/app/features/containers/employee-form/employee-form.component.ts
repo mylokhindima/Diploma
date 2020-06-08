@@ -43,7 +43,7 @@ export class EmployeeFormComponent implements OnInit {
       degree: new FormControl('', [Validators.required]),
     };
 
-    if (data && !data.departmentId) {
+    if (!data || !data.departmentId) {
       controls.departmentId = new FormControl('', [Validators.required]);
     }
 
@@ -61,12 +61,14 @@ export class EmployeeFormComponent implements OnInit {
 
     const dto = { ...this.form.value };
 
-    if (this.data.roles) {
-      dto.roles = this.data.roles;
-    }
+    if (this.data) {
+      if (this.data.roles) {
+        dto.roles = this.data.roles;
+      }
 
-    if (this.data.departmentId) {
-      dto.departmentId = this.data.departmentId;
+      if (this.data.departmentId) {
+        dto.departmentId = this.data.departmentId;
+      }
     }
 
     this._professorsService.create(dto).subscribe(s => this._dialogRef.close(s), () => {
