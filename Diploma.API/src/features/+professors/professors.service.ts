@@ -39,16 +39,16 @@ export class ProfessorsService {
 
         let degree: ProfessorDegree;
 
-        switch(degreeKey) {
-            case 'Асистент': 
+        switch((degreeKey as string).toLowerCase()) {
+            case 'асистент': 
                 degree = ProfessorDegree.Assistant;
                 break;
-            case 'Старший Викладач':
+            case 'старший викладач':
                 degree = ProfessorDegree.SeniorLecturer;
                 break;
-            case 'Доцент': 
+            case 'доцент': 
                 degree = ProfessorDegree.Docent;
-            case 'Професор':
+            case 'професор':
                 degree = ProfessorDegree.Professor;
         }
 
