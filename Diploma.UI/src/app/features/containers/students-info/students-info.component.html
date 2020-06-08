@@ -27,7 +27,7 @@
         <mat-select [(ngModel)]="element.instructorId">
           <mat-option *ngIf="element.instructorId" [value]="element.instructorId">{{ getInstructorName(element.instructorId) }}</mat-option>
           <mat-option *ngFor="let professor of availableProfessors" [value]="professor.id">
-            {{professor.name}}
+            {{professor?.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
