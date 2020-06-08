@@ -1,4 +1,4 @@
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ViewCommentsComponent } from '../../components/view-comments/view-comments.component';
@@ -30,7 +30,10 @@ export class DiplomaMainReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.diploma = this._profileService.diploma$.getValue();
-    this._diplomasService.findDiplomaReport(this.diploma.mainReportId).subscribe(report => {
+
+    const report$ = this.diploma.mainReportId ? this._diplomasService.findDiplomaReport(this.diploma.mainReportId) : of(null);
+
+    report$.subscribe(report => {
       this.report = report;
       this.loaded.next(true);
     });
