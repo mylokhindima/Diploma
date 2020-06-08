@@ -1,3 +1,4 @@
+import { StageDocument } from './../../documents/stage.document';
 import { UpdateDiplomaDTO } from './dtos/update-diploma.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -116,10 +117,16 @@ export class DiplomaStore {
     }
 
     public async updateMany(dtos: UpdateDiplomaDTO[]): Promise<DiplomaEntity[]> {
-        const requests = dtos.map(dto => this._diplomaModel.findByIdAndUpdate(dto.id, {
-            theme: dto.theme,
-            instructor: dto.instructorId,
-        }));
+        const requests = dtos.map(dto => {
+            return this._diplomaModel.findByIdAndUpdate(dto.id, {
+                theme: dto.theme,
+                instructor: dto.instructorId,
+            }).populate('stage').then(doc => {
+                if (dto.theme && dto.instructorId && (doc.stage as StageDocument).step < Step.PracticeDistribution) {
+                    return this.updateDiplomaStage(doc.id, Step.PracticeDistribution);
+                }
+            });
+        });
 
         await Promise.all(requests);
 
