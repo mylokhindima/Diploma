@@ -2,7 +2,7 @@
 
   <ng-container matColumnDef="name">
     <mat-header-cell *matHeaderCellDef>  ПІБ </mat-header-cell>
-    <mat-cell *matCellDef="let element"> <span>{{element.student.name}} </span> </mat-cell>
+    <mat-cell *matCellDef="let element"> <span>{{element.student?.name}} </span> </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="group">
