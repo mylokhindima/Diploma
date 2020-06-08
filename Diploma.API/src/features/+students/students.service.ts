@@ -43,11 +43,11 @@ export class StudentsService {
 
         let degree: StudentDegree;
 
-        switch(degreeName) {
-            case 'Бакалавр': 
+        switch((degreeName as string).toLowerCase()) {
+            case 'бакалавр': 
                 degree = StudentDegree.Bachelor;
                 break;
-            case 'Магістр':
+            case 'магістр':
                 degree = StudentDegree.Master;
                 break;
         }
@@ -58,14 +58,14 @@ export class StudentsService {
         
         let form: EducationalForm;
 
-        switch(formName) {
-            case 'Денна': 
+        switch((formName as string).toLowerCase()) {
+            case 'денна': 
                 form = EducationalForm.DayTime;
                 break;
-            case 'Заочна':
+            case 'заочна':
                 form = EducationalForm.Extramural;
                 break;
-            case 'Дистанційна':
+            case 'дистанційна':
                 form = EducationalForm.Remote;
                 break;
         }
