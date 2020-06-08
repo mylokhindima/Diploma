@@ -20,6 +20,6 @@
 
   <input (change)="onExcelChange($event)" #fileInput id="input_file" type="file" style="display: none;" accept=".pdf,.doc,.docx">
 
-  <button (click)="fileInput.click()" class="download-btn" mat-raised-button color="primary">Завантажити</button>
+  <button *ngIf="diploma.stage.step <= 7" (click)="fileInput.click()" class="download-btn" mat-raised-button color="primary">Завантажити</button>
 </div>
 
