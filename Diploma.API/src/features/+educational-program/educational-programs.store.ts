@@ -13,7 +13,8 @@ interface EducationalProgramQuery {
     duration?: number;
     form?: EducationalForm;
     degree?: StudentDegree,
-    specialty?: string, 
+    specialty?: string; 
+    name?: string;
 }
 
 @Injectable()

@@ -32,7 +32,7 @@ export class StudentsService {
         return students;
     }
 
-    private async _createStudent([name, email, degreeName, group, specialtyName, duration, formName]): Promise<StudentEntity> {
+    private async _createStudent([name, email, degreeName, group, educationalProgramKey]): Promise<StudentEntity> {
         const emailSchema = Joi.string().required().email();
 
         const res = emailSchema.validate(email);
@@ -55,24 +55,6 @@ export class StudentsService {
         if (isNil(degree)) {
             return;
         }
-        
-        let form: EducationalForm;
-
-        switch((formName as string).toLowerCase()) {
-            case 'денна': 
-                form = EducationalForm.DayTime;
-                break;
-            case 'заочна':
-                form = EducationalForm.Extramural;
-                break;
-            case 'дистанційна':
-                form = EducationalForm.Remote;
-                break;
-        }
-
-        if (isNil(form)) {
-            return;
-        }
 
         const user = await this._usersStore.findByEmail(email);
 
@@ -80,7 +62,9 @@ export class StudentsService {
             return;
         }
 
-        const educationalProgram = await this._getEducationalProgram(specialtyName, degree, duration, form);
+        const educationalProgram = await this._educationalProgramsStore.findFirstByQuery({
+            name: educationalProgramKey,
+        })
 
         if (!educationalProgram) {
             return;
@@ -95,22 +79,5 @@ export class StudentsService {
         });
 
         return student;
-    }
-
-    private async _getEducationalProgram(name: string, degree: StudentDegree, duration: number, form: EducationalForm): Promise<EducationalProgramEntity> {
-        const specialty = await this._specialtiesStore.findFirstByQuery({ name });
-
-        if (!specialty) {
-            return;
-        }
-
-        const educationalProgram = await this._educationalProgramsStore.findFirstByQuery({
-            degree,
-            duration,
-            form,
-            specialty: specialty.id,
-        });
-
-        return educationalProgram;
     }
 }
